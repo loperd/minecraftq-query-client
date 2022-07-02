@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
-use Loper\MinecraftQueryClient\Query\UDPMinecraftQueryClient;
+use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
 use Loper\MinecraftQueryClient\Ping\TCPMinecraftQueryClient;
+use Loper\MinecraftQueryClient\Query\UDPMinecraftQueryClient;
 
 final class MinecraftClientFactory
 {

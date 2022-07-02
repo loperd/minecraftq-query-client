@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Ping\Packet;
 
-use JetBrains\PhpStorm\ArrayShape;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\PacketReadException;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;

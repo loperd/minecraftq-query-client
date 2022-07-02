@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient;
+namespace Loper\MinecraftQueryClient\Exception;
 
 final class PacketReadException extends \RuntimeException
 {

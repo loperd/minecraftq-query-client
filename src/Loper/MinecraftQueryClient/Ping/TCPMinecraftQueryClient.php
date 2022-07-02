@@ -6,11 +6,11 @@ namespace Loper\MinecraftQueryClient\Ping;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
+use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
 use Loper\MinecraftQueryClient\MinecraftQueryClient;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Ping\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\ServerStatsResponse;
-use Loper\MinecraftQueryClient\SocketConnectionException;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Stream\SocketInputStream;
 use Loper\MinecraftQueryClient\Stream\SocketOutputStream;

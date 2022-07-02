@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Query\Packet;
 
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
@@ -43,7 +44,7 @@ final class FullStatPacket implements Packet
         $buffer = $is->readFullData();
 
         if (false === $pos = \strpos($buffer->bytes(), 'player_')) {
-            throw new \InvalidArgumentException('Data is not valid');
+            throw new PacketReadException(self::class, 'Packet is not complete.');
         }
 
         $data = \explode("\x0", $buffer->consume($pos));

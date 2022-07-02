@@ -22,7 +22,7 @@ final class SocketOutputStream implements OutputStream
         $buffer = (string) $bytes;
 
         if ('' === $buffer) {
-            throw new \RuntimeException('Can not write empty value.');
+            throw new \InvalidArgumentException('Can not write empty value.');
         }
 
         if (0 === $this->socket->write($buffer)) {

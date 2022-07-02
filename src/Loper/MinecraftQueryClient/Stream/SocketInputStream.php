@@ -52,7 +52,7 @@ final class SocketInputStream implements InputStream
         $buffer = $this->readRawBytes($size);
 
         if (null === $buffer) {
-            throw new BufferOverflow();
+            throw new \RuntimeException('Could not read bytes.');
         }
 
         return new ByteBuffer($buffer);

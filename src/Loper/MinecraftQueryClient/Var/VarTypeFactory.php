@@ -27,10 +27,6 @@ final class VarTypeFactory
             }
         }
 
-        if (0 === $buffer->size()) {
-            throw new \RuntimeException('Buffer size is 0.');
-        }
-
         return $buffer;
     }
 }

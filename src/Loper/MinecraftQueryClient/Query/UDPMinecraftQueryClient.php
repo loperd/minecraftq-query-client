@@ -6,13 +6,15 @@ namespace Loper\MinecraftQueryClient\Query;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
-use Loper\MinecraftQueryClient\HandshakeFailedException;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Exception\PacketSendException;
+use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
 use Loper\MinecraftQueryClient\MinecraftQueryClient;
 use Loper\MinecraftQueryClient\Packet;
+use Loper\MinecraftQueryClient\PacketRead;
 use Loper\MinecraftQueryClient\Query\Packet\BasicStatPacket;
 use Loper\MinecraftQueryClient\Query\Packet\FullStatPacket;
 use Loper\MinecraftQueryClient\ServerStatsResponse;
-use Loper\MinecraftQueryClient\SocketConnectionException;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
@@ -36,7 +38,7 @@ final class UDPMinecraftQueryClient implements MinecraftQueryClient
 
         try {
             $this->getChallengeToken();
-        } catch (Socket\Exception|HandshakeFailedException $ex) {
+        } catch (Socket\Exception|PacketReadException $ex) {
             throw new SocketConnectionException($this->serverAddress, $ex);
         }
     }
@@ -100,14 +102,14 @@ final class UDPMinecraftQueryClient implements MinecraftQueryClient
         $packet->write($stream, $this->protocol);
 
         if ($buffer->size() !== $this->socket->send((string) $buffer, 0)) {
-            throw new Socket\Exception('Can not write packet.');
+            throw new PacketSendException(\get_class($packet), $this->serverAddress);
         }
 
         $buffer = new ByteBuffer($this->socket->read(4096));
 
         // Check packet type by id
         if ($packet->getPacketId() !== $buffer->readInt8()) {
-            throw new HandshakeFailedException('Invalid packet type.');
+            throw new PacketReadException(\get_class($packet), 'Packet id is invalid.');
         }
 
         $packet->read(new ByteBufferInputStream($buffer), $this->protocol);
