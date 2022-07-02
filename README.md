@@ -33,7 +33,8 @@ var_dump($client->getStats());
 
 #### Query
 examples/query.php
-```php<?php
+```php
+<?php
 
 declare(strict_types=1);
 
