@@ -1,0 +1,33 @@
+{
+    "name": "loper/minecraft-query-client",
+    "description": "Minecraft Query Client by TCP and UDP protocols.",
+    "type": "library",
+    "require": {
+        "phpinnacle/buffer": "^1.2",
+        "clue/socket-raw": "^1.6",
+        "ext-sockets": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Loper\\MinecraftQueryClient\\": "src/Loper/MinecraftQueryClient"
+        }
+    },
+    "scripts": {
+        "fix": [
+            "php tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix"
+        ],
+        "analyze": [
+            "php tools/phpstan/vendor/phpstan/phpstan/phpstan.phar analyze --level 9 src/"
+        ]
+    },
+    "authors": [
+        {
+            "name": "loper",
+            "email": "bizrenay@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "jetbrains/phpstorm-attributes": "^1.0"
+    }
+}
