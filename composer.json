@@ -27,6 +27,7 @@
             "email": "bizrenay@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0"
     }
