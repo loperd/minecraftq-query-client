@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient;
 
+use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+
 final class ServerStatsResponse
 {
     /** @var string[] */
@@ -21,4 +23,6 @@ final class ServerStatsResponse
     public array $players = [];
     public ?string $motd = null;
     public ?string $serverSoftware = null;
+
+    public ProtocolVersion $protocol;
 }

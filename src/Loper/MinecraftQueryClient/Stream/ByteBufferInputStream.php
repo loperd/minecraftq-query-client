@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Stream;
 
-use Loper\MinecraftQueryClient\Var\VarTypeReader;
+use Loper\MinecraftQueryClient\Service\VarTypeReader;
 use PHPinnacle\Buffer\ByteBuffer;
 
 final class ByteBufferInputStream implements InputStream

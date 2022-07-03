@@ -87,14 +87,15 @@ final class TCPMinecraftQueryClient implements MinecraftQueryClient
 
     private function createServerStatsResponse(HandshakePacket $packet): ServerStatsResponse
     {
-        $version = VersionProtocolMap::findByProtocol($packet->serverProtocol);
+        $version = VersionProtocolMap::getByProtocol($packet->serverProtocol);
 
         $response = new ServerStatsResponse();
-        $response->version = $version?->value;
+        $response->version = $version->value;
+        $response->protocol = $packet->serverProtocol;
         $response->serverSoftware = $packet->serverSoftware;
         $response->maxPlayers = $packet->maxPlayers;
         $response->numPlayers = $packet->onlinePlayers;
-        $response->motd = $packet->description;
+        $response->motd = $packet->motd;
         $response->players = $packet->players;
 
         return $response;

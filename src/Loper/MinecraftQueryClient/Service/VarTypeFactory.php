@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Var;
+namespace Loper\MinecraftQueryClient\Service;
 
 use PHPinnacle\Buffer\ByteBuffer;
 

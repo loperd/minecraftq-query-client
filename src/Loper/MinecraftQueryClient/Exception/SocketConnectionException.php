@@ -12,7 +12,7 @@ final class SocketConnectionException extends \RuntimeException
 
     public function __construct(ServerAddress $serverAddress, ?\Throwable $previous = null)
     {
-        parent::__construct(\sprintf('Can\'t connect to the server: "%s"', $serverAddress), 0, $previous);
+        parent::__construct(\sprintf('Could not connect to the server: "%s"', $serverAddress), 0, $previous);
 
         $this->serverAddress = $serverAddress;
     }

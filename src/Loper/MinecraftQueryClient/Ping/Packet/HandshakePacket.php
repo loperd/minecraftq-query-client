@@ -6,10 +6,10 @@ namespace Loper\MinecraftQueryClient\Ping\Packet;
 
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
+use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
-use Ramsey\Uuid\Uuid;
 
 final class HandshakePacket implements Packet
 {
@@ -26,10 +26,11 @@ final class HandshakePacket implements Packet
     public int $state;
     public int $onlinePlayers;
     public int $maxPlayers;
-    public string $description;
-    public string $serverSoftware;
     public string $rawData;
+    public string $serverSoftware;
 
+    public string $rawMotd;
+    public string $motd;
     /** @var string[] */
     public array $players = [];
 
@@ -51,39 +52,48 @@ final class HandshakePacket implements Packet
 
         try {
             $this->rawData = $is->readFullData(self::MAX_JSON_SIZE)->bytes();
+
+            $order = \mb_detect_order();
+            if ('UTF-8' !== \mb_detect_encoding($this->rawData, \is_array($order) ? $order : null, true)) {
+                throw new PacketReadException(self::class, 'Invalid packet data encoding.');
+            }
+
             /** @var array{
              *     version: array{
              *          protocol: int,
              *          name: string
              *     },
              *     players: array{
-             *          max: int,
-             *          online: int,
+             *          max: int|string,
+             *          online: int|string,
              *          sample: null|array{array{name: string, id: string}},
              *     },
              *     description: array{
-             *          extra: array{array{color: string, text: string}},
+             *          extra: array{array{bold: bool, color: string, text: string}},
              *          text: string,
              *     },
              *     favicon: string,
              *     bar: string
              * } $data
              */
-            $data = \json_decode($this->rawData, true, flags: JSON_THROW_ON_ERROR);
-        } catch (\JsonException|\RuntimeException) {
+            $data = \json_decode($this->rawData, true, flags: JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE);
+        } catch (\JsonException) {
             throw new PacketReadException(self::class, "Invalid packet json data");
         }
 
         $this->serverProtocol = ProtocolVersion::from($data['version']['protocol']);
-        $this->serverSoftware = $data['version']['name'];
-        $this->onlinePlayers = $data['players']['online'];
-        $this->maxPlayers = $data['players']['max'];
+        $this->serverSoftware = VarUnsafeFilter::filter($data['version']['name']);
+        $this->onlinePlayers = (int) $data['players']['online'];
+        $this->maxPlayers = (int) $data['players']['max'];
 
         if (isset($data['players']['sample'])) {
             $this->players = $this->getPlayers($data['players']['sample']);
         }
 
-        $this->description = (string) \json_encode($data['description']);
+        $rawMotd = (string)\json_encode($data['description'], flags: JSON_ERROR_UTF8);
+
+        $this->rawMotd = VarUnsafeFilter::filter($rawMotd);
+        $this->motd = $this->formatMotd($data['description']);
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void
@@ -114,9 +124,32 @@ final class HandshakePacket implements Packet
                 continue;
             }
 
-            $result[] = $player['name'];
+            $result[] = VarUnsafeFilter::filter($player['name']);
         }
 
         return $result;
+    }
+
+    /**
+     * @param array{
+     *     extra: array<array-key, array{
+     *         bold: bool,
+     *         color: string,
+     *         text: string
+     *      }>,
+     *     text: string
+     * } $description
+     */
+    private function formatMotd(array $description): string
+    {
+        $process = static fn (string $input) => VarUnsafeFilter::filter($input);
+
+        $text = $process($description['text']);
+
+        foreach ($description['extra'] as $item) {
+            $text .= $process($item['text']);
+        }
+
+        return $text;
     }
 }

@@ -142,10 +142,34 @@ final class VersionProtocolMap
         return \array_shift($filtered)[self::EXTERNAL];
     }
 
-    public static function findByVersion(MinecraftVersion $protocol): ?ProtocolVersion
+    public static function getByVersion(MinecraftVersion $version): ProtocolVersion
+    {
+        $protocol = self::findByVersion($version);
+
+        if (null === $protocol) {
+            $message = 'Could not find protocol by minecraft version: [%s].';
+            throw new \RuntimeException(\sprintf($message, $version->value));
+        }
+
+        return $protocol;
+    }
+
+    public static function getByProtocol(ProtocolVersion $protocol): MinecraftVersion
+    {
+        $version = self::findByProtocol($protocol);
+
+        if (null === $version) {
+            $message = 'Could not find version by minecraft protocol: [%s].';
+            throw new \RuntimeException(\sprintf($message, $protocol->value));
+        }
+
+        return $version;
+    }
+
+    public static function findByVersion(MinecraftVersion $version): ?ProtocolVersion
     {
         $filtered = \array_filter(self::$map, static fn (array $data)
-            => (string) $data[self::EXTERNAL]->value === $protocol->value);
+            => (string) $data[self::EXTERNAL]->value === $version->value);
 
         if (0 === \count($filtered)) {
             return null;

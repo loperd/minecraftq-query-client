@@ -128,6 +128,7 @@ final class UDPMinecraftQueryClient implements MinecraftQueryClient
     {
         $response = new ServerStatsResponse();
         $response->version = $fullStatPacket->version;
+        $response->protocol = $fullStatPacket->serverProtocol;
         $response->plugins = $fullStatPacket->plugins;
         $response->map = $fullStatPacket->map;
         $response->numPlayers = $fullStatPacket->numPlayers;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Query\Packet;
 
 use Loper\MinecraftQueryClient\Packet;
+use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
@@ -38,11 +39,11 @@ final class BasicStatPacket implements Packet
         // Remove Game Type
         $is->readString();
 
-        $this->map = $is->readString()->bytes();
+        $this->map = VarUnsafeFilter::filter($is->readString()->bytes());
         $this->numPlayers = (int) $is->readString()->bytes();
         $this->maxPlayers = (int) $is->readString()->bytes();
         $this->port = (int) $is->readString()->bytes();
-        $this->host = $is->readString()->bytes();
+        $this->host = VarUnsafeFilter::filter($is->readString()->bytes());
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void

@@ -6,9 +6,12 @@ namespace Loper\MinecraftQueryClient\Query\Packet;
 
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
+use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
+use Loper\MinecraftQueryClient\Structure\MinecraftVersion;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
 
 final class FullStatPacket implements Packet
 {
@@ -31,6 +34,8 @@ final class FullStatPacket implements Packet
     /** @var string[] */
     public array $players = [];
 
+    public ProtocolVersion $serverProtocol;
+
     public function getPacketId(): int
     {
         return self::PACKET_ID;
@@ -51,19 +56,23 @@ final class FullStatPacket implements Packet
 
         $plugins = $this->getPlugins($data[9]);
 
-        $this->version = $data[7];
+        $version = MinecraftVersion::from($data[7]);
+        $this->serverProtocol = VersionProtocolMap::getByVersion($version);
+        $this->version = VarUnsafeFilter::filter($version->value);
         $this->plugins = $plugins;
-        $this->map = $data[11];
+        $this->map = VarUnsafeFilter::filter($data[11]);
         $this->numPlayers = (int) $data[13];
         $this->maxPlayers = (int) $data[15];
         $this->port = (int) $data[17];
-        $this->host = $data[19];
+        $this->host = VarUnsafeFilter::filter($data[19]);
 
         // consume "\x0\x1player_" word with two bytes
         $buffer->consume(9);
 
         // consume all without 2 bytes at the end
-        $players = $buffer->consume($buffer->size() - 2);
+        $players = VarUnsafeFilter::filter(
+            $buffer->consume($buffer->size() - 2)
+        );
         $this->players = \explode("\x0", $players);
     }
 
@@ -83,7 +92,7 @@ final class FullStatPacket implements Packet
             return [];
         }
 
-        $parts = \explode(': ', $input);
+        $parts = \explode(': ', VarUnsafeFilter::filter($input));
 
         if (2 !== \count($parts)) {
             return [];

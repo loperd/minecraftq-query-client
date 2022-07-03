@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Stream;
 
-use Loper\MinecraftQueryClient\Var\VarTypeReader;
-use PHPinnacle\Buffer\BufferOverflow;
+use Loper\MinecraftQueryClient\Service\VarTypeReader;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
