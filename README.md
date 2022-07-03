@@ -6,7 +6,7 @@ Simple implementation of [Server List Ping](https://wiki.vg/Server_List_Ping) an
 ### Installation
 
 ```bash
-composer require loperd/minecraft-query-client
+composer require loper/minecraft-query-client
 ```
 
 ### Examples
