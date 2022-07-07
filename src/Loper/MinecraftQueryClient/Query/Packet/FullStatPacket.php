@@ -61,9 +61,9 @@ final class FullStatPacket implements Packet
         $this->version = VarUnsafeFilter::filter($version->value);
         $this->plugins = $plugins;
         $this->map = VarUnsafeFilter::filter($data[11]);
-        $this->numPlayers = (int) $data[13];
-        $this->maxPlayers = (int) $data[15];
-        $this->port = (int) $data[17];
+        $this->numPlayers = (int) VarUnsafeFilter::filter($data[13]);
+        $this->maxPlayers = (int) VarUnsafeFilter::filter($data[15]);
+        $this->port = (int) VarUnsafeFilter::filter($data[17]);
         $this->host = VarUnsafeFilter::filter($data[19]);
 
         // consume "\x0\x1player_" word with two bytes

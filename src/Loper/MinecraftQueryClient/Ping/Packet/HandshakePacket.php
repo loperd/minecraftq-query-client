@@ -83,14 +83,14 @@ final class HandshakePacket implements Packet
 
         $this->serverProtocol = ProtocolVersion::from($data['version']['protocol']);
         $this->serverSoftware = VarUnsafeFilter::filter($data['version']['name']);
-        $this->onlinePlayers = (int) $data['players']['online'];
-        $this->maxPlayers = (int) $data['players']['max'];
+        $this->onlinePlayers = (int) VarUnsafeFilter::filter((string) $data['players']['online']);
+        $this->maxPlayers = (int) VarUnsafeFilter::filter((string) $data['players']['max']);
 
-        if (isset($data['players']['sample'])) {
+        if (isset($data['players']['sample']) && \is_array($data['players']['sample'])) {
             $this->players = $this->getPlayers($data['players']['sample']);
         }
 
-        $rawMotd = (string)\json_encode($data['description'], flags: JSON_ERROR_UTF8);
+        $rawMotd = (string) \json_encode($data['description'], flags: JSON_ERROR_UTF8);
 
         $this->rawMotd = VarUnsafeFilter::filter($rawMotd);
         $this->motd = $this->formatMotd($data['description']);
