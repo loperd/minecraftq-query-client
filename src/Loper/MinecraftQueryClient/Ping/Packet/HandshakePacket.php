@@ -54,8 +54,9 @@ final class HandshakePacket implements Packet
             $this->rawData = $is->readFullData(self::MAX_JSON_SIZE)->bytes();
 
             $order = \mb_detect_order();
-            if ('UTF-8' !== \mb_detect_encoding($this->rawData, \is_array($order) ? $order : null, true)) {
-                throw new PacketReadException(self::class, 'Invalid packet data encoding.');
+            $encoding = \mb_detect_encoding($this->rawData, \is_array($order) ? $order : null, true);
+            if ('UTF-8' !== $encoding) {
+                $this->rawData = \mb_convert_encoding($this->rawData, $encoding, 'UTF-8');
             }
 
             /** @var array{
@@ -142,10 +143,13 @@ final class HandshakePacket implements Packet
      */
     private function formatMotd(array $description): string
     {
-        $process = static fn (string $input) => VarUnsafeFilter::filter($input);
+        $process = static fn (string $input) => \preg_replace(
+            '/(\s)+/',
+            '$1',
+            VarUnsafeFilter::filter($input)
+        );
 
-        $text = $process($description['text']);
-
+        $text = (string) $process($description['text']);
         foreach ($description['extra'] as $item) {
             $text .= $process($item['text']);
         }

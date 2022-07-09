@@ -9,127 +9,127 @@ final class VersionProtocolMap
     public const EXTERNAL = 'e';
     public const INTERNAL = 'i';
 
-    /** @var array<array<array-key, ProtocolVersion|MinecraftVersion>> */
+    /** @var array<array<array-key, ProtocolVersion|ServerVersion>> */
     public static array $map = [
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_19,
+            self::EXTERNAL => ServerVersion::VER_1_19,
             self::INTERNAL => ProtocolVersion::VER_1_19,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_18_2,
+            self::EXTERNAL => ServerVersion::VER_1_18_2,
             self::INTERNAL => ProtocolVersion::VER_1_18_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_18_1,
+            self::EXTERNAL => ServerVersion::VER_1_18_1,
             self::INTERNAL => ProtocolVersion::VER_1_18_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_18,
+            self::EXTERNAL => ServerVersion::VER_1_18,
             self::INTERNAL => ProtocolVersion::VER_1_18_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_17_1,
+            self::EXTERNAL => ServerVersion::VER_1_17_1,
             self::INTERNAL => ProtocolVersion::VER_1_17_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_17,
+            self::EXTERNAL => ServerVersion::VER_1_17,
             self::INTERNAL => ProtocolVersion::VER_1_17,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_16_5,
+            self::EXTERNAL => ServerVersion::VER_1_16_5,
             self::INTERNAL => ProtocolVersion::VER_1_16_5,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_16_4,
+            self::EXTERNAL => ServerVersion::VER_1_16_4,
             self::INTERNAL => ProtocolVersion::VER_1_16_5,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_16_3,
+            self::EXTERNAL => ServerVersion::VER_1_16_3,
             self::INTERNAL => ProtocolVersion::VER_1_16_3,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_16_2,
+            self::EXTERNAL => ServerVersion::VER_1_16_2,
             self::INTERNAL => ProtocolVersion::VER_1_16_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_16_1,
+            self::EXTERNAL => ServerVersion::VER_1_16_1,
             self::INTERNAL => ProtocolVersion::VER_1_16_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_16,
+            self::EXTERNAL => ServerVersion::VER_1_16,
             self::INTERNAL => ProtocolVersion::VER_1_16,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_15_2,
+            self::EXTERNAL => ServerVersion::VER_1_15_2,
             self::INTERNAL => ProtocolVersion::VER_1_15_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_15_1,
+            self::EXTERNAL => ServerVersion::VER_1_15_1,
             self::INTERNAL => ProtocolVersion::VER_1_15_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_15,
+            self::EXTERNAL => ServerVersion::VER_1_15,
             self::INTERNAL => ProtocolVersion::VER_1_15,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_14_4,
+            self::EXTERNAL => ServerVersion::VER_1_14_4,
             self::INTERNAL => ProtocolVersion::VER_1_14_4,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_14_3,
+            self::EXTERNAL => ServerVersion::VER_1_14_3,
             self::INTERNAL => ProtocolVersion::VER_1_14_3,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_14_2,
+            self::EXTERNAL => ServerVersion::VER_1_14_2,
             self::INTERNAL => ProtocolVersion::VER_1_14_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_14_1,
+            self::EXTERNAL => ServerVersion::VER_1_14_1,
             self::INTERNAL => ProtocolVersion::VER_1_14_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_14,
+            self::EXTERNAL => ServerVersion::VER_1_14,
             self::INTERNAL => ProtocolVersion::VER_1_14,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_13_2,
+            self::EXTERNAL => ServerVersion::VER_1_13_2,
             self::INTERNAL => ProtocolVersion::VER_1_13_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_13_1,
+            self::EXTERNAL => ServerVersion::VER_1_13_1,
             self::INTERNAL => ProtocolVersion::VER_1_13_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_13,
+            self::EXTERNAL => ServerVersion::VER_1_13,
             self::INTERNAL => ProtocolVersion::VER_1_13,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_12_2,
+            self::EXTERNAL => ServerVersion::VER_1_12_2,
             self::INTERNAL => ProtocolVersion::VER_1_12_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_12_1,
+            self::EXTERNAL => ServerVersion::VER_1_12_1,
             self::INTERNAL => ProtocolVersion::VER_1_12_1,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_12,
+            self::EXTERNAL => ServerVersion::VER_1_12,
             self::INTERNAL => ProtocolVersion::VER_1_12,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_7_5,
+            self::EXTERNAL => ServerVersion::VER_1_7_5,
             self::INTERNAL => ProtocolVersion::VER_1_7_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_7_4,
+            self::EXTERNAL => ServerVersion::VER_1_7_4,
             self::INTERNAL => ProtocolVersion::VER_1_7_2,
         ],
         [
-            self::EXTERNAL => MinecraftVersion::VER_1_7_2,
+            self::EXTERNAL => ServerVersion::VER_1_7_2,
             self::INTERNAL => ProtocolVersion::VER_1_7_2,
         ],
     ];
 
-    public static function findByProtocol(ProtocolVersion $protocol): ?MinecraftVersion
+    public static function findByProtocol(ProtocolVersion $protocol): ?ServerVersion
     {
         $filtered = \array_filter(self::$map, static fn (array $data)
             => (string) $data[self::INTERNAL]->value === (string) $protocol->value);
@@ -138,11 +138,11 @@ final class VersionProtocolMap
             return null;
         }
 
-        /** @var MinecraftVersion */
+        /** @var ServerVersion */
         return \array_shift($filtered)[self::EXTERNAL];
     }
 
-    public static function getByVersion(MinecraftVersion $version): ProtocolVersion
+    public static function getByVersion(ServerVersion $version): ProtocolVersion
     {
         $protocol = self::findByVersion($version);
 
@@ -154,7 +154,7 @@ final class VersionProtocolMap
         return $protocol;
     }
 
-    public static function getByProtocol(ProtocolVersion $protocol): MinecraftVersion
+    public static function getByProtocol(ProtocolVersion $protocol): ServerVersion
     {
         $version = self::findByProtocol($protocol);
 
@@ -166,7 +166,7 @@ final class VersionProtocolMap
         return $version;
     }
 
-    public static function findByVersion(MinecraftVersion $version): ?ProtocolVersion
+    public static function findByVersion(ServerVersion $version): ?ProtocolVersion
     {
         $filtered = \array_filter(self::$map, static fn (array $data)
             => (string) $data[self::EXTERNAL]->value === $version->value);

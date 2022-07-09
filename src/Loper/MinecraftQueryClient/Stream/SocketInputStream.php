@@ -100,4 +100,24 @@ final class SocketInputStream implements InputStream
 
         return new ByteBuffer($data);
     }
+
+    public function readVarShort(): int
+    {
+        return VarTypeReader::readVarShort($this);
+    }
+
+    public function readUnsignedShort(): int
+    {
+        return $this->readBytes(2)->consumeUint16();
+    }
+
+    public function readUnsignedByte(): int
+    {
+        return $this->readBytes(1)->consumeUint8();
+    }
+
+    public function readLittleEndianUnsignedShort(): int
+    {
+        return \unpack("v", $this->readBytes(2)->consume(2))[1];
+    }
 }

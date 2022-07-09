@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Query\Packet;
 
+use Composer\Semver\Semver;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
+use Loper\MinecraftQueryClient\Service\VersionParser;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\MinecraftVersion;
+use Loper\MinecraftQueryClient\Structure\ServerVersion;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
 
@@ -17,14 +19,12 @@ final class FullStatPacket implements Packet
 {
     public const PACKET_ID = 0x00;
 
+    // Request Data
     public int $sessionId;
     public int $challengeToken;
 
-    // Response data
-    /** @var string[] */
-    public array $plugins = [];
-
-    public string $version;
+    // Response Data
+    public ServerVersion $version;
     public string $map;
     public int $numPlayers;
     public int $maxPlayers;
@@ -33,6 +33,9 @@ final class FullStatPacket implements Packet
 
     /** @var string[] */
     public array $players = [];
+
+    /** @var string[] */
+    public array $plugins = [];
 
     public ProtocolVersion $serverProtocol;
 
@@ -56,9 +59,9 @@ final class FullStatPacket implements Packet
 
         $plugins = $this->getPlugins($data[9]);
 
-        $version = MinecraftVersion::from($data[7]);
+        $version = VersionParser::parse(VarUnsafeFilter::filter($data[7]));
         $this->serverProtocol = VersionProtocolMap::getByVersion($version);
-        $this->version = VarUnsafeFilter::filter($version->value);
+        $this->version = $version;
         $this->plugins = $plugins;
         $this->map = VarUnsafeFilter::filter($data[11]);
         $this->numPlayers = (int) VarUnsafeFilter::filter($data[13]);
@@ -73,7 +76,7 @@ final class FullStatPacket implements Packet
         $players = VarUnsafeFilter::filter(
             $buffer->consume($buffer->size() - 2)
         );
-        $this->players = \explode("\x0", $players);
+        $this->players = \explode("&#0;", $players);
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void

@@ -25,4 +25,16 @@ final class VarTypeReader
 
         return $out;
     }
+
+    public static function readVarShort(InputStream $is): int
+    {
+        $low = $is->readUnsignedShort();
+        $high = 0;
+        if (($low & 0x8000) !== 0) {
+            $low = $low & 0x7FFF;
+            $high = $is->readUnsignedByte();
+        }
+
+        return (($high & 0xFF) << 15) | $low;
+    }
 }

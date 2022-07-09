@@ -30,6 +30,11 @@ final class MinecraftClientFactory
         return new TCPMinecraftQueryClient($serverAddress, $timeout);
     }
 
+    public static function createBothQueryClient(ServerAddress $address, float $timeout): BothQueryClient
+    {
+        return new BothQueryClient($address, $timeout);
+    }
+
     private function __clone()
     {
     }

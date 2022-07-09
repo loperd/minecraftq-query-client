@@ -35,14 +35,15 @@ final class BasicStatPacket implements Packet
         // Remove Type & Session ID
         $is->readBytes(5);
 
-        $this->motd = VarUnsafeFilter::filter($is->readString()->bytes());
+        $rawMotd = $is->readString()->bytes();
+        $this->motd = VarUnsafeFilter::filter($rawMotd);
         // Remove Game Type
         $is->readString();
 
         $this->map = VarUnsafeFilter::filter($is->readString()->bytes());
         $this->numPlayers = (int) VarUnsafeFilter::filter($is->readString()->bytes());
         $this->maxPlayers = (int) VarUnsafeFilter::filter($is->readString()->bytes());
-        $this->port = (int) VarUnsafeFilter::filter($is->readString()->bytes());
+        $this->port = $is->readLittleEndianUnsignedShort();
         $this->host = VarUnsafeFilter::filter($is->readString()->bytes());
     }
 

@@ -16,6 +16,8 @@ interface InputStream
 
     public function readVarInt(int $maxBytes = 5): int;
 
+    public function readVarShort(): int;
+
     public function readBytes(int $size): ByteBuffer;
 
     public function readByte(): int;
@@ -25,4 +27,10 @@ interface InputStream
     public function readInt(): int;
 
     public function readLong(): int;
+
+    public function readUnsignedShort(): int;
+
+    public function readLittleEndianUnsignedShort(): int;
+
+    public function readUnsignedByte(): int;
 }

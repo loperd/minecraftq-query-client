@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Structure;
 
-enum MinecraftVersion: string
+enum ServerVersion: string
 {
     case VER_1_18_2 = '1.18.2';
     case VER_1_18_1 = '1.18.1';

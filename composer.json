@@ -5,7 +5,8 @@
     "require": {
         "phpinnacle/buffer": "^1.2",
         "clue/socket-raw": "^1.6",
-        "ext-sockets": "*"
+        "ext-sockets": "*",
+        "composer/semver": "^3.3"
     },
     "license": "MIT",
     "autoload": {
@@ -29,6 +30,7 @@
     ],
     "minimum-stability": "stable",
     "require-dev": {
-        "jetbrains/phpstorm-attributes": "^1.0"
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "phpunit/phpunit": "^9.5"
     }
 }

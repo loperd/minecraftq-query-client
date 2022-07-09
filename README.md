@@ -53,6 +53,34 @@ $client = MinecraftClientFactory::createUDPQueryClient($address, 1.5);
 var_dump($client->getStats());
 ```
 
+#### Both
+examples/both.php
+```php
+<?php
+
+declare(strict_types=1);
+
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
+use Loper\MinecraftQueryClient\MinecraftClientFactory;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$host = $argv[1] ?? null;
+$port = $argv[2] ?? 25565;
+
+if (!isset($host)) {
+    echo PHP_EOL;
+    \printf("Usage: php %s <host> <port>\n", $_SERVER['SCRIPT_FILENAME']);
+    echo PHP_EOL;
+    exit;
+}
+
+$address = ServerAddressResolver::resolve($host, $port);
+$client = MinecraftClientFactory::createBothQueryClient($address, 1.5);
+
+var_dump($client->getStats());
+```
+
 ### Credits
 
 - [PHP-Minecraft-Query](https://github.com/xPaw/PHP-Minecraft-Query)

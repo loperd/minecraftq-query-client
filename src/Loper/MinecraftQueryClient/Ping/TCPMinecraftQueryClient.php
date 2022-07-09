@@ -90,7 +90,7 @@ final class TCPMinecraftQueryClient implements MinecraftQueryClient
         $version = VersionProtocolMap::getByProtocol($packet->serverProtocol);
 
         $response = new ServerStatsResponse();
-        $response->version = $version->value;
+        $response->version = $version;
         $response->protocol = $packet->serverProtocol;
         $response->serverSoftware = $packet->serverSoftware;
         $response->maxPlayers = $packet->maxPlayers;

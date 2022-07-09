@@ -52,6 +52,11 @@ final class ByteBufferInputStream implements InputStream
         return $this->readBytes(8)->consumeInt64();
     }
 
+    public function readVarShort(): int
+    {
+        return VarTypeReader::readVarShort($this);
+    }
+
     public function readString(): ByteBuffer
     {
         $pos = \strpos($this->buffer->bytes(), "\x0");
@@ -60,6 +65,24 @@ final class ByteBufferInputStream implements InputStream
             return new ByteBuffer();
         }
 
-        return $this->readBytes($pos);
+        $result = $this->readBytes($pos);
+        $this->readByte(); // read 0x00
+
+        return $result;
+    }
+
+    public function readUnsignedShort(): int
+    {
+        return $this->readBytes(2)->consumeUint16();
+    }
+
+    public function readUnsignedByte(): int
+    {
+        return $this->readBytes(1)->readUint8();
+    }
+
+    public function readLittleEndianUnsignedShort(): int
+    {
+        return \unpack("v", $this->readBytes(2)->consume(2))[1];
     }
 }

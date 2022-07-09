@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient;
 
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\MinecraftQueryClient\Structure\ServerVersion;
 
 final class ServerStatsResponse
 {
@@ -12,7 +13,7 @@ final class ServerStatsResponse
     public array $plugins = [];
 
     public ?string $map = null;
-    public ?string $version = null;
+    public ?ServerVersion $version = null;
     public ?string $host = null;
 
     public ?int $port = null;
