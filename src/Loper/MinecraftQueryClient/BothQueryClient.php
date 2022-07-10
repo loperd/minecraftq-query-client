@@ -6,6 +6,7 @@ namespace Loper\MinecraftQueryClient;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
+use Socket\Raw as Socket;
 
 final class BothQueryClient implements MinecraftQueryClient
 {
@@ -27,9 +28,13 @@ final class BothQueryClient implements MinecraftQueryClient
 
     public function getStats(): ServerStatsResponse
     {
-        $udpStats = $this->udpQueryClient?->getStats();
-        $tcpStats = $this->tcpQueryClient->getStats();
+        try {
+            $udpStats = $this->udpQueryClient?->getStats();
+        } catch (\RuntimeException|Socket\Exception) {
+            $udpStats = null;
+        }
 
+        $tcpStats = $this->tcpQueryClient->getStats();
         return $this->mergeStats($tcpStats, $udpStats);
     }
 

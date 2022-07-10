@@ -17,6 +17,7 @@ use Loper\MinecraftQueryClient\Query\Packet\FullStatPacket;
 use Loper\MinecraftQueryClient\ServerStatsResponse;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
+use Loper\MinecraftQueryClient\Stream\SocketReadException;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
