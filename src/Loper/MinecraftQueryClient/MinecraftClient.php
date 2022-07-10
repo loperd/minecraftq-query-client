@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient;
 
-interface MinecraftQueryClient
+interface MinecraftClient
 {
     public function getStats(): ServerStatsResponse;
 

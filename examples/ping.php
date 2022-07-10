@@ -18,6 +18,6 @@ if (!isset($host)) {
 }
 
 $address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createTCPQueryClient($address, 1.5);
+$client = MinecraftClientFactory::createTCPClient($address, 1.5);
 
 var_dump($client->getStats());

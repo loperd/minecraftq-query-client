@@ -6,33 +6,33 @@ namespace Loper\MinecraftQueryClient;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
-use Loper\MinecraftQueryClient\Ping\TCPMinecraftQueryClient;
-use Loper\MinecraftQueryClient\Query\UDPMinecraftQueryClient;
+use Loper\MinecraftQueryClient\Ping\TCPMinecraftClient;
+use Loper\MinecraftQueryClient\Query\QueryMinecraftClient;
 
 final class MinecraftClientFactory
 {
-    public static function createClient(ServerAddress $serverAddress, float $timeout = 1.5): MinecraftQueryClient
+    public static function createClient(ServerAddress $serverAddress, float $timeout = 1.5): MinecraftClient
     {
         try {
-            return self::createUDPQueryClient($serverAddress, $timeout);
+            return self::createQueryClient($serverAddress, $timeout);
         } catch (SocketConnectionException) {
-            return self::createTCPQueryClient($serverAddress, $timeout);
+            return self::createTCPClient($serverAddress, $timeout);
         }
     }
 
-    public static function createUDPQueryClient(ServerAddress $serverAddress, float $timeout): UDPMinecraftQueryClient
+    public static function createQueryClient(ServerAddress $serverAddress, float $timeout): QueryMinecraftClient
     {
-        return new UDPMinecraftQueryClient($serverAddress, $timeout);
+        return new QueryMinecraftClient($serverAddress, $timeout);
     }
 
-    public static function createTCPQueryClient(ServerAddress $serverAddress, float $timeout): TCPMinecraftQueryClient
+    public static function createTCPClient(ServerAddress $serverAddress, float $timeout): TCPMinecraftClient
     {
-        return new TCPMinecraftQueryClient($serverAddress, $timeout);
+        return new TCPMinecraftClient($serverAddress, $timeout);
     }
 
-    public static function createBothQueryClient(ServerAddress $address, float $timeout): BothQueryClient
+    public static function createBothQueryClient(ServerAddress $address, float $timeout): BothClient
     {
-        return new BothQueryClient($address, $timeout);
+        return new BothClient($address, $timeout);
     }
 
     private function __clone()

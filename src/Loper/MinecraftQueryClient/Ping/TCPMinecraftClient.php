@@ -7,7 +7,7 @@ namespace Loper\MinecraftQueryClient\Ping;
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
-use Loper\MinecraftQueryClient\MinecraftQueryClient;
+use Loper\MinecraftQueryClient\MinecraftClient;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Ping\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\ServerStatsResponse;
@@ -19,7 +19,7 @@ use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
-final class TCPMinecraftQueryClient implements MinecraftQueryClient
+final class TCPMinecraftClient implements MinecraftClient
 {
     private Socket\Socket $socket;
     private SocketInputStream $is;

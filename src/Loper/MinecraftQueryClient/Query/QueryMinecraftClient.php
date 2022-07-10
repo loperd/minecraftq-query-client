@@ -9,7 +9,7 @@ use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Exception\PacketSendException;
 use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
-use Loper\MinecraftQueryClient\MinecraftQueryClient;
+use Loper\MinecraftQueryClient\MinecraftClient;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\PacketRead;
 use Loper\MinecraftQueryClient\Query\Packet\BasicStatPacket;
@@ -22,7 +22,7 @@ use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
-final class UDPMinecraftQueryClient implements MinecraftQueryClient
+final class QueryMinecraftClient implements MinecraftClient
 {
     public const MAGIC_BYTES = 0xFEFD;
 

@@ -13,6 +13,7 @@ composer require loper/minecraft-query-client
 
 #### Server List Ping
 examples/ping.php
+
 ```php
 declare(strict_types=1);
 
@@ -26,13 +27,14 @@ $port = 25565;
 
 // Resolve host by domain and SRV records if it exists
 $address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createTCPQueryClient($address, 1.5);
+$client = MinecraftClientFactory::createTCPClient($address, 1.5);
 
 var_dump($client->getStats());
 ```
 
 #### Query
 examples/query.php
+
 ```php
 <?php
 
@@ -48,7 +50,7 @@ $port = 25565;
 
 // Resolve host by domain and SRV records if it exists
 $address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createUDPQueryClient($address, 1.5);
+$client = MinecraftClientFactory::createQueryClient($address, 1.5);
 
 var_dump($client->getStats());
 ```
