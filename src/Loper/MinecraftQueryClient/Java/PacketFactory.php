@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Ping;
+namespace Loper\MinecraftQueryClient\Java;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
-use Loper\MinecraftQueryClient\Ping\Packet\HandshakePacket;
+use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 final class PacketFactory
 {
     public static function createHandshakePacket(
-        ServerAddress $serverAddress,
+        ServerAddress   $serverAddress,
         ProtocolVersion $protocol,
-        int $state = HandshakePacket::STATUS
+        int             $state = HandshakePacket::STATUS
     ): HandshakePacket {
         $packet = new HandshakePacket();
         $packet->port = $serverAddress->port;

@@ -17,8 +17,7 @@ examples/ping.php
 ```php
 declare(strict_types=1);
 
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;use Loper\MinecraftQueryClient\MinecraftClientFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -27,7 +26,7 @@ $port = 25565;
 
 // Resolve host by domain and SRV records if it exists
 $address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createTCPClient($address, 1.5);
+$client = MinecraftClientFactory::createJavaClient($address, 1.5);
 
 var_dump($client->getStats());
 ```
@@ -40,8 +39,7 @@ examples/query.php
 
 declare(strict_types=1);
 
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;use Loper\MinecraftQueryClient\MinecraftClientFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -57,13 +55,13 @@ var_dump($client->getStats());
 
 #### Both
 examples/both.php
+
 ```php
 <?php
 
 declare(strict_types=1);
 
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;use Loper\MinecraftQueryClient\MinecraftClientFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

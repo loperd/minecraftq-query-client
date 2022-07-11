@@ -6,7 +6,8 @@
         "phpinnacle/buffer": "^1.2",
         "clue/socket-raw": "^1.6",
         "ext-sockets": "*",
-        "composer/semver": "^3.3"
+        "composer/semver": "^3.3",
+        "ext-mbstring": "*"
     },
     "license": "MIT",
     "autoload": {

@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
+use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
 use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -18,6 +20,10 @@ if (!isset($host)) {
 }
 
 $address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createQueryClient($address, 1.5);
 
-var_dump($client->getStats());
+$minecraftClientFactory = new MinecraftClientFactory($address, ProtocolVersion::JAVA_1_7_2, 1.5);
+$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
+
+$provider = $javaMinecraftProviderFactory->createQueryStatisticsProvider();
+
+var_dump($provider->getStatistics());

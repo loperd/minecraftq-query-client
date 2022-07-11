@@ -6,7 +6,7 @@ namespace Loper\MinecraftQueryClient;
 
 interface MinecraftClient
 {
-    public function getStats(): ServerStatsResponse;
+    public function sendPacket(Packet $packet);
 
     public function close(): void;
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Query\Packet;
+namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;

@@ -5,41 +5,25 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
-use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
-use Loper\MinecraftQueryClient\Ping\TCPMinecraftClient;
-use Loper\MinecraftQueryClient\Query\QueryMinecraftClient;
+use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
+use Loper\MinecraftQueryClient\Java\JavaMinecraftClient;
+use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 final class MinecraftClientFactory
 {
-    public static function createClient(ServerAddress $serverAddress, float $timeout = 1.5): MinecraftClient
+    public function __construct(
+        private readonly ServerAddress $serverAddress,
+        private readonly ProtocolVersion $protocol,
+        private readonly float $timeout
+    ) {}
+
+    public function createQueryClient(): QueryMinecraftClient
     {
-        try {
-            return self::createQueryClient($serverAddress, $timeout);
-        } catch (SocketConnectionException) {
-            return self::createTCPClient($serverAddress, $timeout);
-        }
+        return new QueryMinecraftClient($this->serverAddress, $this->protocol, $this->timeout);
     }
 
-    public static function createQueryClient(ServerAddress $serverAddress, float $timeout): QueryMinecraftClient
+    public function createJavaClient(): JavaMinecraftClient
     {
-        return new QueryMinecraftClient($serverAddress, $timeout);
-    }
-
-    public static function createTCPClient(ServerAddress $serverAddress, float $timeout): TCPMinecraftClient
-    {
-        return new TCPMinecraftClient($serverAddress, $timeout);
-    }
-
-    public static function createBothQueryClient(ServerAddress $address, float $timeout): BothClient
-    {
-        return new BothClient($address, $timeout);
-    }
-
-    private function __clone()
-    {
-    }
-
-    private function __construct()
-    {
+        return new JavaMinecraftClient($this->serverAddress, $this->protocol, $this->timeout);
     }
 }

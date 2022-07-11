@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Query\Packet;
+namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
+use Loper\MinecraftQueryClient\Common\Query\ChallengeToken;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Query\ChallengeToken;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;

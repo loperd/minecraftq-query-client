@@ -2,22 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Query;
+namespace Loper\MinecraftQueryClient\Common\Query;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
-use Loper\MinecraftQueryClient\Exception\PacketReadException;
-use Loper\MinecraftQueryClient\Exception\PacketSendException;
-use Loper\MinecraftQueryClient\Exception\SocketConnectionException;
+use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Common\Exception\PacketSendException;
+use Loper\MinecraftQueryClient\Common\Exception\SocketConnectionException;
+use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
+use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
 use Loper\MinecraftQueryClient\MinecraftClient;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\PacketRead;
-use Loper\MinecraftQueryClient\Query\Packet\BasicStatPacket;
-use Loper\MinecraftQueryClient\Query\Packet\FullStatPacket;
-use Loper\MinecraftQueryClient\ServerStatsResponse;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
-use Loper\MinecraftQueryClient\Stream\SocketReadException;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
@@ -29,9 +26,9 @@ final class QueryMinecraftClient implements MinecraftClient
     private Socket\Socket $socket;
 
     public function __construct(
-        private readonly ServerAddress $serverAddress,
-        private readonly float $timeout = 1.5,
-        private readonly ProtocolVersion $protocol = ProtocolVersion::VER_1_7_2,
+        private readonly ServerAddress   $serverAddress,
+        private readonly ProtocolVersion $protocol,
+        private readonly float           $timeout = 1.5,
     ) {
         $this->socket = $this->createSocket($this->serverAddress, $this->timeout);
         $this->socket->setOption(SOL_SOCKET, SO_RCVTIMEO, $this->createSocketTimeout());
@@ -55,6 +52,15 @@ final class QueryMinecraftClient implements MinecraftClient
         }
     }
 
+    public function getChallengeToken(): ChallengeToken
+    {
+        $packet = PacketFactory::createHandshakePacket();
+
+        $this->sendPacket($packet);
+
+        return $packet->challengeToken;
+    }
+
     public function getFullStat(ChallengeToken $challengeToken): FullStatPacket
     {
         $packet = PacketFactory::createFullStatPacket($challengeToken);
@@ -73,27 +79,12 @@ final class QueryMinecraftClient implements MinecraftClient
         return $packet;
     }
 
-    public function getStats(): ServerStatsResponse
-    {
-        $challengeToken = $this->getChallengeToken();
-
-        $basicStatPacket = $this->getBasicStat($challengeToken);
-        $fullStatPacket = $this->getFullStat($challengeToken);
-
-        return $this->createResponse($fullStatPacket, $basicStatPacket);
-    }
-
-    public function __destruct()
-    {
-        $this->socket->close();
-    }
-
     public function close(): void
     {
         $this->socket->close();
     }
 
-    private function sendPacket(Packet $packet): void
+    public function sendPacket(Packet $packet): void
     {
         $buffer = new ByteBuffer();
         $buffer->appendInt16(self::MAGIC_BYTES);
@@ -114,32 +105,6 @@ final class QueryMinecraftClient implements MinecraftClient
         }
 
         $packet->read(new ByteBufferInputStream($buffer), $this->protocol);
-    }
-
-    private function getChallengeToken(): ChallengeToken
-    {
-        $packet = PacketFactory::createHandshakePacket();
-
-        $this->sendPacket($packet);
-
-        return $packet->challengeToken;
-    }
-
-    private function createResponse(FullStatPacket $fullStatPacket, BasicStatPacket $basicStatPacket): ServerStatsResponse
-    {
-        $response = new ServerStatsResponse();
-        $response->version = $fullStatPacket->version;
-        $response->protocol = $fullStatPacket->serverProtocol;
-        $response->plugins = $fullStatPacket->plugins;
-        $response->map = $fullStatPacket->map;
-        $response->numPlayers = $fullStatPacket->numPlayers;
-        $response->maxPlayers = $fullStatPacket->maxPlayers;
-        $response->port = $fullStatPacket->port;
-        $response->host = $fullStatPacket->host;
-        $response->players = $fullStatPacket->players;
-        $response->motd = $basicStatPacket->motd;
-
-        return $response;
     }
 
     /**

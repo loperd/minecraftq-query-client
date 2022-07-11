@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Ping\Packet;
+namespace Loper\MinecraftQueryClient\Java\Packet;
 
-use Loper\MinecraftQueryClient\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
@@ -50,8 +50,10 @@ final class HandshakePacket implements Packet
             throw new PacketReadException(self::class, "Too big packet json data.");
         }
 
+
         try {
-            $this->rawData = $is->readFullData(self::MAX_JSON_SIZE)->bytes();
+            $buffer = $is->readBytes($jsonSize);
+            $this->rawData = $buffer->bytes();
 
             $order = \mb_detect_order();
             $encoding = \mb_detect_encoding($this->rawData, \is_array($order) ? $order : null, true);

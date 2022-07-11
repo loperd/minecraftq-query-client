@@ -14,35 +14,35 @@ final class VersionParserTest extends TestCase
 
         $version = VersionParser::parse($input);
 
-        self::assertEquals(ServerVersion::VER_1_18_2, $version);
+        self::assertEquals(ServerVersion::JAVA_1_18_2, $version);
     }
 
     public function test_correct_parsing_standart_two_digits_version()
     {
-        $version = VersionParser::parse(ServerVersion::VER_1_19->value);
+        $version = VersionParser::parse(ServerVersion::JAVA_1_19->value);
 
-        self::assertEquals(ServerVersion::VER_1_19, $version);
+        self::assertEquals(ServerVersion::JAVA_1_19, $version);
     }
 
     public function test_correct_parsing_standart_three_digits_version()
     {
-        $version = VersionParser::parse(ServerVersion::VER_1_18_2->value);
+        $version = VersionParser::parse(ServerVersion::JAVA_1_18_2->value);
 
-        self::assertEquals(ServerVersion::VER_1_18_2, $version);
+        self::assertEquals(ServerVersion::JAVA_1_18_2, $version);
     }
 
     public function test_correct_parsing_botfilter_three_digits_version()
     {
         $version = VersionParser::parse('1.18.x');
 
-        self::assertEquals(ServerVersion::VER_1_18_2, $version);
+        self::assertEquals(ServerVersion::JAVA_1_18_2, $version);
     }
 
     public function test_correct_parsing_botfilter_three_invalid_digits_version()
     {
         $version = VersionParser::parse('1.19.x');
 
-        self::assertEquals(ServerVersion::VER_1_19, $version);
+        self::assertEquals(ServerVersion::JAVA_1_19, $version);
     }
 
     public function test_empty_string_data()

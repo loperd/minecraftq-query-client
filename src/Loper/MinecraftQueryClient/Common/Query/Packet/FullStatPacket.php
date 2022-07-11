@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Query\Packet;
+namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
 use Composer\Semver\Semver;
-use Loper\MinecraftQueryClient\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Service\VersionParser;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ServerVersion;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\MinecraftQueryClient\Structure\ServerVersion;
 use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
 
 final class FullStatPacket implements Packet

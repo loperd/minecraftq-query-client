@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Query;
+namespace Loper\MinecraftQueryClient\Common\Query;
 
 final class ChallengeToken
 {

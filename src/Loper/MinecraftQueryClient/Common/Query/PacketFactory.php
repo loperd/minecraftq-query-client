@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Query;
+namespace Loper\MinecraftQueryClient\Common\Query;
 
-use Loper\MinecraftQueryClient\Query\Packet\BasicStatPacket;
-use Loper\MinecraftQueryClient\Query\Packet\FullStatPacket;
-use Loper\MinecraftQueryClient\Query\Packet\HandshakePacket;
+use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
+use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
+use Loper\MinecraftQueryClient\Common\Query\Packet\HandshakePacket;
 
 final class PacketFactory
 {
