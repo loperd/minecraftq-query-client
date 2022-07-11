@@ -12,56 +12,17 @@ composer require loper/minecraft-query-client
 ### Examples
 
 #### Server List Ping
-examples/ping.php
-
-```php
-declare(strict_types=1);
-
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;use Loper\MinecraftQueryClient\MinecraftClientFactory;
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$host = 'go.mon.pe';
-$port = 25565;
-
-// Resolve host by domain and SRV records if it exists
-$address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createJavaClient($address, 1.5);
-
-var_dump($client->getStats());
-```
-
-#### Query
-examples/query.php
+examples/java-ping.php
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;use Loper\MinecraftQueryClient\MinecraftClientFactory;
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$host = 'go.mon.pe';
-$port = 25565;
-
-// Resolve host by domain and SRV records if it exists
-$address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createQueryClient($address, 1.5);
-
-var_dump($client->getStats());
-```
-
-#### Both
-examples/both.php
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
+use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
+use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -76,9 +37,96 @@ if (!isset($host)) {
 }
 
 $address = ServerAddressResolver::resolve($host, $port);
-$client = MinecraftClientFactory::createBothQueryClient($address, 1.5);
 
-var_dump($client->getStats());
+$minecraftClientFactory = new MinecraftClientFactory(
+    serverAddress: $address,
+    protocol: ProtocolVersion::JAVA_1_7_2,
+    timeout: 1.5);
+$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
+
+$provider = $javaMinecraftProviderFactory->createPingStatisticsProvider();
+
+var_dump($provider->getStatistics());
+
+
+```
+
+#### Query
+examples/java-query.php
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
+use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
+use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$host = $argv[1] ?? null;
+$port = $argv[2] ?? 25565;
+
+if (!isset($host)) {
+    echo PHP_EOL;
+    \printf("Usage: php %s <host> <port>\n", $_SERVER['SCRIPT_FILENAME']);
+    echo PHP_EOL;
+    exit;
+}
+
+$address = ServerAddressResolver::resolve($host, $port);
+
+$minecraftClientFactory = new MinecraftClientFactory(
+    serverAddress: $address,
+    protocol: ProtocolVersion::JAVA_1_7_2,
+    timeout: 1.5);
+$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
+
+$provider = $javaMinecraftProviderFactory->createQueryStatisticsProvider();
+
+var_dump($provider->getStatistics());
+
+```
+
+#### Both
+examples/java-both.php
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
+use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
+use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$host = $argv[1] ?? null;
+$port = $argv[2] ?? 25565;
+
+if (!isset($host)) {
+    echo PHP_EOL;
+    \printf("Usage: php %s <host> <port>\n", $_SERVER['SCRIPT_FILENAME']);
+    echo PHP_EOL;
+    exit;
+}
+
+$address = ServerAddressResolver::resolve($host, $port);
+
+$minecraftClientFactory = new MinecraftClientFactory(
+    serverAddress: $address,
+    protocol: ProtocolVersion::JAVA_1_7_2,
+    timeout: 1.5);
+$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
+
+$provider = $javaMinecraftProviderFactory->createCommonStatisticsProvider();
+
+var_dump($provider->getStatistics());
+
 ```
 
 ### Credits

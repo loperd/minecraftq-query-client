@@ -21,7 +21,10 @@ if (!isset($host)) {
 
 $address = ServerAddressResolver::resolve($host, $port);
 
-$minecraftClientFactory = new MinecraftClientFactory($address, ProtocolVersion::JAVA_1_7_2, 1.5);
+$minecraftClientFactory = new MinecraftClientFactory(
+    serverAddress: $address,
+    protocol: ProtocolVersion::JAVA_1_7_2,
+    timeout: 1.5);
 $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
 
 $provider = $javaMinecraftProviderFactory->createCommonStatisticsProvider();
