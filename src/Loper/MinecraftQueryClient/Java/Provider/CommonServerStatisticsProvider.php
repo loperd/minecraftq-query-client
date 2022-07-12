@@ -22,7 +22,7 @@ final class CommonServerStatisticsProvider implements ServerStatisticsProvider
         }
 
         $this->queryProvider = null === $queryClient ? null : new QueryServerStatisticsProvider($queryClient);
-        $this->pingProvider = null === $queryClient ? null : new PingServerStatisticsProvider($javaClient);
+        $this->pingProvider = null === $javaClient ? null : new PingServerStatisticsProvider($javaClient);
     }
 
     public function getStatistics(): ServerStatisticsResponse
