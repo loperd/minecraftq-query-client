@@ -50,7 +50,6 @@ final class HandshakePacket implements Packet
             throw new PacketReadException(self::class, "Too big packet json data.");
         }
 
-
         try {
             $buffer = $is->readBytes($jsonSize);
             $this->rawData = $buffer->bytes();
@@ -79,7 +78,7 @@ final class HandshakePacket implements Packet
              *     bar: string
              * } $data
              */
-            $data = \json_decode($this->rawData, true, flags: JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE);
+            $data = \json_decode($this->rawData, true, flags: JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
         } catch (\JsonException) {
             throw new PacketReadException(self::class, "Invalid packet json data");
         }
@@ -145,14 +144,10 @@ final class HandshakePacket implements Packet
      */
     private function formatMotd(array $description): string
     {
-        $process = static fn (string $input) => \preg_replace(
-            '/(\s)+/',
-            '$1',
-            VarUnsafeFilter::filter($input)
-        );
+        $process = static fn (string $input) => VarUnsafeFilter::filterText($input);
 
-        $text = (string) $process($description['text']);
-        foreach ($description['extra'] as $item) {
+        $text = $process($description['text']);
+        foreach ($description['extra'] ?? [] as $item) {
             $text .= $process($item['text']);
         }
 
