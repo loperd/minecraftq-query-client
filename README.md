@@ -24,31 +24,21 @@ use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
 use Loper\MinecraftQueryClient\MinecraftClientFactory;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
-$host = $argv[1] ?? null;
-$port = $argv[2] ?? 25565;
+return static function (string $host, int $port) {
+    $address = ServerAddressResolver::resolve($host, $port);
 
-if (!isset($host)) {
-    echo PHP_EOL;
-    \printf("Usage: php %s <host> <port>\n", $_SERVER['SCRIPT_FILENAME']);
-    echo PHP_EOL;
-    exit;
-}
+    $minecraftClientFactory = new MinecraftClientFactory(
+        serverAddress: $address,
+        protocol: ProtocolVersion::JAVA_1_7_2,
+        timeout: 1.5);
+    $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
 
-$address = ServerAddressResolver::resolve($host, $port);
+    $provider = $javaMinecraftProviderFactory->createPingStatisticsProvider();
 
-$minecraftClientFactory = new MinecraftClientFactory(
-    serverAddress: $address,
-    protocol: ProtocolVersion::JAVA_1_7_2,
-    timeout: 1.5);
-$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
-
-$provider = $javaMinecraftProviderFactory->createPingStatisticsProvider();
-
-var_dump($provider->getStatistics());
-
-
+    var_dump($provider->getStatistics());
+};
 ```
 
 #### Query
@@ -64,30 +54,21 @@ use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
 use Loper\MinecraftQueryClient\MinecraftClientFactory;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
-$host = $argv[1] ?? null;
-$port = $argv[2] ?? 25565;
+return static function (string $host, int $port) {
+    $address = ServerAddressResolver::resolve($host, $port);
 
-if (!isset($host)) {
-    echo PHP_EOL;
-    \printf("Usage: php %s <host> <port>\n", $_SERVER['SCRIPT_FILENAME']);
-    echo PHP_EOL;
-    exit;
-}
+    $minecraftClientFactory = new MinecraftClientFactory(
+        serverAddress: $address,
+        protocol: ProtocolVersion::JAVA_1_7_2,
+        timeout: 1.5);
+    $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
 
-$address = ServerAddressResolver::resolve($host, $port);
+    $provider = $javaMinecraftProviderFactory->createQueryStatisticsProvider();
 
-$minecraftClientFactory = new MinecraftClientFactory(
-    serverAddress: $address,
-    protocol: ProtocolVersion::JAVA_1_7_2,
-    timeout: 1.5);
-$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
-
-$provider = $javaMinecraftProviderFactory->createQueryStatisticsProvider();
-
-var_dump($provider->getStatistics());
-
+    var_dump($provider->getStatistics());
+};
 ```
 
 #### Both
@@ -103,30 +84,21 @@ use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
 use Loper\MinecraftQueryClient\MinecraftClientFactory;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 
-$host = $argv[1] ?? null;
-$port = $argv[2] ?? 25565;
+return static function (string $host, int $port) {
+    $address = ServerAddressResolver::resolve($host, $port);
 
-if (!isset($host)) {
-    echo PHP_EOL;
-    \printf("Usage: php %s <host> <port>\n", $_SERVER['SCRIPT_FILENAME']);
-    echo PHP_EOL;
-    exit;
-}
+    $minecraftClientFactory = new MinecraftClientFactory(
+        serverAddress: $address,
+        protocol: ProtocolVersion::JAVA_1_7_2,
+        timeout: 1.5);
+    $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
 
-$address = ServerAddressResolver::resolve($host, $port);
+    $provider = $javaMinecraftProviderFactory->createCommonStatisticsProvider();
 
-$minecraftClientFactory = new MinecraftClientFactory(
-    serverAddress: $address,
-    protocol: ProtocolVersion::JAVA_1_7_2,
-    timeout: 1.5);
-$javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
-
-$provider = $javaMinecraftProviderFactory->createCommonStatisticsProvider();
-
-var_dump($provider->getStatistics());
-
+    var_dump($provider->getStatistics());
+};
 ```
 
 ### Credits
