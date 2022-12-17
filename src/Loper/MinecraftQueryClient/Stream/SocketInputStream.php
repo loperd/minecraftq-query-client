@@ -51,7 +51,7 @@ final class SocketInputStream implements InputStream
         $buffer = $this->readRawBytes($size);
 
         if (null === $buffer) {
-            throw new \RuntimeException('Could not read bytes.');
+            throw SocketReadException::couldNotReadBytes();
         }
 
         return new ByteBuffer($buffer);
@@ -66,7 +66,7 @@ final class SocketInputStream implements InputStream
         $code = \socket_last_error($socket);
 
         if (false === $result && !in_array($code, [\SOCKET_EINPROGRESS, \SOCKET_EAGAIN], true)) {
-            throw new SocketReadException(\socket_strerror($code), $code);
+            throw SocketReadException::fromSocketError(\socket_strerror($code), $code);
         }
 
         return $data;
