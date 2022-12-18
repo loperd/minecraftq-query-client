@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java;
 
-use Loper\MinecraftQueryClient\Common\Exception\SocketConnectionException;
 use Loper\MinecraftQueryClient\Java\Provider\CommonServerStatisticsProvider;
 use Loper\MinecraftQueryClient\Java\Provider\PingServerStatisticsProvider;
 use Loper\MinecraftQueryClient\Java\Provider\QueryServerStatisticsProvider;
 use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
 
 final class JavaStatisticsProviderFactory
 {

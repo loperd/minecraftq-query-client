@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Java\Provider;
 
 use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
+use Loper\MinecraftQueryClient\Exception\ClientNotFoundException;
 use Loper\MinecraftQueryClient\Java\ServerStatisticsResponse;
 use Loper\MinecraftQueryClient\Java\JavaMinecraftClient;
 
@@ -18,7 +19,7 @@ final class CommonServerStatisticsProvider implements ServerStatisticsProvider
         ?QueryMinecraftClient $queryClient = null,
     ) {
         if (null === $queryClient && null === $javaClient) {
-            throw new \InvalidArgumentException('One or both of the clients should be passed.');
+            throw new ClientNotFoundException();
         }
 
         $this->queryProvider = null === $queryClient ? null : new QueryServerStatisticsProvider($queryClient);

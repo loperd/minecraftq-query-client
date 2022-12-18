@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
-use Composer\Semver\Semver;
-use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Service\VersionParser;

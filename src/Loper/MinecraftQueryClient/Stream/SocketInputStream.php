@@ -26,7 +26,7 @@ final class SocketInputStream implements InputStream
 
         while (null !== $d = $this->readRawBytes(self::CHUNK_SIZE)) {
             if ($size > $maxReadBytes) {
-                throw new \RuntimeException('Too big data.');
+                throw DataSizeException::tooBigData();
             }
 
             $size += \strlen($d);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Service;
 
 use Composer\Semver\Semver;
+use Loper\MinecraftQueryClient\Exception\InvalidServerVersionException;
 use Loper\MinecraftQueryClient\Structure\ServerVersion;
 
 final class VersionParser
@@ -12,7 +13,7 @@ final class VersionParser
     public static function parse(string $version): ServerVersion
     {
         if ('' === $version) {
-            throw new \InvalidArgumentException('Version cannot be empty.');
+            throw InvalidServerVersionException::emptyVersion();
         }
 
         if (6 >= mb_strlen($version)) {
@@ -28,20 +29,20 @@ final class VersionParser
             return self::getBiggest($result[0]);
         }
 
-        throw new \UnexpectedValueException(\sprintf('Unexpected version format "%s".', $version));
+        throw InvalidServerVersionException::invalidFormat($version);
     }
 
     private static function getBiggest(string $version): ServerVersion
     {
         $subVersions = [];
         foreach (ServerVersion::cases() as $case) {
-            if (0 === \mb_strpos($case->value, $version)) {
+            if (\str_starts_with($case->value, $version)) {
                 $subVersions[] = $case->value;
             }
         }
 
         if (0 === \count($subVersions)) {
-            throw new \InvalidArgumentException(\sprintf('Unable to parse the server version "%s".', $version));
+            throw InvalidServerVersionException::unableToParse($version);
         }
 
         if (1 === \count($subVersions)) {
@@ -62,7 +63,7 @@ final class VersionParser
             return ServerVersion::from($version);
         }
 
-        throw new \InvalidArgumentException(\sprintf('Unable to parse the server version "%s".', $version));
+        throw InvalidServerVersionException::unableToParse($version);
     }
 
     public static function processVersion(string $version): string

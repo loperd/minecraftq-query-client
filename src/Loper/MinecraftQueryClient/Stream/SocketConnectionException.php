@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Common\Exception;
+namespace Loper\MinecraftQueryClient\Stream;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 
-final class SocketConnectionException extends \RuntimeException
+final class SocketConnectionException extends SocketException
 {
     private ServerAddress $serverAddress;
 

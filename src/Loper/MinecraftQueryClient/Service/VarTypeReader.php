@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Service;
 
+use Loper\MinecraftQueryClient\Exception\VarTypeReaderException;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 
 final class VarTypeReader
@@ -15,7 +16,7 @@ final class VarTypeReader
             $out |= ($in & 0x7F) << ($bytes++ * 7);
 
             if ($bytes > $maxBytes) {
-                throw new \RuntimeException('VarInt too big');
+                throw VarTypeReaderException::varIntTooBig();
             }
 
             if (($in & 0x80) !== 0x80) {
@@ -31,7 +32,7 @@ final class VarTypeReader
         $low = $is->readUnsignedShort();
         $high = 0;
         if (($low & 0x8000) !== 0) {
-            $low = $low & 0x7FFF;
+            $low &= 0x7FFF;
             $high = $is->readUnsignedByte();
         }
 

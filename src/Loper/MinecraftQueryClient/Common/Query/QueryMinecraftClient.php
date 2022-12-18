@@ -6,15 +6,15 @@ namespace Loper\MinecraftQueryClient\Common\Query;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
-use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
-use Loper\MinecraftQueryClient\Common\Exception\PacketSendException;
-use Loper\MinecraftQueryClient\Common\Exception\SocketConnectionException;
 use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
 use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Exception\PacketSendException;
 use Loper\MinecraftQueryClient\MinecraftClient;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
+use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;

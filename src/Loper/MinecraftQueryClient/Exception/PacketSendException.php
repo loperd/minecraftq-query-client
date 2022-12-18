@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Common\Exception;
+namespace Loper\MinecraftQueryClient\Exception;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 
-final class PacketSendException extends \RuntimeException
+final class PacketSendException extends MinecraftQueryException
 {
     /**
      * @param class-string $packetClass

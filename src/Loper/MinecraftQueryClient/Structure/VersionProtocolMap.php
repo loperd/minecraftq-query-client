@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Structure;
 
+use Loper\MinecraftQueryClient\Exception\MappingException;
+
 final class VersionProtocolMap
 {
     public const EXTERNAL = 'e';
@@ -147,8 +149,7 @@ final class VersionProtocolMap
         $protocol = self::findByVersion($version);
 
         if (null === $protocol) {
-            $message = 'Could not find protocol by minecraft version: [%s].';
-            throw new \RuntimeException(\sprintf($message, $version->value));
+            throw MappingException::notFoundByVersion($version);
         }
 
         return $protocol;
@@ -159,8 +160,7 @@ final class VersionProtocolMap
         $version = self::findByProtocol($protocol);
 
         if (null === $version) {
-            $message = 'Could not find version by minecraft protocol: [%s].';
-            throw new \RuntimeException(\sprintf($message, $protocol->value));
+            throw MappingException::notFoundByProtocol($protocol);
         }
 
         return $version;

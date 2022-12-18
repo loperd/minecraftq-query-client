@@ -16,7 +16,7 @@ final class ByteBufferInputStream implements InputStream
     public function readFullData(int $maxReadBytes = self::MAX_READ_BYTES): ByteBuffer
     {
         if ($this->buffer->size() > $maxReadBytes) {
-            throw new \RuntimeException('Too big data.');
+            throw DataSizeException::tooBigData();
         }
 
         return new ByteBuffer($this->buffer->consume($this->buffer->size()));

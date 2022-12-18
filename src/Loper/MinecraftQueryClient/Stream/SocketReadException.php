@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Stream;
 
-final class SocketReadException extends \RuntimeException
+final class SocketReadException extends SocketException
 {
     private function __construct(string $message)
     {

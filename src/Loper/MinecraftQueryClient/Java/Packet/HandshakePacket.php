@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java\Packet;
 
-use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
