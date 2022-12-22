@@ -1,3 +1,5 @@
 .idea/
 vendor/
 .php-cs-fixer.cache
+test.php
+.phpunit.result.cache

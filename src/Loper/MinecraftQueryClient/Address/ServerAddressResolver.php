@@ -10,6 +10,13 @@ final class ServerAddressResolver
 
     public static function resolve(string $host, ?int $port = null): ServerAddress
     {
+        $domainRegEx = '/^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9])|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9]{2,30}\.[a-zA-Z]{2,3})$/';
+        $ipRegEx = '/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/';
+
+        if(1 !== preg_match($domainRegEx, $host) && 1 !== preg_match($ipRegEx, $host)) {
+            throw new \InvalidArgumentException(sprintf('The host "%s" can`t have spaces', $host));
+        }
+
         if (false !== \ip2long($host)) {
             return new ServerAddress($host, $host, $port);
         }

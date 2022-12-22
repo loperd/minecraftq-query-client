@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;

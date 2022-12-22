@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Service;
+namespace Loper\MinecraftQueryClient\Var;
 
 use Loper\MinecraftQueryClient\Exception\VarTypeReaderException;
 use Loper\MinecraftQueryClient\Stream\InputStream;

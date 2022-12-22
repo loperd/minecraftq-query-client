@@ -6,7 +6,7 @@ namespace Loper\MinecraftQueryClient\Java\Packet;
 
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
