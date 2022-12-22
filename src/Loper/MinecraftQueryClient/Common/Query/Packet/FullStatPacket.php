@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
-use Composer\Semver\Semver;
 use Loper\MinecraftQueryClient\Common\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
-use Loper\MinecraftQueryClient\Service\VersionParser;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use Loper\MinecraftQueryClient\Structure\ServerVersion;
 use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
+use Loper\MinecraftQueryClient\Version\VersionParser;
 
 final class FullStatPacket implements Packet
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Service;
+namespace Loper\MinecraftQueryClient\Version;
 
 use Composer\Semver\Semver;
 use Loper\MinecraftQueryClient\Structure\ServerVersion;

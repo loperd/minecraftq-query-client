@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Service;
+namespace Loper\MinecraftQueryClient\Var;
 
 use Loper\MinecraftQueryClient\Stream\InputStream;
 
@@ -31,7 +31,7 @@ final class VarTypeReader
         $low = $is->readUnsignedShort();
         $high = 0;
         if (($low & 0x8000) !== 0) {
-            $low = $low & 0x7FFF;
+            $low &= 0x7FFF;
             $high = $is->readUnsignedByte();
         }
 

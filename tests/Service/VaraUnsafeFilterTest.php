@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
+namespace Service;
+
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use PHPUnit\Framework\TestCase;
 
 final class VaraUnsafeFilterTest extends TestCase

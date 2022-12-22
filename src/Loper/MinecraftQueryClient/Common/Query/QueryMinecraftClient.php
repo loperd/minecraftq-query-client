@@ -29,6 +29,7 @@ final class QueryMinecraftClient implements MinecraftClient
         private readonly ServerAddress   $serverAddress,
         private readonly ProtocolVersion $protocol,
         private readonly float           $timeout = 1.5,
+        private readonly ?Socket\Factory $factory = null
     ) {
         $this->socket = $this->createSocket($this->serverAddress, $this->timeout);
         $this->socket->setOption(SOL_SOCKET, SO_RCVTIMEO, $this->createSocketTimeout());
@@ -43,10 +44,8 @@ final class QueryMinecraftClient implements MinecraftClient
 
     private function createSocket(ServerAddress $serverAddress, float $timeout): Socket\Socket
     {
-        $factory = new Socket\Factory();
-
         try {
-            return $factory->createClient(\sprintf('udp://%s', $serverAddress), $timeout);
+            return $this->factory->createClient(\sprintf('udp://%s', $serverAddress), $timeout);
         } catch (Socket\Exception $ex) {
             throw new SocketConnectionException($serverAddress, $ex);
         }
