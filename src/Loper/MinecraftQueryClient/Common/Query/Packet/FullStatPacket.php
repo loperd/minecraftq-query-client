@@ -75,7 +75,9 @@ final class FullStatPacket implements Packet
         $players = VarUnsafeFilter::filter(
             $buffer->consume($buffer->size() - 2)
         );
-        $this->players = \explode("&#0;", $players);
+
+        $this->players = '' === $players ? [] : \explode("&#0;", $players);
+
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void

@@ -12,7 +12,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Loper\\MinecraftQueryClient\\": "src/Loper/MinecraftQueryClient"
+            "Loper\\MinecraftQueryClient\\": "src/Loper/MinecraftQueryClient",
+            "Loper\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -32,6 +33,7 @@
     "minimum-stability": "stable",
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "dg/bypass-finals": "^1.4"
     }
 }

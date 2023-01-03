@@ -1,14 +1,13 @@
 <?php
 
-namespace Var;
+namespace Loper\Tests\Var;
 
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Var\VarTypeFactory;
 use PHPUnit\Framework\TestCase;
 
-class VarTypeFactoryTest extends TestCase
+final class VarTypeFactoryTest extends TestCase
 {
-
     /**
      * @dataProvider intVarProvider
      */
@@ -37,5 +36,4 @@ class VarTypeFactoryTest extends TestCase
             [\random_int(0, 255)],
         ];
     }
-
 }

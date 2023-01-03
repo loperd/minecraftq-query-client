@@ -1,6 +1,6 @@
 <?php
 
-namespace Var;
+namespace Loper\Tests\Var;
 
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
@@ -8,12 +8,11 @@ use Loper\MinecraftQueryClient\Var\VarTypeReader;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
 
-class VarTypeReaderTest extends TestCase
+final class VarTypeReaderTest extends TestCase
 {
     /**
      * @dataProvider intVarProvider
      */
-
     public function test_read_var_int(int $varInt): void
     {
         $buffer = new ByteBuffer();
@@ -69,7 +68,4 @@ class VarTypeReaderTest extends TestCase
 
         VarTypeReader::readVarInt($is, 0);
     }
-
-
-
 }

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Version;
+namespace Loper\Tests\Version;
 
+use Loper\MinecraftQueryClient\Exception\InvalidServerVersionException;
 use Loper\MinecraftQueryClient\Structure\ServerVersion;
 use Loper\MinecraftQueryClient\Version\VersionParser;
 use PHPUnit\Framework\TestCase;
@@ -67,8 +68,8 @@ final class VersionParserTest extends TestCase
      */
     public function test_incorrect_get_server_version(string $incorrectVersion): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Unable to parse the server version "%s"', $incorrectVersion));
+        $this->expectException(InvalidServerVersionException::class);
+        $this->expectExceptionMessage(\sprintf('Unable to parse the server version "%s".', $incorrectVersion));
 
         VersionParser::getServerVersion($incorrectVersion);
     }
@@ -82,14 +83,14 @@ final class VersionParserTest extends TestCase
         ];
     }
 
-    public function test_correct_parsing_standart_two_digits_version()
+    public function test_correct_parsing_standart_two_digits_version(): void
     {
         $version = VersionParser::parse(ServerVersion::JAVA_1_19->value);
 
         self::assertEquals(ServerVersion::JAVA_1_19, $version);
     }
 
-    public function test_correct_parsing_standart_three_digits_version()
+    public function test_correct_parsing_standart_three_digits_version(): void
     {
         $version = VersionParser::parse(ServerVersion::JAVA_1_18_2->value);
 
@@ -112,19 +113,34 @@ final class VersionParserTest extends TestCase
 
     public function test_empty_string_data(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidServerVersionException::class);
         $this->expectExceptionMessage('Version cannot be empty.');
 
         VersionParser::parse('');
     }
 
-    public function test_incorrect_string_data(): void
-    {
-        $this->expectException(\UnexpectedValueException::class);
-        $this->expectExceptionMessage('Unexpected version format "1dr5.15".');
 
-        VersionParser::parse('1dr5.15');
+    /**
+     * @dataProvider incorrectVersionProvider
+     */
+    public function test_incorrect_string_data(string $version): void
+    {
+        $this->expectException(InvalidServerVersionException::class);
+        $this->expectExceptionMessage(\sprintf('Unable to parse the server version "%s".', $version));
+
+        VersionParser::parse($version);
     }
+
+    public function incorrectVersionProvider(): array
+    {
+        return [
+            ['abc'],
+            ['1-12.x'],
+            ['1.x.12'],
+            ['x1.1'],
+        ];
+    }
+
 
     /**
      * @dataProvider versionsForProcessProvider
