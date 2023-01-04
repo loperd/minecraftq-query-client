@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Loper\Tests\Var;
 
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;

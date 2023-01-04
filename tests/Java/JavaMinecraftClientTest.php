@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Loper\Tests\Java;
 
 use DG\BypassFinals;
@@ -27,7 +29,7 @@ class JavaMinecraftClientTest extends TestCase
         $mockSocketFactory->method('createClient')->withAnyParameters()->willReturn($socket);
 
         $serverAddress = new ServerAddress('1.1.1.1', '1.1.1.1');
-        return new JavaMinecraftClient($serverAddress, ProtocolVersion::JAVA_1_12_2, '1.5', $mockSocketFactory);
+        return new JavaMinecraftClient($serverAddress, ProtocolVersion::JAVA_1_12_2, 1.5, $mockSocketFactory);
     }
 
     private function createSocket(): Socket&MockObject

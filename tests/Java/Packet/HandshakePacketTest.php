@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Loper\Tests\Java\Packet;
 
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
