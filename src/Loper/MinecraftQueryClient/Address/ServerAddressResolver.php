@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Address;
 
+use Loper\MinecraftQueryClient\Exception\ServerAddressResolveException;
+
 final class ServerAddressResolver
 {
     private const MINECRAFT_SRV_RECORD = '_minecraft._tcp.%s';
 
     public static function resolve(string $host, ?int $port = null): ServerAddress
     {
+        if (
+            1 !== preg_match(ServerAddress::DOMAIN_REGEX, $host)
+            && 1 !== preg_match(ServerAddress::IP_REGEX, $host)
+        ) {
+            throw new ServerAddressResolveException($host);
+        }
+
         if (false !== \ip2long($host)) {
             return new ServerAddress($host, $host, $port);
         }

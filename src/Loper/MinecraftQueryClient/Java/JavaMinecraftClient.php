@@ -6,6 +6,7 @@ namespace Loper\MinecraftQueryClient\Java;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
+use Loper\MinecraftQueryClient\Exception\SockerErrorException;
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\MinecraftClient;
 use Loper\MinecraftQueryClient\Packet;
@@ -24,9 +25,10 @@ final class JavaMinecraftClient implements MinecraftClient
     private SocketOutputStream $os;
 
     public function __construct(
-        private readonly ServerAddress $serverAddress,
+        private readonly ServerAddress   $serverAddress,
         private readonly ProtocolVersion $protocol,
-        private readonly float         $timeout = 1.5,
+        private readonly float           $timeout = 1.5,
+        private readonly Socket\Factory  $factory = new Socket\Factory()
     ) {
         $this->socket = $this->createSocket($this->serverAddress, $this->timeout);
         $this->socket->setOption(SOL_SOCKET, SO_RCVTIMEO, $this->createSocketTimeout());
@@ -44,12 +46,10 @@ final class JavaMinecraftClient implements MinecraftClient
 
     private function createSocket(ServerAddress $serverAddress, float $timeout): Socket\Socket
     {
-        $factory = new Socket\Factory();
-
         try {
             $address = \sprintf('tcp://%s', $serverAddress);
 
-            return $factory->createClient($address, $timeout);
+            return $this->factory->createClient($address, $timeout);
         } catch (Socket\Exception $ex) {
             throw new SocketConnectionException($serverAddress, $ex);
         }
@@ -59,6 +59,12 @@ final class JavaMinecraftClient implements MinecraftClient
     {
         $stream = new ByteBufferOutputStream(new ByteBuffer());
         $packet->write($stream, $this->protocol);
+
+        try {
+            $this->socket->assertAlive();
+        } catch (Socket\Exception) {
+            throw new SocketConnectionException($this->serverAddress);
+        }
 
         $this->os->writeByte($stream->getBuffer()->size());
         $this->os->writeBytes($stream->getBuffer());

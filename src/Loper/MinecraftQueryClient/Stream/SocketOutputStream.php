@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Stream;
 
-use Loper\MinecraftQueryClient\Service\VarTypeFactory;
+use Loper\MinecraftQueryClient\Var\VarTypeFactory;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 

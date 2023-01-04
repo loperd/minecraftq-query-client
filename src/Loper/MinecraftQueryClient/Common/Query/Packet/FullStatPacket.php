@@ -6,13 +6,13 @@ namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Service\VarUnsafeFilter;
-use Loper\MinecraftQueryClient\Service\VersionParser;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use Loper\MinecraftQueryClient\Structure\ServerVersion;
 use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
+use Loper\MinecraftQueryClient\Version\VersionParser;
 
 final class FullStatPacket implements Packet
 {
@@ -75,7 +75,9 @@ final class FullStatPacket implements Packet
         $players = VarUnsafeFilter::filter(
             $buffer->consume($buffer->size() - 2)
         );
-        $this->players = \explode("&#0;", $players);
+
+        $this->players = '' === $players ? [] : \explode("&#0;", $players);
+
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void
