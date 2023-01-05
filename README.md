@@ -105,3 +105,4 @@ return static function (string $host, int $port) {
 
 - [PHP-Minecraft-Query](https://github.com/xPaw/PHP-Minecraft-Query)
 - [BotFilter by Leymooo](https://github.com/Leymooo/BungeeCord)
+- [Bungeecord](https://github.com/SpigotMC/BungeeCord)
