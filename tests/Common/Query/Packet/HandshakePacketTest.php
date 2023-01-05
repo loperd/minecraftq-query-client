@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Loper\Tests\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Common\Query\Packet\HandshakePacket;
@@ -8,7 +10,7 @@ use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
-use Loper\Tests\Helpers\PacketFactory;
+use Loper\Tests\Helper\PacketFactory;
 
 final class HandshakePacketTest extends TestCase
 {

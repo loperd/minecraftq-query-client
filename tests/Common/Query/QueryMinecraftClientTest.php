@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Loper\Tests\Common\Query;
 
 use DG\BypassFinals;
@@ -9,6 +11,7 @@ use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Exception\PacketSendException;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\Tests\Helper\ReflectionHelper;
 use Loper\Tests\TestPacket;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -27,17 +30,23 @@ class QueryMinecraftClientTest extends TestCase
         return $this->createQueryClient($socket);
     }
 
-    public function createQueryClient(Socket $socket): QueryMinecraftClient
+    public function createQueryClient(
+        Socket          $socket,
+        ProtocolVersion $protocol = ProtocolVersion::JAVA_1_12_2,
+        ServerAddress   $serverAddress = new ServerAddress('1.1.1.1', '1.1.1.1')
+    ): QueryMinecraftClient
     {
         $reflection = new \ReflectionClass(QueryMinecraftClient::class);
         $queryClient = $reflection->newInstanceWithoutConstructor();
-        $socketProperty = $reflection->getProperty('socket');
-        $socketProperty->setValue($queryClient, $socket);
-        $protocolProperty = $reflection->getProperty('protocol');
-        $protocolProperty->setValue($queryClient, ProtocolVersion::JAVA_1_12);
-        $serverAddress = new ServerAddress('1.1.1.1', '1.1.1.1');
-        $serverAddressProperty = $reflection->getProperty('serverAddress');
-        $serverAddressProperty->setValue($queryClient, $serverAddress);
+        ReflectionHelper::setProperties(
+            $reflection,
+            $queryClient,
+            [
+                'socket' => $socket,
+                'protocol' => $protocol,
+                'serverAddress' => $serverAddress
+            ]
+        );
 
         return $queryClient;
     }
@@ -92,7 +101,7 @@ class QueryMinecraftClientTest extends TestCase
 
         $buffer = new ByteBuffer();
         $buffer->appendInt8(1500);
-        $encodeBuffer = base64_encode($buffer);
+        $encodeBuffer = base64_encode((string)$buffer);
 
         $socket = $this->createSocket(socketData: $encodeBuffer);
 

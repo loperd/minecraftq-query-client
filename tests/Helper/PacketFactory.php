@@ -1,6 +1,8 @@
 <?php
 
-namespace Loper\Tests\Helpers;
+declare(strict_types=1);
+
+namespace Loper\Tests\Helper;
 
 use PHPinnacle\Buffer\ByteBuffer;
 
