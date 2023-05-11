@@ -14,6 +14,18 @@ final class VersionProtocolMap
     /** @var array<array<array-key, ProtocolVersion|ServerVersion>> */
     public static array $map = [
         [
+            self::EXTERNAL => ServerVersion::JAVA_1_19_4,
+            self::INTERNAL => ProtocolVersion::JAVA_1_19_4,
+        ],
+        [
+            self::EXTERNAL => ServerVersion::JAVA_1_19_3,
+            self::INTERNAL => ProtocolVersion::JAVA_1_19_3,
+        ],
+        [
+            self::EXTERNAL => ServerVersion::JAVA_1_19_2,
+            self::INTERNAL => ProtocolVersion::JAVA_1_19_2,
+        ],
+        [
             self::EXTERNAL => ServerVersion::JAVA_1_19,
             self::INTERNAL => ProtocolVersion::JAVA_1_19,
         ],

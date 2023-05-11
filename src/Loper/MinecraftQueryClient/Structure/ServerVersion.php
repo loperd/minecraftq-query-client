@@ -6,10 +6,13 @@ namespace Loper\MinecraftQueryClient\Structure;
 
 enum ServerVersion: string
 {
+    case JAVA_1_19_4 = '1.19.4';
+    case JAVA_1_19_3 = '1.19.3';
+    case JAVA_1_19_2 = '1.19.2';
+    case JAVA_1_19 = '1.19';
     case JAVA_1_18_2 = '1.18.2';
     case JAVA_1_18_1 = '1.18.1';
     case JAVA_1_18 = '1.18';
-    case JAVA_1_19 = '1.19';
     case JAVA_1_17_1 = '1.17.1';
     case JAVA_1_17 = '1.17';
     case JAVA_1_16_5 = '1.16.5';

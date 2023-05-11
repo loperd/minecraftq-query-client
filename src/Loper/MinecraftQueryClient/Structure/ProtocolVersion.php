@@ -6,6 +6,9 @@ namespace Loper\MinecraftQueryClient\Structure;
 
 enum ProtocolVersion: int
 {
+    case JAVA_1_19_4 = 762;
+    case JAVA_1_19_3 = 761;
+    case JAVA_1_19_2 = 760;
     case JAVA_1_19 = 759;
     case JAVA_1_18_2 = 758;
     case JAVA_1_18_1 = 757;
