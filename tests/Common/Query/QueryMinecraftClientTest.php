@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Common\Query;
+namespace Loper\MinecraftQueryClient\Tests\Common\Query;
 
 use DG\BypassFinals;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
@@ -11,8 +11,8 @@ use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Exception\PacketSendException;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
-use Loper\Tests\Helper\ReflectionHelper;
-use Loper\Tests\TestPacket;
+use Loper\MinecraftQueryClient\Tests\Helper\ReflectionHelper;
+use Loper\MinecraftQueryClient\Tests\TestPacket;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

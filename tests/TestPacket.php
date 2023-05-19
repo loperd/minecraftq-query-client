@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests;
+namespace Loper\MinecraftQueryClient\Tests;
 
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\InputStream;

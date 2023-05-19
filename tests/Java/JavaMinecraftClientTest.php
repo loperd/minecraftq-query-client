@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Java;
+namespace Loper\MinecraftQueryClient\Tests\Java;
 
 use DG\BypassFinals;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Java\JavaMinecraftClient;
 use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
-use Loper\Tests\TestPacket;
+use Loper\MinecraftQueryClient\Tests\TestPacket;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Socket\Raw\Exception;

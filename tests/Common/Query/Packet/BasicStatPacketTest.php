@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Common\Query\Packet;
+namespace Loper\MinecraftQueryClient\Tests\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
@@ -10,7 +10,7 @@ use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
-use Loper\Tests\Helper\PacketFactory;
+use Loper\MinecraftQueryClient\Tests\Helper\PacketFactory;
 
 final class BasicStatPacketTest extends TestCase
 {

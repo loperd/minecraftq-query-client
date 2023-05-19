@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Version;
+namespace Loper\MinecraftQueryClient\Tests\Version;
 
 use Loper\MinecraftQueryClient\Exception\InvalidServerVersionException;
 use Loper\MinecraftQueryClient\Structure\ServerVersion;

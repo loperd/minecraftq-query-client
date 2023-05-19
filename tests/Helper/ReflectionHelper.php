@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Helper;
+namespace Loper\MinecraftQueryClient\Tests\Helper;
 
 use ReflectionClass;
 

@@ -14,7 +14,7 @@
     "autoload": {
         "psr-4": {
             "Loper\\MinecraftQueryClient\\": "src/Loper/MinecraftQueryClient",
-            "Loper\\Tests\\": "tests"
+            "Loper\\MinecraftQueryClient\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Common\Query\Packet;
+namespace Loper\MinecraftQueryClient\Tests\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;

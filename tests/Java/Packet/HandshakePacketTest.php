@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Java\Packet;
+namespace Loper\MinecraftQueryClient\Tests\Java\Packet;
 
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;

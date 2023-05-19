@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Var;
+namespace Loper\MinecraftQueryClient\Tests\Var;
 
 use Loper\MinecraftQueryClient\Var\VarMotdFilter;
 use PHPUnit\Framework\TestCase;

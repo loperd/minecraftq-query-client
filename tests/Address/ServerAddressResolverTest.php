@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Loper\Tests\Address;
+namespace Loper\MinecraftQueryClient\Tests\Address;
 
 use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
 use Loper\MinecraftQueryClient\Exception\ServerAddressResolveException;
