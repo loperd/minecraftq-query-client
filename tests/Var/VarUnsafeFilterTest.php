@@ -7,7 +7,7 @@ namespace Loper\Tests\Var;
 use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use PHPUnit\Framework\TestCase;
 
-final class VaraUnsafeFilterTest extends TestCase
+final class VarUnsafeFilterTest extends TestCase
 {
     public function test_correct_filter_cyrillic(): void
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
 use Loper\MinecraftQueryClient\Packet;
+use Loper\MinecraftQueryClient\Var\VarMotdFilter;
 use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
@@ -24,6 +25,7 @@ final class BasicStatPacket implements Packet
     public int $maxPlayers;
     public int $port;
     public string $host;
+    public string $rawMotd;
 
     public function getPacketId(): int
     {
@@ -35,8 +37,9 @@ final class BasicStatPacket implements Packet
         // Remove Type & Session ID
         $is->readBytes(5);
 
-        $rawMotd = $is->readString()->bytes();
-        $this->motd = VarUnsafeFilter::filter($rawMotd);
+        $rawMotd = VarUnsafeFilter::filter($is->readString()->bytes());
+        $this->motd = VarMotdFilter::filter($rawMotd);
+        $this->rawMotd = $rawMotd;
         // Remove Game Type
         $is->readString();
 

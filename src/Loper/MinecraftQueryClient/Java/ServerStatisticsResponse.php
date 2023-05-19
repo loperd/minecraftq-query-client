@@ -23,6 +23,7 @@ final class ServerStatisticsResponse
     /** @var string[] */
     public array $players = [];
     public ?string $motd = null;
+    public ?string $rawMotd = null;
     public ?string $serverSoftware = null;
 
     public ProtocolVersion $protocol;

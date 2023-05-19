@@ -35,7 +35,7 @@ final class VersionParserTest extends TestCase
     public function versionsKitProvider(): array
     {
         return [
-            ['1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x, 1.18.x, 1.19.x', ServerVersion::JAVA_1_19]
+            ['1.8.x, 1.9.x, 1.10.x, 1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x, 1.18.x, 1.19.x', ServerVersion::JAVA_1_19_4]
         ];
     }
 
@@ -50,7 +50,7 @@ final class VersionParserTest extends TestCase
             ['1.16.x', ServerVersion::JAVA_1_16_5],
             ['1.17.x', ServerVersion::JAVA_1_17_1],
             ['1.18.x', ServerVersion::JAVA_1_18_2],
-            ['1.19.x', ServerVersion::JAVA_1_19],
+            ['1.19.x', ServerVersion::JAVA_1_19_4],
             [ServerVersion::JAVA_1_7_2->value, ServerVersion::JAVA_1_7_2],
             [ServerVersion::JAVA_1_12_2->value, ServerVersion::JAVA_1_12_2],
             [ServerVersion::JAVA_1_13_1->value, ServerVersion::JAVA_1_13_1],
@@ -59,7 +59,7 @@ final class VersionParserTest extends TestCase
             [ServerVersion::JAVA_1_16_3->value, ServerVersion::JAVA_1_16_3],
             [ServerVersion::JAVA_1_17_1->value, ServerVersion::JAVA_1_17_1],
             [ServerVersion::JAVA_1_18_1->value, ServerVersion::JAVA_1_18_1],
-            [ServerVersion::JAVA_1_19->value, ServerVersion::JAVA_1_19]
+            [ServerVersion::JAVA_1_19_4->value, ServerVersion::JAVA_1_19_4]
         ];
     }
 
@@ -108,7 +108,7 @@ final class VersionParserTest extends TestCase
     {
         $version = VersionParser::parse('1.19.x');
 
-        self::assertEquals(ServerVersion::JAVA_1_19, $version);
+        self::assertEquals(ServerVersion::JAVA_1_19_4, $version);
     }
 
     public function test_empty_string_data(): void

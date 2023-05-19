@@ -42,6 +42,7 @@ final class QueryServerStatisticsProvider implements ServerStatisticsProvider
         $response->host = $fullStatPacket->host;
         $response->players = $fullStatPacket->players;
         $response->motd = $basicStatPacket->motd;
+        $response->rawMotd = $basicStatPacket->rawMotd;
 
         return $response;
     }

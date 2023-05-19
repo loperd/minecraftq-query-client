@@ -7,7 +7,8 @@
         "clue/socket-raw": "^1.6",
         "ext-sockets": "*",
         "composer/semver": "^3.3",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-intl": "*"
     },
     "license": "MIT",
     "autoload": {

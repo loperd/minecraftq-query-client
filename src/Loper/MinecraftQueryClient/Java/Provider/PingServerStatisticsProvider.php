@@ -35,6 +35,7 @@ final class PingServerStatisticsProvider implements ServerStatisticsProvider
         $response->maxPlayers = $packet->maxPlayers;
         $response->numPlayers = $packet->onlinePlayers;
         $response->motd = $packet->motd;
+        $response->rawMotd = $packet->rawMotd;
         $response->players = $packet->players;
 
         return $response;

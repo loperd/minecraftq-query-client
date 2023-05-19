@@ -6,6 +6,7 @@ namespace Loper\MinecraftQueryClient\Java\Packet;
 
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
+use Loper\MinecraftQueryClient\Var\VarMotdFilter;
 use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
@@ -92,7 +93,7 @@ final class HandshakePacket implements Packet
             $this->players = $this->getPlayers($data['players']['sample']);
         }
 
-        $rawMotd = (string) \json_encode($data['description'], flags: JSON_ERROR_UTF8);
+        $rawMotd = (string)\json_encode($data['description'], flags: JSON_THROW_ON_ERROR | JSON_ERROR_UTF8);
 
         $this->rawMotd = VarUnsafeFilter::filter($rawMotd);
         $this->motd = $this->formatMotd($data['description']);
@@ -144,7 +145,7 @@ final class HandshakePacket implements Packet
      */
     private function formatMotd(array $description): string
     {
-        $process = static fn (string $input) => VarUnsafeFilter::filterText($input);
+        $process = static fn (string $input) => VarMotdFilter::filter($input);
 
         $text = $process($description['text']);
         foreach ($description['extra'] ?? [] as $item) {
