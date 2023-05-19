@@ -12,7 +12,8 @@ use Socket\Raw as Socket;
 
 final class QueryServerStatisticsProvider implements ServerStatisticsProvider
 {
-    public function __construct(private readonly QueryMinecraftClient $client) {
+    public function __construct(private readonly QueryMinecraftClient $client)
+    {
     }
 
     public function getStatistics(): ServerStatisticsResponse

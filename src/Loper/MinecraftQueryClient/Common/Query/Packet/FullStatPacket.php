@@ -77,7 +77,6 @@ final class FullStatPacket implements Packet
         );
 
         $this->players = '' === $players ? [] : \explode("&#0;", $players);
-
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void

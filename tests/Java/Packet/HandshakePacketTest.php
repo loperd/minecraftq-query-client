@@ -37,7 +37,7 @@ final class HandshakePacketTest extends TestCase
     {
         return [
             [
-                base64_decode('iAIAhQJ7ImRlc2NyaXB0aW9uIjp7ImV4dHJhIjpbeyJib2xkIjp0cnVlLCJjb2xvciI6ImJsdWUiLCJ0ZXh0IjoiVUEifSx7ImJvbGQiOnRydWUsImNvbG9yIjoieWVsbG93IiwidGV4dCI6IlJBRlQifSx7ImNvbG9yIjoiZ3JheSIsInRleHQiOiIgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEifV0sInRleHQiOiIifSwicGxheWVycyI6eyJtYXgiOjEwLCJvbmxpbmUiOjB9LCJ2ZXJzaW9uIjp7Im5hbWUiOiJQYXBlciAxLjE4LjIiLCJwcm90b2NvbCI6NzU4fX0='),
+                base64_decode('iAIAhQJ7ImRlc2NyaXB0aW9uIjp7ImV4dHJhIjpbeyJib2xkIjp0cnVlLCJjb2xvciI6ImJsdWUiLCJ0ZXh0IjoiVUEifSx7ImJvbGQiOnRydWUsImNvbG9yIjoieWVsbG93IiwidGV4dCI6IlJBRlQifSx7ImNvbG9yIjoiZ3JheSIsInRleHQiOiIgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEifV0sInRleHQiOiIifSwicGxheWVycyI6eyJtYXgiOjEwLCJvbmxpbmUiOjB9LCJ2ZXJzaW9uIjp7Im5hbWUiOiJQYXBlciAxLjE4LjIiLCJwcm90b2NvbCI6NzU4fX0=', true),
                 [
                     "serverProtocol" => 758,
                     "onlinePlayers" => 0,

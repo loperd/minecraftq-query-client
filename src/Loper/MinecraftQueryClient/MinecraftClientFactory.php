@@ -15,7 +15,8 @@ final class MinecraftClientFactory
         private readonly ServerAddress $serverAddress,
         private readonly ProtocolVersion $protocol,
         private readonly float $timeout
-    ) {}
+    ) {
+    }
 
     public function createQueryClient(): QueryMinecraftClient
     {

@@ -35,7 +35,7 @@ final class BasicStatPacketTest extends TestCase
     public function packetDataProvider(): array
     {
         return [
-            [base64_decode('AAAACwanOadsVUGnZadsUkFGVKc3IC0gVWtyYWluaWFuIE1pbmVjcmFmdCBTZXJ2ZXIhAFNNUAB3b3JsZAAwADEwAN1jMTI3LjAuMS4xAA=='), [
+            [base64_decode('AAAACwanOadsVUGnZadsUkFGVKc3IC0gVWtyYWluaWFuIE1pbmVjcmFmdCBTZXJ2ZXIhAFNNUAB3b3JsZAAwADEwAN1jMTI3LjAuMS4xAA==', true), [
                 'motd' => '9lUAelRAFT7 - Ukrainian Minecraft Server!',
                 'map' => 'world',
                 'numPlayers' => 0,
@@ -106,5 +106,3 @@ final class BasicStatPacketTest extends TestCase
         ];
     }
 }
-
-

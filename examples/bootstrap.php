@@ -20,7 +20,9 @@ $closure = require $_SERVER['SCRIPT_FILENAME'];
 if (!\is_callable($closure)) {
     throw new TypeError(\sprintf(
         'Invalid return value: callable object expected, "%s" returned from "%s".',
-        \get_debug_type($closure), $_SERVER['SCRIPT_FILENAME']));
+        \get_debug_type($closure),
+        $_SERVER['SCRIPT_FILENAME']
+    ));
 }
 
 $closure($host, $port);

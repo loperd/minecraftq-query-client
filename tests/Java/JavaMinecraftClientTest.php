@@ -67,4 +67,3 @@ class JavaMinecraftClientTest extends TestCase
         $javaClient->sendPacket($packet);
     }
 }
-

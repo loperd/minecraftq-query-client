@@ -34,7 +34,6 @@ final class ServerAddressTest extends TestCase
         $this->expectExceptionMessage('Cannot resolve address.');
 
         new ServerAddress($host, $host);
-
     }
 
     public function serverBadAddressProvider(): array

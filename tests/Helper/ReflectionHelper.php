@@ -8,7 +8,6 @@ use ReflectionClass;
 
 class ReflectionHelper
 {
-
     /**
      * @throws \ReflectionException
      */

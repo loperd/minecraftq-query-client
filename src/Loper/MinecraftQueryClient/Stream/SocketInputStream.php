@@ -118,6 +118,12 @@ final class SocketInputStream implements InputStream
 
     public function readLittleEndianUnsignedShort(): int
     {
-        return \unpack("v", $this->readBytes(2)->consume(2))[1];
+        $result = \unpack("v", $this->readBytes(2)->consume(2));
+
+        if (false === $result) {
+            throw new \RuntimeException('Bad little endian unsigned short.');
+        }
+
+        return $result[1];
     }
 }

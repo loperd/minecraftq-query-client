@@ -34,8 +34,7 @@ class QueryMinecraftClientTest extends TestCase
         Socket          $socket,
         ProtocolVersion $protocol = ProtocolVersion::JAVA_1_12_2,
         ServerAddress   $serverAddress = new ServerAddress('1.1.1.1', '1.1.1.1')
-    ): QueryMinecraftClient
-    {
+    ): QueryMinecraftClient {
         $reflection = new \ReflectionClass(QueryMinecraftClient::class);
         $queryClient = $reflection->newInstanceWithoutConstructor();
         ReflectionHelper::setProperties(
@@ -57,7 +56,7 @@ class QueryMinecraftClientTest extends TestCase
     private function createSocket(string $socketData = 'CQAABwIxMjMyODkzNwA=', int $sendResult = 7): Socket&MockObject
     {
         $mockSocket = $this->createMock(Socket::class);
-        $mockSocket->method('read')->withAnyParameters()->willReturn(base64_decode($socketData));
+        $mockSocket->method('read')->withAnyParameters()->willReturn(base64_decode($socketData, true));
         $mockSocket->method('send')->withAnyParameters()->willReturn($sendResult);
 
         return $mockSocket;
@@ -70,7 +69,6 @@ class QueryMinecraftClientTest extends TestCase
 
     public function test_query_send_packet(): void
     {
-
         $socket = $this->createSocket(socketData: 'AA==');
         $socket->expects($this->atLeastOnce())->method('read')->withAnyParameters();
 
@@ -112,5 +110,3 @@ class QueryMinecraftClientTest extends TestCase
         $queryClient->sendPacket($packet);
     }
 }
-
-

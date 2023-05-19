@@ -24,7 +24,6 @@ final class VarTypeReaderTest extends TestCase
         $out = VarTypeReader::readVarInt($is, $varInt);
 
         self::assertEquals($out, $varInt);
-
     }
 
     /**
@@ -39,7 +38,6 @@ final class VarTypeReaderTest extends TestCase
         $out = VarTypeReader::readVarShort($is);
 
         self::assertEquals($out, $varInt);
-
     }
 
     public function intVarProvider(): array

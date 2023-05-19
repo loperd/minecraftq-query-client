@@ -19,10 +19,10 @@
     },
     "scripts": {
         "fix": [
-            "php tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix"
+            "composer install -d tools/php-cs-fixer/ 2> /dev/null && php tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix"
         ],
         "analyze": [
-            "php tools/phpstan/vendor/phpstan/phpstan/phpstan.phar analyze --level 9 src/"
+            "composer install -d tools/phpstan/ 2> /dev/null && php tools/phpstan/vendor/phpstan/phpstan/phpstan.phar analyze -c tools/phpstan/phpstan.neon --level 9 src/"
         ]
     },
     "authors": [

@@ -14,11 +14,11 @@ final class VarMotdFilter
             return $motd;
         }
 
-        $text = preg_replace('/(&|§|\\\u00A7)./u', '', $motd);
-        $text = transliterator_transliterate('Hex-Any/Java', $text);
-        $text = preg_replace($regex, '', $text);
-        $text = preg_replace('/\s{2,}/', ' ', $text);
+        $text = (string) preg_replace('/(&|§|\\\u00A7)./u', '', $motd);
+        $text = (string) transliterator_transliterate('Hex-Any/Java', $text);
+        $text = (string) preg_replace($regex, '', $text);
+        $text = (string) preg_replace('/\s{2,}/', ' ', $text);
 
-        return preg_replace('/^\s+([!?\.])/', '$1', $text);
+        return (string) preg_replace('/^\s+([!?\.])/', '$1', $text);
     }
 }

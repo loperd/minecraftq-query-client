@@ -41,7 +41,8 @@ final class JavaMinecraftClient implements MinecraftClient
     {
         return PacketFactory::createHandshakePacket(
             $this->serverAddress,
-            $this->protocol);
+            $this->protocol
+        );
     }
 
     private function createSocket(ServerAddress $serverAddress, float $timeout): Socket\Socket

@@ -15,7 +15,8 @@ return static function (string $host, int $port) {
     $minecraftClientFactory = new MinecraftClientFactory(
         serverAddress: $address,
         protocol: ProtocolVersion::JAVA_1_7_2,
-        timeout: 1.5);
+        timeout: 1.5
+    );
     $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
 
     $provider = $javaMinecraftProviderFactory->createCommonStatisticsProvider();

@@ -56,7 +56,7 @@ final class HandshakePacket implements Packet
             $this->rawData = $buffer->bytes();
 
             $order = \mb_detect_order();
-            $encoding = \mb_detect_encoding($this->rawData, \is_array($order) ? $order : null, true);
+            $encoding = (string) \mb_detect_encoding($this->rawData, \is_array($order) ? $order : null, true);
             if ('UTF-8' !== $encoding) {
                 $this->rawData = \mb_convert_encoding($this->rawData, $encoding, 'UTF-8');
             }

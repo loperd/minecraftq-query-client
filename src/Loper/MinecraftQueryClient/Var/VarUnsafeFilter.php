@@ -21,12 +21,12 @@ final class VarUnsafeFilter
 
     public static function filterText(string $input): string
     {
-        $result = \filter_var($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+        $result = filter_var($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
 
         if (false === $result) {
             throw new FilterVariableException($input);
         }
 
-        return \preg_replace('/(\s)+/', '$1', \strip_tags($result));
+        return (string) preg_replace('/(\s)+/', '$1', \strip_tags($result));
     }
 }

@@ -23,7 +23,7 @@ final class PacketFactory
         $buffer->append("\x0");
         $buffer->append($maxPlayers);
         $buffer->append("\x0");
-        $buffer->append(base64_decode("GQA="));
+        $buffer->append(base64_decode("GQA=", true));
         $buffer->append($host);
         $buffer->append("\x0");
 

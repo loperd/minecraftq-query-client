@@ -174,5 +174,4 @@ final class VersionParserTest extends TestCase
             ['1.19', ServerVersion::JAVA_1_19->value],
         ];
     }
-
 }
