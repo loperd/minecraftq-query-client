@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java\Packet;
 
+use Loper\MinecraftQueryClient\Exception\InvalidPortException;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Var\VarMotdFilter;
@@ -101,6 +102,10 @@ final class HandshakePacket implements Packet
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void
     {
+        if ($this->port < 0) {
+            throw InvalidPortException::shouldBeUnsigned($this->port);
+        }
+
         $os->writeByte(0x00);
         $os->writeVarInt($protocol->value);
         $os->writeVarString($this->host);

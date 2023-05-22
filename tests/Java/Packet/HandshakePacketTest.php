@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Tests\Java\Packet;
 
+use Loper\MinecraftQueryClient\Exception\InvalidPortException;
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
@@ -76,10 +77,37 @@ final class HandshakePacketTest extends TestCase
         self::assertEquals($state, $result->readVarInt());
     }
 
+    /**
+     * @dataProvider packetFailedWriteDataProvider
+     */
+    public function test_java_invalid_handshake_packet(string $host, int $port, string $exceptionClass, ?string $exceptionMessage = null): void
+    {
+        $this->expectException($exceptionClass);
+
+        if (null !== $exceptionMessage) {
+            $this->expectExceptionMessage($exceptionMessage);
+        }
+
+        $packet = new HandshakePacket();
+        $packet->host = $host;
+        $packet->port = $port;
+        $protocol = ProtocolVersion::JAVA_1_12_2;
+
+        $os = new ByteBufferOutputStream(new ByteBuffer());
+        $packet->write($os, $protocol);
+    }
+
     public function packetWriteDataProvider(): array
     {
         return [
             ['51.233.21.21', 25565, 1],
+        ];
+    }
+
+    public function packetFailedWriteDataProvider(): array
+    {
+        return [
+            ['51.233.21.21', -1, InvalidPortException::class, InvalidPortException::shouldBeUnsigned(-1)->getMessage()],
         ];
     }
 }
