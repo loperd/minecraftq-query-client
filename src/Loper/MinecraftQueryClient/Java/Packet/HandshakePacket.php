@@ -145,14 +145,15 @@ final class HandshakePacket implements Packet
      *         color: string,
      *         text: string
      *      }>,
-     *     text: string
+     *     text?: string,
+     *     translate?: string
      * } $description
      */
     private function formatMotd(array $description): string
     {
         $process = static fn (string $input) => VarMotdFilter::filter($input);
 
-        $text = $process($description['text']);
+        $text = $process($description['text'] ?? $description['translate']);
         foreach ($description['extra'] ?? [] as $item) {
             $text .= $process($item['text']);
         }
