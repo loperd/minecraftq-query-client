@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Tests\Common\Query\Packet;
 
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
 use Loper\MinecraftQueryClient\Tests\Helper\PacketFactory;
@@ -22,7 +22,7 @@ final class BasicStatPacketTest extends TestCase
         $buffer = new ByteBuffer($bytes);
         $is = new ByteBufferInputStream($buffer);
         $packet = new BasicStatPacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         self::assertEquals($data['motd'], $packet->motd);
         self::assertEquals($data['map'], $packet->map);
@@ -32,7 +32,7 @@ final class BasicStatPacketTest extends TestCase
         self::assertEquals($data['host'], $packet->host);
     }
 
-    public function packetDataProvider(): array
+    public static function packetDataProvider(): array
     {
         return [
             [base64_decode('AAAACwanOadsVUGnZadsUkFGVKc3IC0gVWtyYWluaWFuIE1pbmVjcmFmdCBTZXJ2ZXIhAFNNUAB3b3JsZAAwADEwAN1jMTI3LjAuMS4xAA==', true), [
@@ -56,7 +56,7 @@ final class BasicStatPacketTest extends TestCase
         $is = new ByteBufferInputStream($buffer);
 
         $packet = new BasicStatPacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         self::assertEquals($data['motd'], $packet->motd);
         self::assertEquals($data['map'], $packet->map);
@@ -65,7 +65,7 @@ final class BasicStatPacketTest extends TestCase
         self::assertEquals($data['host'], $packet->host);
     }
 
-    public function packetBadDataProvider(): array
+    public static function packetBadDataProvider(): array
     {
         return [
             [
@@ -91,7 +91,7 @@ final class BasicStatPacketTest extends TestCase
         $packet->challengeToken = $token;
 
         $os = new ByteBufferOutputStream(new ByteBuffer());
-        $packet->write($os, ProtocolVersion::JAVA_1_12_2);
+        $packet->write($os, JavaProtocolVersion::JAVA_1_12_2);
 
         $outputBuffer = $os->getBuffer();
         $result = new ByteBufferInputStream($outputBuffer);
@@ -99,7 +99,7 @@ final class BasicStatPacketTest extends TestCase
         self::assertEquals($token, $result->readInt());
     }
 
-    public function packetWriteDataProvider(): array
+    public static function packetWriteDataProvider(): array
     {
         return [
             [123123123, 321321321],

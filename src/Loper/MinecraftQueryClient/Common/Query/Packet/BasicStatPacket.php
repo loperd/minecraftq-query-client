@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
+use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Var\VarMotdFilter;
-use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\MinecraftQueryClient\Var\VarMotdFilter;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 
 final class BasicStatPacket implements Packet
 {

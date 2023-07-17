@@ -25,4 +25,4 @@ if (!\is_callable($closure)) {
     ));
 }
 
-$closure($host, $port);
+$closure($host, (int) $port);

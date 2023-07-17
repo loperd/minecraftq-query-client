@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java\Provider;
 
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
 use Loper\MinecraftQueryClient\Exception\ClientNotFoundException;
-use Loper\MinecraftQueryClient\Java\ServerStatisticsResponse;
+use Loper\MinecraftQueryClient\Response\ServerStatisticsResponse;
 use Loper\MinecraftQueryClient\Java\JavaMinecraftClient;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 final class CommonServerStatisticsProvider implements ServerStatisticsProvider
 {
@@ -39,7 +39,7 @@ final class CommonServerStatisticsProvider implements ServerStatisticsProvider
     {
         $response = new ServerStatisticsResponse();
         $response->version = $pingResponse?->version ?? $queryResponse?->version;
-        $response->protocol = $pingResponse?->protocol ?? $queryResponse?->protocol ?? ProtocolVersion::JAVA_1_19_4;
+        $response->protocol = $pingResponse?->protocol ?? $queryResponse?->protocol ?? JavaProtocolVersion::JAVA_1_19_4;
         $response->plugins = $queryResponse?->plugins ?? $pingResponse?->plugins ?? [];
         $response->map = $queryResponse?->map ?? $pingResponse?->map;
         $response->numPlayers = $pingResponse?->numPlayers ?? $queryResponse?->numPlayers ?? 0;

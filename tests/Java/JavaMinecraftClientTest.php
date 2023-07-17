@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Tests\Java;
 
 use DG\BypassFinals;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
+use Loper\MinecraftQueryClient\Address\ServerAddressType;
 use Loper\MinecraftQueryClient\Java\JavaMinecraftClient;
 use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use Loper\MinecraftQueryClient\Tests\TestPacket;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -28,13 +29,18 @@ class JavaMinecraftClientTest extends TestCase
         $mockSocketFactory = $this->createMock(Factory::class);
         $mockSocketFactory->method('createClient')->withAnyParameters()->willReturn($socket);
 
-        $serverAddress = new ServerAddress('1.1.1.1', '1.1.1.1');
-        return new JavaMinecraftClient($serverAddress, ProtocolVersion::JAVA_1_12_2, 1.5, $mockSocketFactory);
+        $serverAddress = new ServerAddress(ServerAddressType::Dedicated, '1.1.1.1', '1.1.1.1');
+        return new JavaMinecraftClient($serverAddress, JavaProtocolVersion::JAVA_1_12_2, 1.5, $mockSocketFactory);
     }
 
     private function createSocket(): Socket&MockObject
     {
-        return $this->createMock(Socket::class);
+        $socket = $this->createMock(Socket::class);
+        $socket->expects($this->atLeastOnce())
+            ->method('getType')
+            ->willReturn(SOCK_STREAM);
+
+        return $socket;
     }
 
     protected function setUp(): void

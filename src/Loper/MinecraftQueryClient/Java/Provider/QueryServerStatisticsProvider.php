@@ -7,7 +7,7 @@ namespace Loper\MinecraftQueryClient\Java\Provider;
 use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
 use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
 use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
-use Loper\MinecraftQueryClient\Java\ServerStatisticsResponse;
+use Loper\MinecraftQueryClient\Response\ServerStatisticsResponse;
 use Socket\Raw as Socket;
 
 final class QueryServerStatisticsProvider implements ServerStatisticsProvider

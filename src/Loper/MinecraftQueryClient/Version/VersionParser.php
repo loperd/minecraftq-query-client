@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Version;
 
 use Composer\Semver\Semver;
+use Loper\Minecraft\Protocol\Struct\JavaServerVersion;
 use Loper\MinecraftQueryClient\Exception\InvalidServerVersionException;
-use Loper\MinecraftQueryClient\Structure\ServerVersion;
 
 final class VersionParser
 {
-    public static function parse(string $version): ServerVersion
+    public static function parse(string $version): JavaServerVersion
     {
         if ('' === $version) {
             throw InvalidServerVersionException::emptyVersion();
@@ -32,12 +32,12 @@ final class VersionParser
         throw InvalidServerVersionException::invalidFormat($version);
     }
 
-    private static function getBiggest(string $version): ServerVersion
+    private static function getBiggest(string $version): JavaServerVersion
     {
         $subVersions = [];
-        foreach (ServerVersion::cases() as $case) {
+        foreach (JavaServerVersion::cases() as $case) {
             if (\str_starts_with($case->value, $version)) {
-                $subVersions[] = $case->value;
+                $subVersions[] = self::processVersion($case->value);
             }
         }
 
@@ -46,21 +46,21 @@ final class VersionParser
         }
 
         if (1 === \count($subVersions)) {
-            return ServerVersion::from($subVersions[0]);
+            return JavaServerVersion::from($subVersions[0]);
         }
 
-        $subVersions = Semver::rsort($subVersions);
-        return ServerVersion::from($subVersions[0]);
+        $subVersions = Semver::rsort(array_unique($subVersions));
+        return JavaServerVersion::from($subVersions[0]);
     }
 
-    public static function getServerVersion(string $version): ServerVersion
+    public static function getServerVersion(string $version): JavaServerVersion
     {
         if (\str_contains($version, '.x') && 1 === \preg_match('/^\d\.\d{1,2}\.x$/', $version)) {
             return self::getBiggest(\mb_substr($version, 0, -2));
         }
 
         if (1 === \preg_match('/^\d\.\d{1,2}(\.\d)?$/', $version)) {
-            return ServerVersion::from($version);
+            return JavaServerVersion::from($version);
         }
 
         throw InvalidServerVersionException::unableToParse($version);
@@ -68,8 +68,14 @@ final class VersionParser
 
     public static function processVersion(string $version): string
     {
-        return 1 !== \preg_match('/^\d\.\d{1,2}\.x$/', $version)
-            ? $version
-            : \mb_substr($version, 0, -2);
+        if (1 === \preg_match('/^\d\.\d{1,2}\.x$/', $version)) {
+            return \mb_substr($version, 0, -2);
+        }
+
+        if (1 === \preg_match('/^(\d+(?:\.\d{1,2})+)(?:-[a-z]+)+-?(?:\d+)?$/', $version, $matches)) {
+            return $matches[1];
+        }
+
+        return $version;
     }
 }

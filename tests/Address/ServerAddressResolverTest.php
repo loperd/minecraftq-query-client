@@ -21,7 +21,7 @@ final class ServerAddressResolverTest extends TestCase
         ServerAddressResolver::resolve($host);
     }
 
-    public function serverBadAddressProvider(): array
+    public static function serverBadAddressProvider(): array
     {
         return [
             ['example com'],

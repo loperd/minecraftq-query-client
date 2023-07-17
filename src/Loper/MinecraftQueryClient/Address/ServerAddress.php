@@ -12,16 +12,22 @@ final class ServerAddress
     public const IP_REGEX = '/^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$/';
     public const DEFAULT_SERVER_PORT = 25565;
 
-    public int $port;
+    public readonly int $port;
+    public readonly string $address;
 
     public function __construct(
-        public string $host,
-        public string $address,
-        ?int $port = null
+        public readonly ServerAddressType $type,
+        public readonly string $host,
+        string $address,
+        ?int $port = null,
     ) {
-        if (1 !== preg_match(self::IP_REGEX, $this->address)) {
-            throw new ServerAddressResolveException($this->address);
+        if (1 !== preg_match(self::IP_REGEX, $address)) {
+            throw new ServerAddressResolveException($address);
         }
+
+        $this->address = $type === ServerAddressType::Shared
+            ? $host
+            : $address;
         $this->port = $port ?? self::DEFAULT_SERVER_PORT;
     }
 

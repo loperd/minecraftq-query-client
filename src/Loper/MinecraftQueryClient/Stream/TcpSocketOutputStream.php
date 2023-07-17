@@ -8,17 +8,25 @@ use Loper\MinecraftQueryClient\Var\VarTypeFactory;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
-final class SocketOutputStream implements OutputStream
+final class TcpSocketOutputStream implements OutputStream
 {
     private Socket\Socket $socket;
 
     public function __construct(Socket\Socket $socket)
     {
+        if ($socket->getType() !== SOCK_STREAM) {
+            throw new \InvalidArgumentException('Socket should be of SOCK_STREAM type.');
+        }
+
         $this->socket = $socket;
     }
 
-    public function writeBytes(ByteBuffer|string $bytes): void
+    public function writeBytes(array|ByteBuffer|string $bytes): void
     {
+        if (is_array($bytes)) {
+            $bytes = ArrayByteBufferConverter::convert($bytes);
+        }
+
         $buffer = (string) $bytes;
 
         if ('' === $buffer) {

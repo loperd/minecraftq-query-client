@@ -17,7 +17,7 @@ final class VarMotdFilterTest extends TestCase
         self::assertEquals($expectedMotd, VarMotdFilter::filter($inputMotd));
     }
 
-    public function motdDataProvider(): array
+    public static function motdDataProvider(): array
     {
         return [
             [

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Java;
+namespace Loper\MinecraftQueryClient\Response;
 
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
-use Loper\MinecraftQueryClient\Structure\ServerVersion;
+use Loper\Minecraft\Protocol\ProtocolVersion;
+use Loper\Minecraft\Protocol\ServerVersion;
 
 final class ServerStatisticsResponse
 {
