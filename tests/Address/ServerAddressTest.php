@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Tests\Address;
 
 use Loper\MinecraftQueryClient\Address\ServerAddress;
+use Loper\MinecraftQueryClient\Address\ServerAddressType;
 use Loper\MinecraftQueryClient\Exception\ServerAddressResolveException;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,7 @@ final class ServerAddressTest extends TestCase
      */
     public function test_server_address_formatter($host, $address, $port, $formattedAddress): void
     {
-        $serverAddress = new ServerAddress($host, $address, $port);
+        $serverAddress = new ServerAddress(ServerAddressType::Dedicated, $host, $address, $port);
 
 
         self::assertEquals($formattedAddress, $serverAddress->format());
@@ -33,10 +34,10 @@ final class ServerAddressTest extends TestCase
         $this->expectException(ServerAddressResolveException::class);
         $this->expectExceptionMessage('Cannot resolve address.');
 
-        new ServerAddress($host, $host);
+        new ServerAddress(ServerAddressType::Dedicated, $host, $host);
     }
 
-    public function serverBadAddressProvider(): array
+    public static function serverBadAddressProvider(): array
     {
         return [
             ['example com'],
@@ -48,18 +49,16 @@ final class ServerAddressTest extends TestCase
         ];
     }
     /**
-     *
      * @dataProvider serverAddressProvider
-     *
      */
     public function test_get_server_address_as_string($host, $address, $port, $formattedAddress): void
     {
-        $serverAddress = new ServerAddress($host, $address, $port);
+        $serverAddress = new ServerAddress(ServerAddressType::Dedicated, $host, $address, $port);
 
         self::assertEquals($formattedAddress, (string)$serverAddress);
     }
 
-    public function serverAddressProvider(): array
+    public static function serverAddressProvider(): array
     {
         return [
           ['example.com', '51.91.214.17', null, '51.91.214.17:25565'],

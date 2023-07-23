@@ -7,7 +7,7 @@ namespace Loper\MinecraftQueryClient\Tests\Common\Query\Packet;
 use Loper\MinecraftQueryClient\Common\Query\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
 use Loper\MinecraftQueryClient\Tests\Helper\PacketFactory;
@@ -22,14 +22,14 @@ final class HandshakePacketTest extends TestCase
         $buffer = new ByteBuffer($bytes);
         $is = new ByteBufferInputStream($buffer);
         $packet = new HandshakePacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         self::assertEquals($data['sessionId'], $packet->sessionId);
         self::assertEquals($data['challengeToken'], $packet->challengeToken->token);
         self::assertEquals($data['sessionId'], $packet->challengeToken->sessionId);
     }
 
-    public function packetDataProvider(): array
+    public static function packetDataProvider(): array
     {
         return [
             [base64_decode('CQAABwwxMDA1MjY5MwA=', true), [
@@ -48,14 +48,14 @@ final class HandshakePacketTest extends TestCase
         $is = new ByteBufferInputStream($buffer);
 
         $packet = new HandshakePacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         self::assertEquals($sessionId, $packet->sessionId);
         self::assertEquals((int)$token, $packet->challengeToken->token);
         self::assertEquals($sessionId, $packet->challengeToken->sessionId);
     }
 
-    public function packetBadDataProvider(): array
+    public static function packetBadDataProvider(): array
     {
         return [
             [123123123, '321321321'],
@@ -70,17 +70,17 @@ final class HandshakePacketTest extends TestCase
         $buffer = new ByteBuffer(base64_decode('CQAABwwxMDA1MjY5MwA=', true));
         $is = new ByteBufferInputStream($buffer);
         $packet = new HandshakePacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         $os = new ByteBufferOutputStream(new ByteBuffer());
-        $packet->write($os, ProtocolVersion::JAVA_1_12_2);
+        $packet->write($os, JavaProtocolVersion::JAVA_1_12_2);
 
         $outputBuffer = $os->getBuffer();
         $result = new ByteBufferInputStream($outputBuffer);
         self::assertEquals($sessionId, $result->readInt());
     }
 
-    public function packetWriteDataProvider(): array
+    public static function packetWriteDataProvider(): array
     {
         return [
             [150994951],

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
+use Loper\Minecraft\Protocol\Map\JavaVersionProtocolMap;
+use Loper\Minecraft\Protocol\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaServerVersion;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
-use Loper\MinecraftQueryClient\Structure\ServerVersion;
-use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
 use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Version\VersionParser;
 
@@ -23,7 +24,7 @@ final class FullStatPacket implements Packet
     public int $challengeToken;
 
     // Response Data
-    public ServerVersion $version;
+    public JavaServerVersion $version;
     public string $map;
     public int $numPlayers;
     public int $maxPlayers;
@@ -36,7 +37,7 @@ final class FullStatPacket implements Packet
     /** @var string[] */
     public array $plugins = [];
 
-    public ProtocolVersion $serverProtocol;
+    public JavaProtocolVersion $serverProtocol;
 
     public function getPacketId(): int
     {
@@ -59,7 +60,7 @@ final class FullStatPacket implements Packet
         $plugins = $this->getPlugins($data[9]);
 
         $version = VersionParser::parse(VarUnsafeFilter::filter($data[7]));
-        $this->serverProtocol = VersionProtocolMap::getByVersion($version);
+        $this->serverProtocol = JavaVersionProtocolMap::findByVersion($version);
         $this->version = $version;
         $this->plugins = $plugins;
         $this->map = VarUnsafeFilter::filter($data[11]);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient;
 
+use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 interface Packet
 {

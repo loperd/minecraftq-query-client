@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Common\Query\Packet;
 
+use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\MinecraftQueryClient\Common\Query\ChallengeToken;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 final class HandshakePacket implements Packet
 {

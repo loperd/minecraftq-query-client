@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java\Provider;
 
-use Loper\MinecraftQueryClient\Java\ServerStatisticsResponse;
+use Loper\MinecraftQueryClient\Response\ServerStatisticsResponse;
 
 interface ServerStatisticsProvider
 {

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java\Provider;
 
+use Loper\Minecraft\Protocol\Map\JavaVersionProtocolMap;
 use Loper\MinecraftQueryClient\Java\JavaMinecraftClient;
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
-use Loper\MinecraftQueryClient\Java\ServerStatisticsResponse;
-use Loper\MinecraftQueryClient\Structure\VersionProtocolMap;
+use Loper\MinecraftQueryClient\Response\ServerStatisticsResponse;
 
 final class PingServerStatisticsProvider implements ServerStatisticsProvider
 {
@@ -26,7 +26,7 @@ final class PingServerStatisticsProvider implements ServerStatisticsProvider
 
     private function createServerStatsResponse(HandshakePacket $packet): ServerStatisticsResponse
     {
-        $version = VersionProtocolMap::getByProtocol($packet->serverProtocol);
+        $version = JavaVersionProtocolMap::findByProtocol($packet->serverProtocol);
 
         $response = new ServerStatisticsResponse();
         $response->version = $version;

@@ -8,7 +8,8 @@
         "ext-sockets": "*",
         "composer/semver": "^3.3",
         "ext-mbstring": "*",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "loper/minecraft-php-structure": "^1.0"
     },
     "license": "MIT",
     "autoload": {
@@ -34,7 +35,7 @@
     "minimum-stability": "stable",
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^10.2",
         "dg/bypass-finals": "^1.4"
     }
 }

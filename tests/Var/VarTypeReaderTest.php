@@ -40,7 +40,7 @@ final class VarTypeReaderTest extends TestCase
         self::assertEquals($out, $varInt);
     }
 
-    public function intVarProvider(): array
+    public static function intVarProvider(): array
     {
         return [
             [1],

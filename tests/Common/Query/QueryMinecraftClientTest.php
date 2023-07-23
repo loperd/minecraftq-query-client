@@ -6,11 +6,12 @@ namespace Loper\MinecraftQueryClient\Tests\Common\Query;
 
 use DG\BypassFinals;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
+use Loper\MinecraftQueryClient\Address\ServerAddressType;
 use Loper\MinecraftQueryClient\Common\Query\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\Common\Query\QueryMinecraftClient;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Exception\PacketSendException;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use Loper\MinecraftQueryClient\Tests\Helper\ReflectionHelper;
 use Loper\MinecraftQueryClient\Tests\TestPacket;
 use PHPinnacle\Buffer\ByteBuffer;
@@ -32,8 +33,8 @@ class QueryMinecraftClientTest extends TestCase
 
     public function createQueryClient(
         Socket          $socket,
-        ProtocolVersion $protocol = ProtocolVersion::JAVA_1_12_2,
-        ServerAddress   $serverAddress = new ServerAddress('1.1.1.1', '1.1.1.1')
+        JavaProtocolVersion $protocol = JavaProtocolVersion::JAVA_1_12_2,
+        ServerAddress   $serverAddress = new ServerAddress(ServerAddressType::Dedicated, '1.1.1.1', '1.1.1.1')
     ): QueryMinecraftClient {
         $reflection = new \ReflectionClass(QueryMinecraftClient::class);
         $queryClient = $reflection->newInstanceWithoutConstructor();

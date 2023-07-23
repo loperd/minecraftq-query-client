@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Java\Packet;
 
+use Loper\Minecraft\Protocol\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use Loper\MinecraftQueryClient\Exception\InvalidPortException;
 use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Packet;
-use Loper\MinecraftQueryClient\Var\VarMotdFilter;
-use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\MinecraftQueryClient\Var\VarMotdFilter;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 
 final class HandshakePacket implements Packet
 {
@@ -20,9 +21,9 @@ final class HandshakePacket implements Packet
     public const PACKET_ID = 0x00;
     public const STATUS = 1;
 
-    public ProtocolVersion $protocol;
+    public JavaProtocolVersion $protocol;
 
-    public ProtocolVersion $serverProtocol;
+    public JavaProtocolVersion $serverProtocol;
     public string $host;
     public int $port;
     public int $state;
@@ -85,7 +86,7 @@ final class HandshakePacket implements Packet
             throw new PacketReadException(self::class, "Invalid packet json data");
         }
 
-        $this->serverProtocol = ProtocolVersion::from($data['version']['protocol']);
+        $this->serverProtocol = JavaProtocolVersion::tryFrom($data['version']['protocol']) ?? JavaProtocolVersion::Unknown;
         $this->serverSoftware = VarUnsafeFilter::filter($data['version']['name']);
         $this->onlinePlayers = (int) VarUnsafeFilter::filter((string) $data['players']['online']);
         $this->maxPlayers = (int) VarUnsafeFilter::filter((string) $data['players']['max']);
@@ -107,7 +108,7 @@ final class HandshakePacket implements Packet
         }
 
         $os->writeByte(0x00);
-        $os->writeVarInt($protocol->value);
+        $os->writeVarInt($protocol->getProtocolValue());
         $os->writeVarString($this->host);
         $os->writeShort($this->port);
         $os->writeVarInt($this->state);

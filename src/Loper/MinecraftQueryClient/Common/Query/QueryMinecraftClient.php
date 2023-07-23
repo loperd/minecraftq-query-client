@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Common\Query;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Common\Query\Packet\BasicStatPacket;
 use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
@@ -15,7 +16,6 @@ use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
@@ -26,10 +26,10 @@ final class QueryMinecraftClient implements MinecraftClient
     private Socket\Socket $socket;
 
     public function __construct(
-        private readonly ServerAddress   $serverAddress,
+        private readonly ServerAddress $serverAddress,
         private readonly ProtocolVersion $protocol,
-        private readonly float           $timeout = 1.5,
-        private readonly Socket\Factory  $factory = new Socket\Factory()
+        private readonly float $timeout = 1.5,
+        private readonly Socket\Factory $factory = new Socket\Factory()
     ) {
         $this->socket = $this->createSocket($this->serverAddress, $this->timeout);
         $this->socket->setOption(SOL_SOCKET, SO_RCVTIMEO, $this->createSocketTimeout());
@@ -111,8 +111,8 @@ final class QueryMinecraftClient implements MinecraftClient
     #[ArrayShape(['sec' => "int", 'usec' => "int"])]
     public function createSocketTimeout(): array
     {
-        $seconds = (int) $this->timeout;
-        $microseconds = (int) ($this->timeout - $seconds) * 100000;
+        $seconds = (int)$this->timeout;
+        $microseconds = (int)($this->timeout - $seconds) * 100000;
 
         return ['sec' => $seconds, 'usec' => $microseconds];
     }

@@ -8,7 +8,7 @@ use PHPinnacle\Buffer\ByteBuffer;
 
 interface OutputStream
 {
-    public function writeBytes(string|ByteBuffer $bytes): void;
+    public function writeBytes(array|ByteBuffer|string $bytes): void;
 
     public function writeByte(int $byte): void;
 

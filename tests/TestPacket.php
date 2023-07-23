@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Tests;
 
+use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
 
 class TestPacket implements Packet
 {
@@ -25,6 +25,6 @@ class TestPacket implements Packet
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void
     {
-        $os->writeInt($protocol->value);
+        $os->writeInt($protocol->getProtocolValue());
     }
 }

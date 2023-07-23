@@ -13,8 +13,12 @@ final class ByteBufferOutputStream implements BufferedOutputStream
     {
     }
 
-    public function writeBytes(ByteBuffer|string $bytes): void
+    public function writeBytes(array|ByteBuffer|string $bytes): void
     {
+        if (is_array($bytes)) {
+            $bytes = ArrayByteBufferConverter::convert($bytes);
+        }
+
         $this->buffer->append($bytes);
     }
 

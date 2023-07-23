@@ -7,7 +7,7 @@ namespace Loper\MinecraftQueryClient\Tests\Common\Query\Packet;
 use Loper\MinecraftQueryClient\Common\Query\Packet\FullStatPacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ final class FullStatPacketTest extends TestCase
         $buffer = new ByteBuffer($bytes);
         $is = new ByteBufferInputStream($buffer);
         $packet = new FullStatPacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         self::assertEquals($data['serverProtocol'], $packet->serverProtocol->value);
         self::assertEquals($data['version'], $packet->version->value);
@@ -34,7 +34,7 @@ final class FullStatPacketTest extends TestCase
         self::assertEquals($data['host'], $packet->host);
     }
 
-    public function packetDataProvider(): array
+    public static function packetDataProvider(): array
     {
         return [
             [
@@ -75,7 +75,7 @@ final class FullStatPacketTest extends TestCase
         $packet->challengeToken = $token;
 
         $os = new ByteBufferOutputStream(new ByteBuffer());
-        $packet->write($os, ProtocolVersion::JAVA_1_12_2);
+        $packet->write($os, JavaProtocolVersion::JAVA_1_12_2);
 
         $outputBuffer = $os->getBuffer();
         $result = new ByteBufferInputStream($outputBuffer);
@@ -84,7 +84,7 @@ final class FullStatPacketTest extends TestCase
         self::assertEquals(0x00, $result->readInt());
     }
 
-    public function packetWriteDataProvider(): array
+    public static function packetWriteDataProvider(): array
     {
         return [
             [123123123, 321321321],

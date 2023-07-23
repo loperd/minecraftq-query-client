@@ -8,7 +8,7 @@ use Loper\MinecraftQueryClient\Exception\InvalidPortException;
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
-use Loper\MinecraftQueryClient\Structure\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ final class HandshakePacketTest extends TestCase
         $buffer = new ByteBuffer($bytes);
         $is = new ByteBufferInputStream($buffer);
         $packet = new HandshakePacket();
-        $packet->read($is, ProtocolVersion::JAVA_1_12_2);
+        $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
 
         self::assertEquals($data['serverProtocol'], $packet->serverProtocol->value);
         self::assertEquals($data['onlinePlayers'], $packet->onlinePlayers);
@@ -34,7 +34,7 @@ final class HandshakePacketTest extends TestCase
         self::assertEquals($data['serverSoftware'], $packet->serverSoftware);
     }
 
-    public function packetDataProvider(): array
+    public static function packetDataProvider(): array
     {
         return [
             [
@@ -62,7 +62,7 @@ final class HandshakePacketTest extends TestCase
         $packet->host = $host;
         $packet->port = $port;
         $packet->state = $state;
-        $protocol = ProtocolVersion::JAVA_1_12_2;
+        $protocol = JavaProtocolVersion::JAVA_1_12_2;
 
         $os = new ByteBufferOutputStream(new ByteBuffer());
         $packet->write($os, $protocol);
@@ -91,20 +91,20 @@ final class HandshakePacketTest extends TestCase
         $packet = new HandshakePacket();
         $packet->host = $host;
         $packet->port = $port;
-        $protocol = ProtocolVersion::JAVA_1_12_2;
+        $protocol = JavaProtocolVersion::JAVA_1_12_2;
 
         $os = new ByteBufferOutputStream(new ByteBuffer());
         $packet->write($os, $protocol);
     }
 
-    public function packetWriteDataProvider(): array
+    public static function packetWriteDataProvider(): array
     {
         return [
             ['51.233.21.21', 25565, 1],
         ];
     }
 
-    public function packetFailedWriteDataProvider(): array
+    public static function packetFailedWriteDataProvider(): array
     {
         return [
             ['51.233.21.21', -1, InvalidPortException::class, InvalidPortException::shouldBeUnsigned(-1)->getMessage()],

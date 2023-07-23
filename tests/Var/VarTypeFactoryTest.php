@@ -21,7 +21,7 @@ final class VarTypeFactoryTest extends TestCase
         self::assertEquals($is->readVarInt(), $randomInt);
     }
 
-    public function intVarProvider(): array
+    public static function intVarProvider(): array
     {
         return [
             [1],
