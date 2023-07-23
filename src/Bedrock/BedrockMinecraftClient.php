@@ -5,6 +5,7 @@ namespace Loper\MinecraftQueryClient\Bedrock;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Loper\Minecraft\Protocol\ProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket;
 use Loper\MinecraftQueryClient\MinecraftClient;
@@ -23,7 +24,7 @@ final class BedrockMinecraftClient implements MinecraftClient
 
     public function __construct(
         private readonly ServerAddress $serverAddress,
-        private readonly ProtocolVersion $protocol,
+        private readonly BedrockProtocolVersion $protocol,
         private readonly float $timeout = 1.5,
         private readonly Socket\Factory $factory = new Socket\Factory()
     ) {
