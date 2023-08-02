@@ -26,7 +26,6 @@ final class JavaMinecraftClient implements MinecraftClient
 
     public function __construct(
         private readonly ServerAddress $serverAddress,
-        private readonly JavaProtocolVersion $protocol,
         private readonly float $timeout = 1.5,
         private readonly Socket\Factory $factory = new Socket\Factory()
     ) {
@@ -37,11 +36,12 @@ final class JavaMinecraftClient implements MinecraftClient
         $this->is = new SocketInputStream($this->socket);
     }
 
-    public function createHandshakePacket(): HandshakePacket
+    public function createHandshakePacket(JavaProtocolVersion $protocol): HandshakePacket
     {
-        return PacketFactory::createHandshakePacket(
+        return JavaPacketFactory::createHandshakePacket(
             $this->serverAddress,
-            $this->protocol
+            $protocol,
+            HandshakePacket::STATUS,
         );
     }
 
@@ -56,10 +56,10 @@ final class JavaMinecraftClient implements MinecraftClient
         }
     }
 
-    public function sendPacket(Packet $packet): void
+    public function sendPacket(Packet $packet, ProtocolVersion $protocol): void
     {
         $stream = new ByteBufferOutputStream(new ByteBuffer());
-        $packet->write($stream, $this->protocol);
+        $packet->write($stream, $protocol);
 
         try {
             $this->socket->assertAlive();
@@ -72,7 +72,7 @@ final class JavaMinecraftClient implements MinecraftClient
         $this->os->writeByte(0x01);
         $this->os->writeByte(0x00);
 
-        $packet->read($this->is, $this->protocol);
+        $packet->read($this->is, $protocol);
     }
 
     public function close(): void

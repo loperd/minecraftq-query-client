@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Version;
+namespace Loper\MinecraftQueryClient\Java;
 
 use Composer\Semver\Semver;
 use Loper\Minecraft\Protocol\Struct\JavaServerVersion;
 use Loper\MinecraftQueryClient\Exception\InvalidServerVersionException;
 
-final class VersionParser
+final class JavaVersionParser
 {
     public static function parse(string $version): JavaServerVersion
     {
@@ -23,7 +23,7 @@ final class VersionParser
         if (\str_contains($version, ', ')) {
             $parts = \explode(', ', $version);
             $parts = \array_map(static fn (string $ver): string
-                => VersionParser::processVersion($ver), $parts);
+                => JavaVersionParser::processVersion($ver), $parts);
             $result = Semver::rsort($parts);
 
             return self::getBiggest($result[0]);

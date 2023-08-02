@@ -27,19 +27,12 @@ final class QueryMinecraftClient implements MinecraftClient
 
     public function __construct(
         private readonly ServerAddress $serverAddress,
-        private readonly ProtocolVersion $protocol,
         private readonly float $timeout = 1.5,
         private readonly Socket\Factory $factory = new Socket\Factory()
     ) {
         $this->socket = $this->createSocket($this->serverAddress, $this->timeout);
         $this->socket->setOption(SOL_SOCKET, SO_RCVTIMEO, $this->createSocketTimeout());
         $this->socket->setBlocking(true);
-
-        try {
-            $this->getChallengeToken();
-        } catch (Socket\Exception|PacketReadException $ex) {
-            throw new SocketConnectionException($this->serverAddress, $ex);
-        }
     }
 
     private function createSocket(ServerAddress $serverAddress, float $timeout): Socket\Socket
@@ -51,29 +44,33 @@ final class QueryMinecraftClient implements MinecraftClient
         }
     }
 
-    public function getChallengeToken(): ChallengeToken
+    public function getChallengeToken(ProtocolVersion $protocol): ChallengeToken
     {
         $packet = PacketFactory::createHandshakePacket();
 
-        $this->sendPacket($packet);
+        try {
+            $this->sendPacket($packet, $protocol);
+        } catch (Socket\Exception|PacketReadException $ex) {
+            throw new SocketConnectionException($this->serverAddress, $ex);
+        }
 
         return $packet->challengeToken;
     }
 
-    public function getFullStat(ChallengeToken $challengeToken): FullStatPacket
+    public function getFullStat(ChallengeToken $challengeToken, ProtocolVersion $protocol): FullStatPacket
     {
         $packet = PacketFactory::createFullStatPacket($challengeToken);
 
-        $this->sendPacket($packet);
+        $this->sendPacket($packet, $protocol);
 
         return $packet;
     }
 
-    public function getBasicStat(ChallengeToken $challengeToken): BasicStatPacket
+    public function getBasicStat(ChallengeToken $challengeToken, ProtocolVersion $protocol): BasicStatPacket
     {
         $packet = PacketFactory::createBasicStatPacket($challengeToken);
 
-        $this->sendPacket($packet);
+        $this->sendPacket($packet, $protocol);
 
         return $packet;
     }
@@ -83,13 +80,13 @@ final class QueryMinecraftClient implements MinecraftClient
         $this->socket->close();
     }
 
-    public function sendPacket(Packet $packet): void
+    public function sendPacket(Packet $packet, ProtocolVersion $protocol): void
     {
         $buffer = new ByteBuffer();
         $buffer->appendInt16(self::MAGIC_BYTES);
         $buffer->appendInt8($packet->getPacketId());
         $stream = new ByteBufferOutputStream($buffer);
-        $packet->write($stream, $this->protocol);
+        $packet->write($stream, $protocol);
 
         if ($buffer->size() !== $this->socket->send((string)$buffer, 0)) {
             throw new PacketSendException(\get_class($packet), $this->serverAddress);
@@ -102,7 +99,7 @@ final class QueryMinecraftClient implements MinecraftClient
             throw new PacketReadException(\get_class($packet), 'Packet id is invalid.');
         }
 
-        $packet->read(new ByteBufferInputStream($buffer), $this->protocol);
+        $packet->read(new ByteBufferInputStream($buffer), $protocol);
     }
 
     /**

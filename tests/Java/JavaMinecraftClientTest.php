@@ -30,7 +30,7 @@ class JavaMinecraftClientTest extends TestCase
         $mockSocketFactory->method('createClient')->withAnyParameters()->willReturn($socket);
 
         $serverAddress = new ServerAddress(ServerAddressType::Dedicated, '1.1.1.1', '1.1.1.1');
-        return new JavaMinecraftClient($serverAddress, JavaProtocolVersion::JAVA_1_12_2, 1.5, $mockSocketFactory);
+        return new JavaMinecraftClient($serverAddress, 1.5, $mockSocketFactory);
     }
 
     private function createSocket(): Socket&MockObject
@@ -70,6 +70,6 @@ class JavaMinecraftClientTest extends TestCase
         $javaClient = $this->getJavaClient($socket);
         $packet = new TestPacket();
 
-        $javaClient->sendPacket($packet);
+        $javaClient->sendPacket($packet, JavaProtocolVersion::JAVA_1_20_1);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Bedrock;
@@ -24,7 +25,6 @@ final class BedrockMinecraftClient implements MinecraftClient
 
     public function __construct(
         private readonly ServerAddress $serverAddress,
-        private readonly BedrockProtocolVersion $protocol,
         private readonly float $timeout = 1.5,
         private readonly Socket\Factory $factory = new Socket\Factory()
     ) {
@@ -55,14 +55,14 @@ final class BedrockMinecraftClient implements MinecraftClient
         }
     }
 
-    public function sendPacket(Packet $packet): void
+    public function sendPacket(Packet $packet, ProtocolVersion $protocol): void
     {
         $buffer = new ByteBuffer();
         $buffer->appendInt8($packet->getPacketId());
         $buffer->appendUint64(time());
 
         $stream = new ByteBufferOutputStream($buffer);
-        $packet->write($stream, $this->protocol);
+        $packet->write($stream, $protocol);
 
         try {
             $this->socket->assertAlive();
@@ -72,12 +72,12 @@ final class BedrockMinecraftClient implements MinecraftClient
 
         $this->socket->sendTo($stream->getBuffer()->bytes(), 0, $this->createRemoteAddress());
 
-        $packet->read(new ByteBufferInputStream($this->is->readFullData()), $this->protocol);
+        $packet->read(new ByteBufferInputStream($this->is->readFullData()), $protocol);
     }
 
-    public function createUnconnectedPingPacket(): UnconnectedPingPacket
+    public function createUnconnectedPingPacket(ProtocolVersion $protocol): UnconnectedPingPacket
     {
-        return PacketFactory::createUnconnectedPingPacket($this->protocol);
+        return BedrockPacketFactory::createUnconnectedPingPacket($protocol);
     }
 
     public function close(): void

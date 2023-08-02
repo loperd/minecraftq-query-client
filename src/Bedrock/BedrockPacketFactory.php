@@ -8,14 +8,16 @@ use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
 use Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket;
 
-final class PacketFactory
+final class BedrockPacketFactory
 {
     public static function createUnconnectedPingPacket(ProtocolVersion $protocol): UnconnectedPingPacket
     {
         if (!($protocol instanceof BedrockProtocolVersion)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(
+                sprintf(
                 'Protocol object is not instance of "%s" class.',
-                BedrockProtocolVersion::class)
+                BedrockProtocolVersion::class
+            )
             );
         }
 

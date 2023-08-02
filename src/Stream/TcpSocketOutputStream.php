@@ -21,6 +21,9 @@ final class TcpSocketOutputStream implements OutputStream
         $this->socket = $socket;
     }
 
+    /**
+     * @param int[]|ByteBuffer|string $bytes
+     */
     public function writeBytes(array|ByteBuffer|string $bytes): void
     {
         if (is_array($bytes)) {

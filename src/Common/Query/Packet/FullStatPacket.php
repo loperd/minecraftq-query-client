@@ -13,7 +13,7 @@ use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
 use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
-use Loper\MinecraftQueryClient\Version\VersionParser;
+use Loper\MinecraftQueryClient\Java\JavaVersionParser;
 
 final class FullStatPacket implements Packet
 {
@@ -23,7 +23,7 @@ final class FullStatPacket implements Packet
     public int $sessionId;
     public int $challengeToken;
 
-    // Response Data
+    // Result Data
     public JavaServerVersion $version;
     public string $map;
     public int $numPlayers;
@@ -59,8 +59,11 @@ final class FullStatPacket implements Packet
 
         $plugins = $this->getPlugins($data[9]);
 
-        $version = VersionParser::parse(VarUnsafeFilter::filter($data[7]));
-        $this->serverProtocol = JavaVersionProtocolMap::findByVersion($version);
+        $version = JavaVersionParser::parse(VarUnsafeFilter::filter($data[7]));
+        /** @var JavaProtocolVersion $mappedProtocol */
+        $mappedProtocol = JavaVersionProtocolMap::findByVersion($version);
+
+        $this->serverProtocol = $mappedProtocol;
         $this->version = $version;
         $this->plugins = $plugins;
         $this->map = VarUnsafeFilter::filter($data[11]);

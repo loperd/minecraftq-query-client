@@ -15,6 +15,7 @@ final class BasicStatPacket implements Packet
 {
     public const PACKET_ID = 0x00;
 
+    // Request data
     public int $sessionId;
     public int $challengeToken;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Stream;
@@ -7,6 +8,10 @@ use PHPinnacle\Buffer\ByteBuffer;
 
 final class ArrayByteBufferConverter
 {
+    /**
+     * @param int[] $bytes
+     * @return ByteBuffer
+     */
     public static function convert(array $bytes): ByteBuffer
     {
         $buffer = new ByteBuffer();

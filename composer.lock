@@ -158,17 +158,20 @@
         },
         {
             "name": "loper/minecraft-php-structure",
-            "version": "v1.0.3",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loperd/minecraft-php-structure.git",
-                "reference": "1e7842b63a1aee96794e3be8ddcb3052182c6cd3"
+                "reference": "a0b3ea62f0c9977627c9904cf8591555355033cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loperd/minecraft-php-structure/zipball/1e7842b63a1aee96794e3be8ddcb3052182c6cd3",
-                "reference": "1e7842b63a1aee96794e3be8ddcb3052182c6cd3",
+                "url": "https://api.github.com/repos/loperd/minecraft-php-structure/zipball/a0b3ea62f0c9977627c9904cf8591555355033cc",
+                "reference": "a0b3ea62f0c9977627c9904cf8591555355033cc",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
             },
             "type": "library",
             "autoload": {
@@ -189,9 +192,9 @@
             "description": "Minecraft Structure Protocol & Version generator for PHP.",
             "support": {
                 "issues": "https://github.com/loperd/minecraft-php-structure/issues",
-                "source": "https://github.com/loperd/minecraft-php-structure/tree/v1.0.3"
+                "source": "https://github.com/loperd/minecraft-php-structure/tree/v1.0.5"
             },
-            "time": "2023-07-23T12:44:48+00:00"
+            "time": "2023-08-02T19:45:07+00:00"
         },
         {
             "name": "phpinnacle/buffer",
@@ -1973,5 +1976,5 @@
         "ext-intl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

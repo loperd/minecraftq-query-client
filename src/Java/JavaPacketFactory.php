@@ -8,12 +8,12 @@ use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Java\Packet\HandshakePacket;
 
-final class PacketFactory
+final class JavaPacketFactory
 {
     public static function createHandshakePacket(
         ServerAddress   $serverAddress,
         JavaProtocolVersion $protocol,
-        int             $state = HandshakePacket::STATUS
+        int $state,
     ): HandshakePacket {
         $packet = new HandshakePacket();
         $packet->port = $serverAddress->port;

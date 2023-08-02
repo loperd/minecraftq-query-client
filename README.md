@@ -21,27 +21,17 @@ examples/java-ping.php
 declare(strict_types=1);
 
 use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\MinecraftQuery;
 
 require_once __DIR__ . '/bootstrap.php';
 
 return static function (string $host, int $port) {
-    $address = ServerAddressResolver::resolve($host, $port);
-
-    $minecraftClientFactory = new MinecraftClientFactory(
-        serverAddress: $address,
-        protocol: JavaProtocolVersion::JAVA_1_7_1,
-        timeout: 1.5
-    );
-    $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
-
-    $provider = $javaMinecraftProviderFactory->createPingStatisticsProvider();
-
-    var_dump($provider->getStatistics());
+    var_dump(MinecraftQuery::javaPing(
+        host: $host,
+        port: $port,
+        protocol: JavaProtocolVersion::JAVA_1_7_1
+    ));
 };
-
 ```
 
 #### Query
@@ -54,30 +44,20 @@ examples/java-query.php
 declare(strict_types=1);
 
 use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\MinecraftQuery;
 
 require_once __DIR__ . '/bootstrap.php';
 
 return static function (string $host, int $port) {
-    $address = ServerAddressResolver::resolve($host, $port);
-
-    $minecraftClientFactory = new MinecraftClientFactory(
-        serverAddress: $address,
-        protocol: JavaProtocolVersion::JAVA_1_7_1,
-        timeout: 1.5
-    );
-    $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
-
-    $provider = $javaMinecraftProviderFactory->createQueryStatisticsProvider();
-
-    var_dump($provider->getStatistics());
+    var_dump(MinecraftQuery::queryPing(
+        host: $host,
+        port: $port,
+        protocol: JavaProtocolVersion::JAVA_1_7_1
+    ));
 };
-
 ```
 
-#### Both
+#### Aggregated result from Query protocol & Minecraft server ping
 examples/java-both.php
 
 ```php
@@ -87,25 +67,16 @@ examples/java-both.php
 declare(strict_types=1);
 
 use Loper\Minecraft\Protocol\Struct\JavaProtocolVersion;
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\Java\JavaStatisticsProviderFactory;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\MinecraftQuery;
 
 require_once __DIR__ . '/bootstrap.php';
 
 return static function (string $host, int $port) {
-    $address = ServerAddressResolver::resolve($host, $port);
-
-    $minecraftClientFactory = new MinecraftClientFactory(
-        serverAddress: $address,
-        protocol: JavaProtocolVersion::JAVA_1_7_1,
-        timeout: 1.5
-    );
-    $javaMinecraftProviderFactory = new JavaStatisticsProviderFactory($minecraftClientFactory);
-
-    $provider = $javaMinecraftProviderFactory->createCommonStatisticsProvider();
-
-    var_dump($provider->getStatistics());
+    var_dump(MinecraftQuery::javaQueryPing(
+        host: $host,
+        port: $port,
+        protocol: JavaProtocolVersion::JAVA_1_7_1
+    ));
 };
 ```
 
@@ -119,26 +90,16 @@ examples/bedrock-ping.php
 declare(strict_types=1);
 
 use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
-use Loper\MinecraftQueryClient\Address\ServerAddressResolver;
-use Loper\MinecraftQueryClient\Bedrock\PingServerStatisticsProvider;
-use Loper\MinecraftQueryClient\MinecraftClientFactory;
+use Loper\MinecraftQueryClient\MinecraftQuery;
 
 require_once __DIR__ . '/bootstrap.php';
 
 return static function (string $host, int $port) {
-    $address = ServerAddressResolver::resolve($host, $port);
-
-    $minecraftClientFactory = new MinecraftClientFactory(
-        serverAddress: $address,
-        protocol: BedrockProtocolVersion::BEDROCK_1_20_1,
-        timeout: 1.5
-    );
-
-    $provider = new PingServerStatisticsProvider(
-        $minecraftClientFactory->createBedrockClient()
-    );
-
-    var_dump($provider->getStatistics());
+    var_dump(MinecraftQuery::bedrockPing(
+            host: $host,
+            port: $port,
+            protocol: BedrockProtocolVersion::BEDROCK_1_20_1
+    ));
 };
 ```
 
