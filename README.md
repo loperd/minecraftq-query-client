@@ -98,7 +98,7 @@ return static function (string $host, int $port) {
     var_dump(MinecraftQuery::bedrockPing(
             host: $host,
             port: $port,
-            protocol: BedrockProtocolVersion::BEDROCK_1_20_1
+            protocol: BedrockProtocolVersion::BEDROCK_1_20_12
     ));
 };
 ```

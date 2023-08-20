@@ -6,10 +6,12 @@ namespace Loper\MinecraftQueryClient\Bedrock;
 
 use Loper\Minecraft\Protocol\Map\BedrockVersionProtocolMap;
 use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
+use Loper\Minecraft\Protocol\Struct\BedrockServerVersion;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket;
 use Loper\MinecraftQueryClient\Common\MinecraftServerPing;
 use Loper\MinecraftQueryClient\Common\ServerPingResult;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 
 final class BedrockServerPing implements MinecraftServerPing
@@ -23,7 +25,11 @@ final class BedrockServerPing implements MinecraftServerPing
         $client = new BedrockMinecraftClient($serverAddress, $this->timeout);
 
         $packet = $client->createUnconnectedPingPacket($this->protocol);
-        $client->sendPacket($packet, $this->protocol);
+        try {
+            $client->sendPacket($packet, $this->protocol);
+        } catch (PacketReadException) {
+            return $this->createFailedServerPingResult();
+        }
 
         return $this->createServerPingResult($packet);
     }
@@ -40,6 +46,21 @@ final class BedrockServerPing implements MinecraftServerPing
         $response->numPlayers = $packet->currentPlayers;
         $response->motd = VarUnsafeFilter::filter($packet->description);
         $response->rawMotd = $packet->description;
+        $response->players = [];
+
+        return $response;
+    }
+
+    private function createFailedServerPingResult(): ServerPingResult
+    {
+        $response = new ServerPingResult();
+        $response->version = BedrockServerVersion::Unknown;
+        $response->protocol = BedrockProtocolVersion::Unknown;
+        $response->serverSoftware = \sprintf('Unknown');
+        $response->maxPlayers = -1;
+        $response->numPlayers = -1;
+        $response->motd = 'Server does not respond';
+        $response->rawMotd = 'Server does not respond';
         $response->players = [];
 
         return $response;

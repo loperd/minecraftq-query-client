@@ -9,12 +9,14 @@ use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
 use Loper\MinecraftQueryClient\Address\ServerAddress;
 use Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\MinecraftClient;
 use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
 use Loper\MinecraftQueryClient\Stream\SocketInputStream;
+use PHPinnacle\Buffer\BufferOverflow;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
@@ -72,7 +74,11 @@ final class BedrockMinecraftClient implements MinecraftClient
 
         $this->socket->sendTo($stream->getBuffer()->bytes(), 0, $this->createRemoteAddress());
 
-        $packet->read(new ByteBufferInputStream($this->is->readFullData()), $protocol);
+        try {
+            $packet->read(new ByteBufferInputStream($this->is->readFullData()), $protocol);
+        } catch (BufferOverflow $ex) {
+            throw new PacketReadException($packet::class, 'buffer is overflow');
+        }
     }
 
     public function createUnconnectedPingPacket(BedrockProtocolVersion $protocol): UnconnectedPingPacket
