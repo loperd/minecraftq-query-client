@@ -11,6 +11,8 @@ use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
+use Loper\MinecraftQueryClient\Var\VarMotdFilter;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use PHPinnacle\Buffer\ByteBuffer;
 
 final class UnconnectedPingPacket implements Packet
@@ -36,6 +38,7 @@ final class UnconnectedPingPacket implements Packet
     public int $maxPlayers;
     public string $name;
     public ?string $mode = null;
+    public string $rawDescription;
 
     public function getPacketId(): int
     {
@@ -61,7 +64,8 @@ final class UnconnectedPingPacket implements Packet
         $advertiseData = explode(';', $is->readFullData()->bytes());
 
         $this->gameId = $advertiseData[0];
-        $this->description = $advertiseData[1];
+        $this->rawDescription = $advertiseData[1];
+        $this->description = VarMotdFilter::filter($advertiseData[1]);
         $this->protocol = BedrockProtocolVersion::from((int) $advertiseData[2]);
         $this->gameVersion = $advertiseData[3];
         $this->currentPlayers = (int) $advertiseData[4];

@@ -23,8 +23,8 @@ final class BedrockServerPing implements MinecraftServerPing
     public function ping(ServerAddress $serverAddress): ServerPingResult
     {
         $client = new BedrockMinecraftClient($serverAddress, $this->timeout);
-
         $packet = $client->createUnconnectedPingPacket($this->protocol);
+
         try {
             $client->sendPacket($packet, $this->protocol);
         } catch (PacketReadException) {

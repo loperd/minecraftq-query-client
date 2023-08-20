@@ -8,10 +8,12 @@ use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
 use Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
 use PHPinnacle\Buffer\ByteBuffer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class UnconnectedPingPacketTest extends TestCase
 {
+    #[DataProvider('packetDataProvider')]
     public function test_correct_read(string $bytes, array $data): void
     {
         $buffer = new ByteBuffer(base64_decode($bytes, true));
@@ -20,36 +22,57 @@ final class UnconnectedPingPacketTest extends TestCase
         $packet = new UnconnectedPingPacket();
         $packet->read($is, BedrockProtocolVersion::BEDROCK_1_20_12);
 
-        self::assertEquals($data['serverProtocol'], $packet->serverProtocol->value);
-        self::assertEquals($data['onlinePlayers'], $packet->onlinePlayers);
-        self::assertEquals($data['players'], $packet->players);
-        self::assertEquals($data['rawData'], $packet->rawData);
-        self::assertEquals($data['rawMotd'], $packet->rawMotd);
-        self::assertEquals($data['motd'], $packet->motd);
+        self::assertEquals($data['pingId'], $packet->pingId);
+        self::assertEquals($data['serverId'], $packet->serverId);
+        self::assertEquals($data['gameId'], $packet->gameId);
+        self::assertEquals($data['rawDescription'], $packet->rawDescription);
+        self::assertEquals($data['description'], $packet->description);
+        self::assertEquals($data['protocol'], $packet->protocol->value);
+        self::assertEquals($data['currentPlayers'], $packet->currentPlayers);
+        self::assertEquals($data['name'], $packet->name);
         self::assertEquals($data['maxPlayers'], $packet->maxPlayers);
-        self::assertEquals($data['serverSoftware'], $packet->serverSoftware);
+        self::assertEquals($data['gameVersion'], $packet->gameVersion);
+        self::assertEquals($data['mode'], $packet->mode);
     }
 
     public function test_correct_write(): void
     {
     }
 
-    public static function packetDataProvider(): array
+    public static function packetDataProvider(): \Generator
     {
-        return [
+        yield [
+            'HAAAAABk4flraRfj24e7GGAA//8A/v7+/v39/f0SNFZ4AF9NQ1BFO1Bvd2VyTnVra2l0IFNlcnZlcjs0NzE7MS4xNy40MDswOzIwOzc1NzI3NzE4MzA0NjEzMDY5NzY7aHR0cHM6Ly9wb3dlcm51a2tpdC5vcmc7U3Vydml2YWw7MQ==',
             [
-                'iAIAhQJ7ImRlc2NyaXB0aW9uIjp7ImV4dHJhIjpbeyJib2xkIjp0cnVlLCJjb2xvciI6ImJsdWUiLCJ0ZXh0IjoiVUEifSx7ImJvbGQiOnRydWUsImNvbG9yIjoieWVsbG93IiwidGV4dCI6IlJBRlQifSx7ImNvbG9yIjoiZ3JheSIsInRleHQiOiIgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEifV0sInRleHQiOiIifSwicGxheWVycyI6eyJtYXgiOjEwLCJvbmxpbmUiOjB9LCJ2ZXJzaW9uIjp7Im5hbWUiOiJQYXBlciAxLjE4LjIiLCJwcm90b2NvbCI6NzU4fX0=',
-                [
-                    "serverProtocol" => 758,
-                    "onlinePlayers" => 0,
-                    "maxPlayers" => 10,
-                    "rawData" => "{\"description\":{\"extra\":[{\"bold\":true,\"color\":\"blue\",\"text\":\"UA\"},{\"bold\":true,\"color\":\"yellow\",\"text\":\"RAFT\"},{\"color\":\"gray\",\"text\":\" - Ukrainian Minecraft Server!\"}],\"text\":\"\"},\"players\":{\"max\":10,\"online\":0},\"version\":{\"name\":\"Paper 1.18.2\",\"protocol\":758}}",
-                    "serverSoftware" => "Paper 1.18.2",
-                    "rawMotd" => "{\"extra\":[{\"bold\":true,\"color\":\"blue\",\"text\":\"UA\"},{\"bold\":true,\"color\":\"yellow\",\"text\":\"RAFT\"},{\"color\":\"gray\",\"text\":\" - Ukrainian Minecraft Server!\"}],\"text\":\"\"}",
-                    "motd" => "UARAFT - Ukrainian Minecraft Server!",
-                    "players" => [],
-                ]
-            ],
+                "pingId" => 1692531051,
+                "serverId" => 7572771830461306976,
+                "protocol" => BedrockProtocolVersion::BEDROCK_1_17_41->value,
+                "currentPlayers" => 0,
+                "maxPlayers" => 20,
+                "rawDescription" => "PowerNukkit Server",
+                "description" => "PowerNukkit Server",
+                "name" => "https://powernukkit.org",
+                "mode" => "Survival",
+                "gameId" => 'MCPE',
+                "gameVersion" => '1.17.40',
+            ]
+        ];
+
+        yield [
+            'HAAAAABk4fqzULdobBIFVQ4A//8A/v7+/v39/f0SNFZ4AGdNQ1BFO8KnbMKnZsKna2lpwqdyIMKnbMKnY0Jsb29kwqc2TWluZSDCp3LCp2zCp2bCp2tpacKnciDCp2Z2MS4xOzEwMTsxLjE2OzI1NDsxNjAwOzc0NDg4MTU1NDk3MTQ4NDMzMDE7',
+            [
+                "pingId" => 1692531379,
+                "serverId" => 5816232257140380942,
+                "rawDescription" => "§l§f§kii§r §l§cBlood§6Mine §r§l§f§kii§r §fv1.1",
+                "description" => "ii BloodMine ii v1.1",
+                "protocol" => BedrockProtocolVersion::POCKET_ALPHA_1_0_4_0->value,
+                "currentPlayers" => 254,
+                "maxPlayers" => 1600,
+                "name" => '',
+                "mode" => null,
+                "gameId" => 'MCPE',
+                "gameVersion" => '1.16',
+            ]
         ];
     }
 }
