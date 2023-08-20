@@ -32,9 +32,12 @@ class QueryMinecraftClientTest extends TestCase
     }
 
     public function createQueryClient(
-        Socket          $socket,
-        JavaProtocolVersion $protocol = JavaProtocolVersion::JAVA_1_12_2,
-        ServerAddress   $serverAddress = new ServerAddress(ServerAddressType::Dedicated, '1.1.1.1', '1.1.1.1')
+        Socket $socket,
+        ServerAddress $serverAddress = new ServerAddress(
+            ServerAddressType::Dedicated,
+            '1.1.1.1',
+            '1.1.1.1'
+        )
     ): QueryMinecraftClient {
         $reflection = new \ReflectionClass(QueryMinecraftClient::class);
         $queryClient = $reflection->newInstanceWithoutConstructor();
@@ -43,7 +46,6 @@ class QueryMinecraftClientTest extends TestCase
             $queryClient,
             [
                 'socket' => $socket,
-                'protocol' => $protocol,
                 'serverAddress' => $serverAddress
             ]
         );
@@ -76,7 +78,7 @@ class QueryMinecraftClientTest extends TestCase
         $queryClient = $this->getQueryClient($socket);
         $packet = new TestPacket();
 
-        $queryClient->sendPacket($packet);
+        $queryClient->sendPacket($packet, JavaProtocolVersion::JAVA_1_20_1);
 
         $this->assertTrue($packet->testCase);
     }
@@ -91,7 +93,7 @@ class QueryMinecraftClientTest extends TestCase
         $packet = new HandshakePacket();
         $packet->sessionId = 1794;
 
-        $queryClient->sendPacket($packet);
+        $queryClient->sendPacket($packet, JavaProtocolVersion::JAVA_1_20_1);
     }
 
     public function test_query_read_packet_exception(): void
@@ -108,6 +110,6 @@ class QueryMinecraftClientTest extends TestCase
         $packet = new HandshakePacket();
         $packet->sessionId = 1794;
 
-        $queryClient->sendPacket($packet);
+        $queryClient->sendPacket($packet, JavaProtocolVersion::JAVA_1_20_1);
     }
 }

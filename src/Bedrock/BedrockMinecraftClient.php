@@ -28,7 +28,7 @@ final class BedrockMinecraftClient implements MinecraftClient
         private readonly float $timeout = 1.5,
         private readonly Socket\Factory $factory = new Socket\Factory()
     ) {
-        $this->socket = $this->createSocket($this->serverAddress, $this->timeout);
+        $this->socket = $this->createSocket($this->serverAddress);
         $this->socket->setOption(SOL_SOCKET, SO_RCVTIMEO, $this->createSocketTimeout());
 
         $this->is = new SocketInputStream($this->socket);
@@ -46,7 +46,7 @@ final class BedrockMinecraftClient implements MinecraftClient
         return ['sec' => $seconds, 'usec' => $microseconds];
     }
 
-    private function createSocket(ServerAddress $serverAddress, float $timeout): Socket\Socket
+    private function createSocket(ServerAddress $serverAddress): Socket\Socket
     {
         try {
             return $this->factory->createUdp4();
@@ -75,7 +75,7 @@ final class BedrockMinecraftClient implements MinecraftClient
         $packet->read(new ByteBufferInputStream($this->is->readFullData()), $protocol);
     }
 
-    public function createUnconnectedPingPacket(ProtocolVersion $protocol): UnconnectedPingPacket
+    public function createUnconnectedPingPacket(BedrockProtocolVersion $protocol): UnconnectedPingPacket
     {
         return BedrockPacketFactory::createUnconnectedPingPacket($protocol);
     }

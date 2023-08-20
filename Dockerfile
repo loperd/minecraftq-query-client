@@ -91,7 +91,8 @@ RUN ( \
         echo 'if [[ "${#CMD[@]}" != 0 && "${CMD[0]}" == "await" ]]; then' && \
         echo "  unset 'CMD[0]'" && \
         echo '  echo "[INFO] Await script will be runned"' && \
-        echo '  CMD+=("&&" /keep-alive.sh)' && \
+        echo '  [[ -n "$CMD" ]] && (CMD+=("&&"))' && \
+        echo '  CMD+=(/keep-alive.sh)' && \
         echo 'else' && \
         echo '  echo "[INFO] Await script will not be runned"' && \
         echo 'fi' && \
@@ -115,6 +116,8 @@ RUN set -xe \
     && composer --version \
     && php -v \
     && php -m
+
+WORKDIR /app
 
 # DO NOT OVERRIDE ENTRYPOINT IF YOU CAN AVOID IT! @see <https://github.com/docker/docker.github.io/issues/6142>
 ENTRYPOINT ["/entrypoint.sh"]
