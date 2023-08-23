@@ -19,7 +19,7 @@ final class BasicStatPacketTest extends TestCase
      */
     public function test_successful_read_basicstat_packet(string $bytes, array $data): void
     {
-        $buffer = new ByteBuffer($bytes);
+        $buffer = new ByteBuffer(base64_decode($bytes, true));
         $is = new ByteBufferInputStream($buffer);
         $packet = new BasicStatPacket();
         $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
@@ -35,14 +35,17 @@ final class BasicStatPacketTest extends TestCase
     public static function packetDataProvider(): array
     {
         return [
-            [base64_decode('AAAACwanOadsVUGnZadsUkFGVKc3IC0gVWtyYWluaWFuIE1pbmVjcmFmdCBTZXJ2ZXIhAFNNUAB3b3JsZAAwADEwAN1jMTI3LjAuMS4xAA==', true), [
-                'motd' => '9lUAelRAFT7 - Ukrainian Minecraft Server!',
-                'map' => 'world',
-                'numPlayers' => 0,
-                'maxPlayers' => 10,
-                'port' => 25565,
-                'host' => '127.0.1.1'
-            ]],
+            [
+                'AAAACwanOadsVUGnZadsUkFGVKc3IC0gVWtyYWluaWFuIE1pbmVjcmFmdCBTZXJ2ZXIhAFNNUAB3b3JsZAAwADEwAN1jMTI3LjAuMS4xAA==',
+                [
+                    'motd' => '9lUAelRAFT7 - Ukrainian Minecraft Server!',
+                    'map' => 'world',
+                    'numPlayers' => 0,
+                    'maxPlayers' => 10,
+                    'port' => 25565,
+                    'host' => '127.0.1.1'
+                ]
+            ],
         ];
     }
 

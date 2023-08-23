@@ -80,7 +80,7 @@ class QueryMinecraftClientTest extends TestCase
 
         $queryClient->sendPacket($packet, JavaProtocolVersion::JAVA_1_20_1);
 
-        $this->assertTrue($packet->testCase);
+        $this->assertTrue($packet->readed);
     }
 
     public function test_query_send_packet_exception(): void

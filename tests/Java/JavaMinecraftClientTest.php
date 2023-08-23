@@ -58,7 +58,7 @@ class JavaMinecraftClientTest extends TestCase
 
         $javaClient->sendPacket($packet, JavaProtocolVersion::JAVA_1_20_1);
 
-        $this->assertTrue($packet->testCase);
+        $this->assertTrue($packet->readed);
     }
 
     public function test_error_java_socket_exception(): void

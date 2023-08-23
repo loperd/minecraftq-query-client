@@ -6,15 +6,17 @@ namespace Loper\MinecraftQueryClient\Tests\Bedrock\Packet;
 
 use Loper\Minecraft\Protocol\Struct\BedrockProtocolVersion;
 use Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket;
+use Loper\MinecraftQueryClient\Exception\PacketReadException;
 use Loper\MinecraftQueryClient\Stream\ByteBufferInputStream;
+use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use PHPinnacle\Buffer\ByteBuffer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class UnconnectedPingPacketTest extends TestCase
 {
-    #[DataProvider('packetDataProvider')]
-    public function test_correct_read(string $bytes, array $data): void
+    #[DataProvider('successReadPacketDataProvider')]
+    public function test_success_read(string $bytes, array $data): void
     {
         $buffer = new ByteBuffer(base64_decode($bytes, true));
         $is = new ByteBufferInputStream($buffer);
@@ -35,11 +37,46 @@ final class UnconnectedPingPacketTest extends TestCase
         self::assertEquals($data['mode'], $packet->mode);
     }
 
-    public function test_correct_write(): void
+    #[DataProvider('failReadPacketDataProvider')]
+    public function test_incorrect_packet_id(string $bytes, string $expectedException, ?string $expectedExceptionMessage = null): void
     {
+        $buffer = new ByteBuffer(base64_decode($bytes, true));
+        $is = new ByteBufferInputStream($buffer);
+
+        $this->expectException($expectedException);
+        if (null !== $expectedExceptionMessage) {
+            $this->expectExceptionMessage($expectedExceptionMessage);
+        }
+
+        $packet = new UnconnectedPingPacket();
+        $packet->read($is, BedrockProtocolVersion::BEDROCK_1_20_12);
     }
 
-    public static function packetDataProvider(): \Generator
+    public function test_success_write(): void
+    {
+        $packet = new UnconnectedPingPacket();
+        $os = new ByteBufferOutputStream(new ByteBuffer());
+
+        $packet->write($os, BedrockProtocolVersion::BEDROCK_1_20_12);
+
+        self::assertEquals($this->createExpectedWriteByteBuffer()->bytes(), $os->getBuffer()->bytes());
+    }
+
+    public static function failReadPacketDataProvider(): \Generator
+    {
+        yield [
+            'GwAAAABk4flraRfj24e7GGAA//8A/v7+/v39/f0SNFZ4AF9NQ1BFO1Bvd2VyTnVra2l0IFNlcnZlcjs0NzE7MS4xNy40MDswOzIwOzc1NzI3NzE4MzA0NjEzMDY5NzY7aHR0cHM6Ly9wb3dlcm51a2tpdC5vcmc7U3Vydml2YWw7MQ==',
+            PacketReadException::class,
+            'Failed to read packet: "Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket". Detail: "packet id is not UNCONNECTED_PONG"'
+        ];
+        yield [
+            'HAAAAABk4fqzULdobBIFVQ5mPWymHqKpkx/LXCn6lQMNAGdNQ1BFO8KnbMKnZsKna2lpwqdyIMKnbMKnY0Jsb29kwqc2TWluZSDCp3LCp2zCp2bCp2tpacKnciDCp2Z2MS4xOzEwMTsxLjE2OzI1NDsxNjAwOzc0NDg4MTU1NDk3MTQ4NDMzMDE7',
+            PacketReadException::class,
+            'Failed to read packet: "Loper\MinecraftQueryClient\Bedrock\Packet\UnconnectedPingPacket". Detail: "magic bytes is difference"'
+        ];
+    }
+
+    public static function successReadPacketDataProvider(): \Generator
     {
         yield [
             'HAAAAABk4flraRfj24e7GGAA//8A/v7+/v39/f0SNFZ4AF9NQ1BFO1Bvd2VyTnVra2l0IFNlcnZlcjs0NzE7MS4xNy40MDswOzIwOzc1NzI3NzE4MzA0NjEzMDY5NzY7aHR0cHM6Ly9wb3dlcm51a2tpdC5vcmc7U3Vydml2YWw7MQ==',
@@ -74,5 +111,16 @@ final class UnconnectedPingPacketTest extends TestCase
                 "gameVersion" => '1.16',
             ]
         ];
+    }
+
+    private function createExpectedWriteByteBuffer(): ByteBuffer
+    {
+        $expectedBb = new ByteBuffer();
+        foreach (UnconnectedPingPacket::OFFLINE_MESSAGE_DATA_ID as $byte) {
+            $expectedBb->appendInt8($byte);
+        }
+        $expectedBb->appendUint64(2);
+
+        return $expectedBb;
     }
 }

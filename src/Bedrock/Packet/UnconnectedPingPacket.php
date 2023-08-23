@@ -80,7 +80,7 @@ final class UnconnectedPingPacket implements Packet
         $os->writeBytes((new ByteBuffer())->appendUint64(2));
     }
 
-    public function getOfflineMessageDataBuffer(): ByteBuffer
+    private function getOfflineMessageDataBuffer(): ByteBuffer
     {
         $os = new ByteBufferOutputStream(new ByteBuffer());
         $os->writeBytes(self::OFFLINE_MESSAGE_DATA_ID);

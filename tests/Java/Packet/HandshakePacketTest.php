@@ -19,7 +19,7 @@ final class HandshakePacketTest extends TestCase
      */
     public function test_successful_read_java_handshake_packet(string $bytes, array $data): void
     {
-        $buffer = new ByteBuffer($bytes);
+        $buffer = new ByteBuffer(base64_decode($bytes, true));
         $is = new ByteBufferInputStream($buffer);
         $packet = new HandshakePacket();
         $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
@@ -38,7 +38,7 @@ final class HandshakePacketTest extends TestCase
     {
         return [
             [
-                base64_decode('iAIAhQJ7ImRlc2NyaXB0aW9uIjp7ImV4dHJhIjpbeyJib2xkIjp0cnVlLCJjb2xvciI6ImJsdWUiLCJ0ZXh0IjoiVUEifSx7ImJvbGQiOnRydWUsImNvbG9yIjoieWVsbG93IiwidGV4dCI6IlJBRlQifSx7ImNvbG9yIjoiZ3JheSIsInRleHQiOiIgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEifV0sInRleHQiOiIifSwicGxheWVycyI6eyJtYXgiOjEwLCJvbmxpbmUiOjB9LCJ2ZXJzaW9uIjp7Im5hbWUiOiJQYXBlciAxLjE4LjIiLCJwcm90b2NvbCI6NzU4fX0=', true),
+                'iAIAhQJ7ImRlc2NyaXB0aW9uIjp7ImV4dHJhIjpbeyJib2xkIjp0cnVlLCJjb2xvciI6ImJsdWUiLCJ0ZXh0IjoiVUEifSx7ImJvbGQiOnRydWUsImNvbG9yIjoieWVsbG93IiwidGV4dCI6IlJBRlQifSx7ImNvbG9yIjoiZ3JheSIsInRleHQiOiIgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEifV0sInRleHQiOiIifSwicGxheWVycyI6eyJtYXgiOjEwLCJvbmxpbmUiOjB9LCJ2ZXJzaW9uIjp7Im5hbWUiOiJQYXBlciAxLjE4LjIiLCJwcm90b2NvbCI6NzU4fX0=',
                 [
                     "serverProtocol" => 758,
                     "onlinePlayers" => 0,
@@ -69,9 +69,12 @@ final class HandshakePacketTest extends TestCase
 
         $outputBuffer = $os->getBuffer();
         $result = new ByteBufferInputStream($outputBuffer);
-        self::assertEquals(0x00, $result->readByte());
+        self::assertEquals(HandshakePacket::PACKET_ID, $result->readByte());
         self::assertEquals($protocol->value, $result->readVarInt());
+
+        // skip byte
         $result->readByte();
+
         self::assertEquals($host, $result->readBytes(\strlen($host)));
         self::assertEquals($port, $result->readShort());
         self::assertEquals($state, $result->readVarInt());
