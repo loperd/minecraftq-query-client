@@ -11,7 +11,7 @@ use Loper\MinecraftQueryClient\Stream\OutputStream;
 
 class TestPacket implements Packet
 {
-    public bool $testCase;
+    public bool $readed;
 
     public function getPacketId(): int
     {
@@ -20,7 +20,7 @@ class TestPacket implements Packet
 
     public function read(InputStream $is, ProtocolVersion $protocol): void
     {
-        $this->testCase = true;
+        $this->readed = true;
     }
 
     public function write(OutputStream $os, ProtocolVersion $protocol): void

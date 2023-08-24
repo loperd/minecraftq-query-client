@@ -13,6 +13,9 @@ final class ByteBufferOutputStream implements BufferedOutputStream
     {
     }
 
+    /**
+     * @param int[]|ByteBuffer|string $bytes
+     */
     public function writeBytes(array|ByteBuffer|string $bytes): void
     {
         if (is_array($bytes)) {

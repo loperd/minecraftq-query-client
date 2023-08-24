@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Loper\MinecraftQueryClient\Stream;
 
 use Loper\MinecraftQueryClient\Var\VarTypeReader;
+use PHPinnacle\Buffer\BufferOverflow;
 use PHPinnacle\Buffer\ByteBuffer;
 use Socket\Raw as Socket;
 
@@ -62,14 +63,13 @@ final class SocketInputStream implements InputStream
         /** @var \Socket $socket */
         $socket = $this->socket->getResource();
 
-        $result = @\socket_recv($socket, $data, $size, \MSG_WAITALL);
-        $code = \socket_last_error($socket);
+        try {
+            return $this->socket->recv($size, \MSG_WAITALL);
+        } catch (Socket\Exception) {
+            $code = \socket_last_error($socket);
 
-        if (false === $result && !in_array($code, [\SOCKET_EINPROGRESS, \SOCKET_EAGAIN], true)) {
             throw SocketReadException::fromSocketError(\socket_strerror($code), $code);
         }
-
-        return $data;
     }
 
     public function readInt(): int

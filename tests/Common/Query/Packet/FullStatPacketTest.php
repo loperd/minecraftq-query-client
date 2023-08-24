@@ -18,7 +18,7 @@ final class FullStatPacketTest extends TestCase
      */
     public function test_successful_read_fullstat_packet(string $bytes, array $data): void
     {
-        $buffer = new ByteBuffer($bytes);
+        $buffer = new ByteBuffer(base64_decode($bytes, true));
         $is = new ByteBufferInputStream($buffer);
         $packet = new FullStatPacket();
         $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
@@ -38,7 +38,7 @@ final class FullStatPacketTest extends TestCase
     {
         return [
             [
-                base64_decode('AAAACAhzcGxpdG51bQCAAGhvc3RuYW1lAKc5p2xVQadlp2xSQUZUpzcgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEAZ2FtZXR5cGUAU01QAGdhbWVfaWQATUlORUNSQUZUAHZlcnNpb24AMS4xOC4yAHBsdWdpbnMAUGFwZXIgb24gMS4xOC4yLVIwLjEtU05BUFNIT1Q6IEJldHRlclNsZWVwaW5nNCA0LjAuMTsgTHVja1Blcm1zIDUuNC4xNjsgVmF1bHQgMS43LjMtYjEzMTsgUHJvdG9jb2xMaWIgNC44LjA7IFNraW5zUmVzdG9yZXIgMTQuMi4zOyBXb3JsZEVkaXQgNy4yLjEwKzE3NDJmOTg7IENvcmVQcm90ZWN0IDIxLjI7IENNSUxpYiAxLjIuMS4wOyBDTUkgOS4xLjMuMzsgUGx1Z01hblggMi4zLjAAbWFwAHdvcmxkAG51bXBsYXllcnMAMABtYXhwbGF5ZXJzADEwAGhvc3Rwb3J0ADI1NTY1AGhvc3RpcAAxMjcuMC4xLjEAAAFwbGF5ZXJfAAAA', true),
+                'AAAACAhzcGxpdG51bQCAAGhvc3RuYW1lAKc5p2xVQadlp2xSQUZUpzcgLSBVa3JhaW5pYW4gTWluZWNyYWZ0IFNlcnZlciEAZ2FtZXR5cGUAU01QAGdhbWVfaWQATUlORUNSQUZUAHZlcnNpb24AMS4xOC4yAHBsdWdpbnMAUGFwZXIgb24gMS4xOC4yLVIwLjEtU05BUFNIT1Q6IEJldHRlclNsZWVwaW5nNCA0LjAuMTsgTHVja1Blcm1zIDUuNC4xNjsgVmF1bHQgMS43LjMtYjEzMTsgUHJvdG9jb2xMaWIgNC44LjA7IFNraW5zUmVzdG9yZXIgMTQuMi4zOyBXb3JsZEVkaXQgNy4yLjEwKzE3NDJmOTg7IENvcmVQcm90ZWN0IDIxLjI7IENNSUxpYiAxLjIuMS4wOyBDTUkgOS4xLjMuMzsgUGx1Z01hblggMi4zLjAAbWFwAHdvcmxkAG51bXBsYXllcnMAMABtYXhwbGF5ZXJzADEwAGhvc3Rwb3J0ADI1NTY1AGhvc3RpcAAxMjcuMC4xLjEAAAFwbGF5ZXJfAAAA',
                 [
                     "version" => "1.18.2",
                     "map" => "world",

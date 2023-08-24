@@ -6,7 +6,7 @@ namespace Loper\MinecraftQueryClient\Tests\Version;
 
 use Loper\Minecraft\Protocol\Struct\JavaServerVersion;
 use Loper\MinecraftQueryClient\Exception\InvalidServerVersionException;
-use Loper\MinecraftQueryClient\Version\VersionParser;
+use Loper\MinecraftQueryClient\Java\JavaVersionParser;
 use PHPUnit\Framework\TestCase;
 
 final class VersionParserTest extends TestCase
@@ -17,7 +17,7 @@ final class VersionParserTest extends TestCase
      */
     public function test_correct_parsing_botfilter_version(string $inputVersion, JavaServerVersion $serverVersion): void
     {
-        $version = VersionParser::parse($inputVersion);
+        $version = JavaVersionParser::parse($inputVersion);
 
         self::assertEquals($serverVersion, $version);
     }
@@ -27,7 +27,7 @@ final class VersionParserTest extends TestCase
      */
     public function test_correct_get_server_version(string $inputVersion, JavaServerVersion $serverVersion): void
     {
-        $version = VersionParser::getServerVersion($inputVersion);
+        $version = JavaVersionParser::getServerVersion($inputVersion);
 
         self::assertEquals($serverVersion, $version);
     }
@@ -71,7 +71,7 @@ final class VersionParserTest extends TestCase
         $this->expectException(InvalidServerVersionException::class);
         $this->expectExceptionMessage(\sprintf('Unable to parse the server version "%s".', $incorrectVersion));
 
-        VersionParser::getServerVersion($incorrectVersion);
+        JavaVersionParser::getServerVersion($incorrectVersion);
     }
 
     public static function incorrectVersions(): array
@@ -85,28 +85,28 @@ final class VersionParserTest extends TestCase
 
     public function test_correct_parsing_standart_two_digits_version(): void
     {
-        $version = VersionParser::parse(JavaServerVersion::JAVA_1_19->value);
+        $version = JavaVersionParser::parse(JavaServerVersion::JAVA_1_19->value);
 
         self::assertEquals(JavaServerVersion::JAVA_1_19, $version);
     }
 
     public function test_correct_parsing_standart_three_digits_version(): void
     {
-        $version = VersionParser::parse(JavaServerVersion::JAVA_1_18_2->value);
+        $version = JavaVersionParser::parse(JavaServerVersion::JAVA_1_18_2->value);
 
         self::assertEquals(JavaServerVersion::JAVA_1_18_2, $version);
     }
 
     public function test_correct_parsing_botfilter_three_digits_version(): void
     {
-        $version = VersionParser::parse('1.18.x');
+        $version = JavaVersionParser::parse('1.18.x');
 
         self::assertEquals(JavaServerVersion::JAVA_1_18_2, $version);
     }
 
     public function test_correct_parsing_botfilter_three_invalid_digits_version(): void
     {
-        $version = VersionParser::parse('1.19.x');
+        $version = JavaVersionParser::parse('1.19.x');
 
         self::assertEquals(JavaServerVersion::JAVA_1_19_4, $version);
     }
@@ -116,7 +116,7 @@ final class VersionParserTest extends TestCase
         $this->expectException(InvalidServerVersionException::class);
         $this->expectExceptionMessage('Version cannot be empty.');
 
-        VersionParser::parse('');
+        JavaVersionParser::parse('');
     }
 
 
@@ -128,7 +128,7 @@ final class VersionParserTest extends TestCase
         $this->expectException(InvalidServerVersionException::class);
         $this->expectExceptionMessage(\sprintf('Unable to parse the server version "%s".', $version));
 
-        VersionParser::parse($version);
+        JavaVersionParser::parse($version);
     }
 
     public static function incorrectVersionProvider(): array
@@ -147,7 +147,7 @@ final class VersionParserTest extends TestCase
      */
     public function test_process_version(string $inputVersion, string $resultVersion): void
     {
-        $version = VersionParser::processVersion($inputVersion);
+        $version = JavaVersionParser::processVersion($inputVersion);
 
         self::assertEquals($resultVersion, $version);
     }

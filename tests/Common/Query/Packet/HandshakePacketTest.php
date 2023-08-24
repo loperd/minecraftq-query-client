@@ -19,7 +19,7 @@ final class HandshakePacketTest extends TestCase
      */
     public function test_successful_read_handshake_packet(string $bytes, array $data): void
     {
-        $buffer = new ByteBuffer($bytes);
+        $buffer = new ByteBuffer(base64_decode($bytes, true));
         $is = new ByteBufferInputStream($buffer);
         $packet = new HandshakePacket();
         $packet->read($is, JavaProtocolVersion::JAVA_1_12_2);
@@ -32,10 +32,13 @@ final class HandshakePacketTest extends TestCase
     public static function packetDataProvider(): array
     {
         return [
-            [base64_decode('CQAABwwxMDA1MjY5MwA=', true), [
-                'sessionId' => 150994951,
-                'challengeToken' => 10052693,
-            ]],
+            [
+                'CQAABwwxMDA1MjY5MwA=',
+                [
+                    'sessionId' => 150994951,
+                    'challengeToken' => 10052693,
+                ]
+            ],
         ];
     }
 

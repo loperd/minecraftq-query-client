@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Loper\MinecraftQueryClient\Response;
+namespace Loper\MinecraftQueryClient\Common;
 
 use Loper\Minecraft\Protocol\ProtocolVersion;
 use Loper\Minecraft\Protocol\ServerVersion;
 
-final class ServerStatisticsResponse
+final class ServerPingResult
 {
     /** @var string[] */
     public array $plugins = [];

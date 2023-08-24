@@ -154,7 +154,7 @@ final class HandshakePacket implements Packet
     {
         $process = static fn (string $input) => VarMotdFilter::filter($input);
 
-        $text = $process($description['text'] ?? $description['translate']);
+        $text = $process($description['text'] ?? $description['translate'] ?? '');
         foreach ($description['extra'] ?? [] as $item) {
             $text .= $process($item['text']);
         }

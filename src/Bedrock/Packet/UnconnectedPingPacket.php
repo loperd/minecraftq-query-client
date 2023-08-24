@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Loper\MinecraftQueryClient\Bedrock\Packet;
@@ -10,6 +11,8 @@ use Loper\MinecraftQueryClient\Packet;
 use Loper\MinecraftQueryClient\Stream\ByteBufferOutputStream;
 use Loper\MinecraftQueryClient\Stream\InputStream;
 use Loper\MinecraftQueryClient\Stream\OutputStream;
+use Loper\MinecraftQueryClient\Var\VarMotdFilter;
+use Loper\MinecraftQueryClient\Var\VarUnsafeFilter;
 use PHPinnacle\Buffer\ByteBuffer;
 
 final class UnconnectedPingPacket implements Packet
@@ -19,8 +22,10 @@ final class UnconnectedPingPacket implements Packet
     public const UNCONNECTED_PONG_PACKET_ID = 0x1C;
 
     public const OFFLINE_MESSAGE_DATA_ID = [
-        0x00, 0xFF, 0xFF, 0x00, 0xFE, 0xFE, 0xFE, 0xFE,
-        0xFD, 0xFD, 0xFD, 0xFD, 0x12, 0x34, 0x56, 0x78,
+        0x00, 0xFF, 0xFF, 0x00,
+        0xFE, 0xFE, 0xFE, 0xFE,
+        0xFD, 0xFD, 0xFD, 0xFD,
+        0x12, 0x34, 0x56, 0x78,
     ];
 
     public int $pingId;
@@ -33,6 +38,7 @@ final class UnconnectedPingPacket implements Packet
     public int $maxPlayers;
     public string $name;
     public ?string $mode = null;
+    public string $rawDescription;
 
     public function getPacketId(): int
     {
@@ -58,7 +64,8 @@ final class UnconnectedPingPacket implements Packet
         $advertiseData = explode(';', $is->readFullData()->bytes());
 
         $this->gameId = $advertiseData[0];
-        $this->description = $advertiseData[1];
+        $this->rawDescription = $advertiseData[1];
+        $this->description = VarMotdFilter::filter($advertiseData[1]);
         $this->protocol = BedrockProtocolVersion::from((int) $advertiseData[2]);
         $this->gameVersion = $advertiseData[3];
         $this->currentPlayers = (int) $advertiseData[4];
@@ -73,7 +80,7 @@ final class UnconnectedPingPacket implements Packet
         $os->writeBytes((new ByteBuffer())->appendUint64(2));
     }
 
-    public function getOfflineMessageDataBuffer(): ByteBuffer
+    private function getOfflineMessageDataBuffer(): ByteBuffer
     {
         $os = new ByteBufferOutputStream(new ByteBuffer());
         $os->writeBytes(self::OFFLINE_MESSAGE_DATA_ID);
