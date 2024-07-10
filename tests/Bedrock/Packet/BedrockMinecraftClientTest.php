@@ -40,7 +40,7 @@ class BedrockMinecraftClientTest extends TestCase
 
     public function test_success_send_packet(): void
     {
-        $protocol = BedrockProtocolVersion::BEDROCK_1_20_12;
+        $protocol = BedrockProtocolVersion::BEDROCK_1_20_15;
         $socket = $this->createMock(Socket::class);
         $socket->expects($this->atLeastOnce())->method('sendTo');
 
@@ -75,7 +75,7 @@ class BedrockMinecraftClientTest extends TestCase
 
         $this->createClient($socketFactory)->sendPacket(
             new TestPacket(),
-            BedrockProtocolVersion::BEDROCK_1_20_12
+            BedrockProtocolVersion::BEDROCK_1_20_15
         );
     }
 }

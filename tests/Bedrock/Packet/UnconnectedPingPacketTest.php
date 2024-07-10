@@ -22,7 +22,7 @@ final class UnconnectedPingPacketTest extends TestCase
         $is = new ByteBufferInputStream($buffer);
 
         $packet = new UnconnectedPingPacket();
-        $packet->read($is, BedrockProtocolVersion::BEDROCK_1_20_12);
+        $packet->read($is, BedrockProtocolVersion::BEDROCK_1_20_15);
 
         self::assertEquals($data['pingId'], $packet->pingId);
         self::assertEquals($data['serverId'], $packet->serverId);
@@ -49,7 +49,7 @@ final class UnconnectedPingPacketTest extends TestCase
         }
 
         $packet = new UnconnectedPingPacket();
-        $packet->read($is, BedrockProtocolVersion::BEDROCK_1_20_12);
+        $packet->read($is, BedrockProtocolVersion::BEDROCK_1_20_15);
     }
 
     public function test_success_write(): void
@@ -57,7 +57,7 @@ final class UnconnectedPingPacketTest extends TestCase
         $packet = new UnconnectedPingPacket();
         $os = new ByteBufferOutputStream(new ByteBuffer());
 
-        $packet->write($os, BedrockProtocolVersion::BEDROCK_1_20_12);
+        $packet->write($os, BedrockProtocolVersion::BEDROCK_1_20_15);
 
         self::assertEquals($this->createExpectedWriteByteBuffer()->bytes(), $os->getBuffer()->bytes());
     }

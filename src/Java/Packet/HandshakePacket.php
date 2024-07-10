@@ -156,9 +156,21 @@ final class HandshakePacket implements Packet
 
         $text = $process($description['text'] ?? $description['translate'] ?? '');
         foreach ($description['extra'] ?? [] as $item) {
+            if (!is_array($item)) {
+                $text .= $process($item);
+                continue;
+            }
+
             $text .= $process($item['text']);
+            $text .= (!isset($item['extra']) ? '' : $this->formatMotd($item));
         }
 
-        return $text;
+        $filteredText = preg_replace(
+            pattern: '/\s{2,}/',
+            replacement: ' ',
+            subject: $text
+        );
+
+        return trim(string: $filteredText, characters: ' ');
     }
 }

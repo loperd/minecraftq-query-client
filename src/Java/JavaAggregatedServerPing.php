@@ -10,6 +10,7 @@ use Loper\MinecraftQueryClient\Common\Query\QueryServerPing;
 use Loper\MinecraftQueryClient\Common\MinecraftServerPing;
 use Loper\MinecraftQueryClient\Common\ServerPingResult;
 use Loper\MinecraftQueryClient\Stream\SocketConnectionException;
+use Loper\MinecraftQueryClient\Stream\SocketException;
 
 final class JavaAggregatedServerPing implements MinecraftServerPing
 {
@@ -24,7 +25,7 @@ final class JavaAggregatedServerPing implements MinecraftServerPing
         foreach ([JavaServerPing::class, QueryServerPing::class] as $pingClient) {
             try {
                 $results[] = $this->createPingClient($pingClient)->ping($serverAddress);
-            } catch (SocketConnectionException) {
+            } catch (SocketException) {
                 $results[] = null;
             }
         }

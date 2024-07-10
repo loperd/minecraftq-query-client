@@ -6,19 +6,33 @@ namespace Loper\MinecraftQueryClient\Var;
 
 final class VarMotdFilter
 {
-    public const FILTER_SYMBOLS_REGEX = '/[^0-9A-Za-zА-Яа-яЁёЇїЪъЭэЄє.:;!?#"$%() *\+,\/\-=\^_<>]/u';
+    public const TRIM_SYMBOLS = '|\\\/-_$@~%^&*';
+    public const TRIM_SYMBOLS_WITH_SPACES = self::TRIM_SYMBOLS . ' ';
 
-    public static function filter(string $motd, string $regex = self::FILTER_SYMBOLS_REGEX): string
+    public static function filter(string $input, ?string $trimSymbols = null, ?string $replaceRegex = null): string
     {
-        if ('' === $motd) {
-            return $motd;
+        if ('' === $input) {
+            return $input;
         }
 
-        $text = (string) preg_replace('/(&|§|\\\u00A7)./u', '', $motd);
-        $text = (string) transliterator_transliterate('Hex-Any/Java', $text);
-        $text = (string) preg_replace($regex, '', $text);
-        $text = (string) preg_replace('/\s{2,}/', ' ', $text);
+        $value = false;
+        if (mb_check_encoding($input, 'UTF-8')) {
+            $value = mb_convert_encoding($input, 'UTF-8');
+        }
 
-        return (string) preg_replace('/^\s+([!?\.])/', '$1', $text);
+        if (false === $value || !is_string($value)) {
+            return '';
+        }
+
+        $text = (string) preg_replace('/(&|§|\\\u00A7)./u', '', $value);
+        $text = (string) transliterator_transliterate('Hex-Any/Java', $text);
+        $text = (string) preg_replace('/\s{2,}|\n+/', ' ', $text);
+        $text = (string) preg_replace('/^\s+([!?.])/', '$1', $text);
+
+        if (null !== $replaceRegex) {
+            $text = preg_replace($replaceRegex, '', $text);
+        }
+
+        return null === $trimSymbols ? $text : trim($text, $trimSymbols);
     }
 }
